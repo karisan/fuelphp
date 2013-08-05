@@ -69,7 +69,7 @@
 
                 <p>       <?php echo Form::label('Context', 'context'); ?> <?php echo Form::textarea('context', Input::post('context', isset($post) ? $post->context : ''), array('cols' => 60, 'rows' => 8)); ?>    </p>
                 <div class="actions">
-                    <?php echo Form::submit(); ?>
+                    <?php echo Form::submit(); ?> <?php echo Form::reset(); ?>
                 </div>
                 <?php echo Form::close(); ?>
 
