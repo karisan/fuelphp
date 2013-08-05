@@ -87,7 +87,7 @@ class Controller_Welcome extends Controller
 
         $view = View::forge('welcome/hello');
         $view->data = $entry;
-        $view->name = 'karisan(default)';
+        $view->name = 'karisan';
 		return Response::forge($view);
 	}
 
