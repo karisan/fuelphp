@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 	<title>Hello, <?php echo $name; ?></title>
 	<?php echo Asset::css('bootstrap.css'); ?>
+    <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
+    <?php echo Asset::js('function.js'); ?>
 	<style>
 		#logo{
 			display: block;
@@ -72,7 +74,11 @@
                     <?php echo Form::submit(); ?> <?php echo Form::reset(); ?>
                 </div>
                 <?php echo Form::close(); ?>
-
+                <script language="javascript">
+                    <!--
+                    clean_form(true);
+                    -->
+                </script>
             </div>
         </div>
 
