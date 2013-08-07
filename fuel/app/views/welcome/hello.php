@@ -55,49 +55,53 @@
 			</div>
 		</div>
         -->
+        ex:bob:bar <?php echo Html::anchor('root/cart', '範例頁面'); ?><br>
         <?php
-        //if (!isset($valid)):
-        /*
-        if (true) {
+        if (!isset($valid)):
             echo Html::anchor('validate/login', '登入');
-        } else {
+        else:
             echo Html::anchor('validate/logout', "登出");
-        }
-        */
+        endif;
         ?>
-        <?php echo Html::anchor('validate/login', '登入'); ?>(bob:bar)
-        <?php echo Html::anchor('validate/logout', "登出"); ?>
-        <?php echo Html::anchor('root/cart', '範例頁面'); ?>
+        <br>
+
 
 
         <br><br>
-
         <div class="row">
             <div class="span16">
+                <?php echo render("links") ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
                 <?php
                 //print_r($_POST);
 
                 //print_r (Input::all());
                 //print_r($data);
-                //print_r ($mydata);
+                //print_r ($valid);
                 ?>
                 <?php echo Form::open(array('action' => 'hello', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
                 <p>       <?php echo Form::label('Username', 'username'); ?>
-                    <?php echo Form::input('username', Input::post('username', isset($post) ? $post->username : '')); ?>    </p>
+                    <?php echo Form::input('username', Input::post('username', isset($valid) ? $valid->user : '')); ?>    </p>
 
                 <p>       <?php echo Form::label('Email', 'email'); ?>
-                    <?php echo Form::input('email', Input::post('email', isset($post) ? $post->email : '')); ?>    </p>
+                    <?php echo Form::input('email', Input::post('email', isset($valid) ? $valid->email : '')); ?>    </p>
 
-                <p>       <?php echo Form::label('Context', 'context'); ?> <?php echo Form::textarea('context', Input::post('context', isset($post) ? $post->context : ''), array('cols' => 60, 'rows' => 8)); ?>    </p>
+                <p>       <?php echo Form::label('Context', 'context'); ?> <?php echo Form::textarea('context', '', array('cols' => 60, 'rows' => 8)); ?>    </p>
                 <div class="actions">
                     <?php echo Form::submit(); ?>
-                    <?php echo Form::button('name', '重設',array('onclick＝"clean_form(true);"')); ?>
+                    <!--
+                    <?php echo Form::button('name', '重設'); ?>
+                    -->
                     <input type="hidden" name="del_id" value="">
                 </div>
                 <?php echo Form::close(); ?>
                 <script language="javascript">
                     <!--
-                    clean_form(true);
+                    //clean_form(true);
                     -->
                 </script>
             </div>

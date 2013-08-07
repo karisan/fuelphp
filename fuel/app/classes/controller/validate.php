@@ -11,10 +11,12 @@ class Controller_Validate extends Controller_Template {
         ),
     ));
     if (is_null($user)) {
+      // 錯誤時，清session，重導至登入頁 /validate/login
       Session::set_flash('message', 'Failed Username');
       Response::redirect("validate/login");
     }
     elseif (sha1($password) === $user->password) {
+      // 正確登入時，設定session，重導至/hello
       $valid = new stdClass();
       $valid->user = $user->username;
       $valid->id   = $user->id;
@@ -30,6 +32,7 @@ class Controller_Validate extends Controller_Template {
   }
 
   public function action_logout() {
+    // 登出時，刪除session，重導至/hello
     Session::delete('valid');
     Response::redirect('/hello');
   }
@@ -47,6 +50,7 @@ class Controller_Validate extends Controller_Template {
 
   public function action_login() {
     $valid = Session::get('valid');
+    // 當已登入，則導向至 /hello
     if (isset($valid)) {
       Response::redirect("/hello");
     }
