@@ -1,0 +1,14 @@
+#content tr td:first-child {
+  width: 75px;
+}
+#content td {
+  padding: 3px;
+}
+#content table a { color: #00e; }
+#content table a:visited { color: #444; }
+#content table a:hover { color: #c00; }
+#content table .fields a { 
+  color: purple; 
+  font-weight: bold;
+}
+#content table .fields a:hover { color: red; }

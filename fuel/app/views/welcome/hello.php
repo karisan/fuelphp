@@ -57,12 +57,19 @@
         -->
         <?php
         //if (!isset($valid)):
+        /*
         if (true) {
             echo Html::anchor('validate/login', '登入');
         } else {
             echo Html::anchor('validate/logout', "登出");
         }
+        */
         ?>
+        <?php echo Html::anchor('validate/login', '登入'); ?>(bob:bar)
+        <?php echo Html::anchor('validate/logout', "登出"); ?>
+        <?php echo Html::anchor('root/cart', '範例頁面'); ?>
+
+
         <br><br>
 
         <div class="row">

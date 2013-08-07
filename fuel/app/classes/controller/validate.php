@@ -21,7 +21,7 @@ class Controller_Validate extends Controller_Template {
       $valid->email = $user->email;
       $valid->level = $user->level;
       Session::set('valid', $valid);
-      Response::redirect("/");
+      Response::redirect("/hello");
     } else {
       Session::set_flash('message', 'Failed Password');
       Session::set_flash('username', $username);
@@ -31,7 +31,7 @@ class Controller_Validate extends Controller_Template {
 
   public function action_logout() {
     Session::delete('valid');
-    Response::redirect('/');
+    Response::redirect('/hello');
   }
   
   public function action_isvalid() {
@@ -48,7 +48,7 @@ class Controller_Validate extends Controller_Template {
   public function action_login() {
     $valid = Session::get('valid');
     if (isset($valid)) {
-      Response::redirect("/");
+      Response::redirect("/hello");
     }
 
     $this->template->page_title = 'Login';
