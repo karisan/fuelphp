@@ -28,6 +28,11 @@ class Controller_Welcome extends Controller
 	 * @access  public
 	 * @return  Response
 	 */
+    public function post_update()
+    {
+        return Response::forge(View::forge('welcome/update'));
+    }
+
 	public function action_index()
 	{
 		return Response::forge(View::forge('welcome/index'));
@@ -42,29 +47,56 @@ class Controller_Welcome extends Controller
 	 */
 	public function action_hello()
 	{
-        //print_r($_POST);
+        print_r($_POST);
+        print_r($_GET);
         //echo "action_hello()";
+        if (!empty($_GET['update_id'])) {
 
-        if (isset($_POST['username'])) {
+            // fdaedaedae
+            $user = Model_Message::find_by_pk($_GET['update_id']);
+            if($user === null) {
+                // 沒找到
+            } else {
+                /*
+                if () {
+                    // 顯示資料供修改
+                    echo '進行修改';
+                    $user->name = 'New Name';
+
+                } else {
+                    // 確認修改
+                    echo '執行修改';
+                    $user->m_name = 'kkk';
+                    $user->m_email = 'cc@mail.com';
+                    $user->m_context = 'New context';
+                    // 更新使用者
+                    $user->save();
+                }
+                */
+            }
+
+
+        } else if (!empty($_GET['del_id'])) {
+
+            // 刪除留言
+            $user = Model_Message::find_by_pk($_GET['del_id']);
+            if($user)
+            {
+                $user->delete();
+                echo '成功刪除';
+            }
+
+        } else if (!empty($_POST['username'])) {
 
             // 寫入DB，將留言資料顯示
-            /*
-             *
-             list($insert_id, $rows_affected) = DB::insert('message')->set(array(
-                    'm_name' => $_POST['username'],
-                    'm_email' => $_POST['email'],
-                    'm_context' => $_POST['context'],
-                    'm_time' => date("Y/m/d H:i:s"),
-                ))->execute();
-            */
-
             $user = Model_Message::forge()->set(array(
                     'm_name' => $_POST['username'],
                     'm_email' => $_POST['email'],
                     'm_context' => $_POST['context'],
                     'm_time' => date("Y/m/d H:i:s"),
                 ));
-            // 新增使用者
+
+            // 新增留言
             $result = $user->save();
 
         }
@@ -85,9 +117,11 @@ class Controller_Welcome extends Controller
 
         //print_r($entry);
 
+
         $view = View::forge('welcome/hello');
         $view->data = $entry;
         $view->name = 'karisan';
+
 		return Response::forge($view);
 	}
 

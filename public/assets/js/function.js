@@ -5,8 +5,8 @@
  * Time: 下午 6:09
  * To change this template use File | Settings | File Templates.
  */
-function clean_form($isclean) {
-    if ($isclean==true) {
+function clean_form(isclean) {
+    if (isclean==true) {
         /*
         $("form").each(function(){
             this.reset();
@@ -26,5 +26,22 @@ function clean_form($isclean) {
                     this.checked = false;
             }
         });
+    }
+}
+function del_msg(m_id){
+    if (confirm('確定刪除此留言？')) {
+        $('input[name=del_id]').val(m_id);
+        //alert($("#del_id").value);
+        //$('input[name=hiddeninputname]').val(theValue);
+        //alert($('input[name=del_id]').val());
+
+        //$('input[type="submit"]').submit();
+        document.myform.submit();
+        //$('form[name=myform]').submit();
+        //document.forms["myform"].submit();
+
+
+
+
     }
 }

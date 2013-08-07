@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Hello, <?php echo $name; ?></title>
+	<title>修改留言</title>
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
@@ -43,84 +43,38 @@
 	</div>
 	<div class="container">
 
-        <!--
-		<div class="row">
-			<div class="span16">
-                <h1>app/views/welcome/hello.php</h1>
-				<h1>Hello, <?php echo $name; ?>! <small>Congratulations, you just used a ViewModel!</small></h1>
-				<hr>
-				<p>The controller generating this page is found at <code>APPPATH/classes/controller/welcome.php</code>.</p>
-				<p>This view is located at <code>APPPATH/views/welcome/hello.php</code>.</p>
-				<p>It is loaded via a ViewModel class with a name of <code>View_Welcome_Hello</code>, located in <code>APPPATH/classes/view/welcome/hello.php</code></p>
-			</div>
-		</div>
-        -->
-        <?php
-        //if (!isset($valid)):
-        if (true) {
-            echo Html::anchor('validate/login', '登入');
-        } else {
-            echo Html::anchor('validate/logout', "登出");
-        }
-        ?>
-        <br><br>
-
         <div class="row">
             <div class="span16">
                 <?php
                 //print_r($_POST);
-
                 //print_r (Input::all());
                 //print_r($data);
+                //echo $data->m_email;
                 //print_r ($mydata);
                 ?>
-                <?php echo Form::open(array('action' => 'hello', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
+                <?php echo Form::open(array('action' => 'update', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
                 <p>       <?php echo Form::label('Username', 'username'); ?>
-                    <?php echo Form::input('username', Input::post('username', isset($post) ? $post->username : '')); ?>    </p>
+                    <?php echo Form::input('username', Input::post('username', isset($data) ? $data->m_name : '')); ?>    </p>
 
                 <p>       <?php echo Form::label('Email', 'email'); ?>
-                    <?php echo Form::input('email', Input::post('email', isset($post) ? $post->email : '')); ?>    </p>
+                    <?php echo Form::input('email', Input::post('email', isset($data) ? $data->m_email : '')); ?>    </p>
 
-                <p>       <?php echo Form::label('Context', 'context'); ?> <?php echo Form::textarea('context', Input::post('context', isset($post) ? $post->context : ''), array('cols' => 60, 'rows' => 8)); ?>    </p>
+                <p>       <?php echo Form::label('Context', 'context'); ?> <?php echo Form::textarea('context', Input::post('context', isset($data) ? $data->m_context : ''), array('cols' => 60, 'rows' => 8)); ?>    </p>
                 <div class="actions">
                     <?php echo Form::submit(); ?>
-                    <?php echo Form::button('name', '重設',array('onclick＝"clean_form(true);"')); ?>
-                    <input type="hidden" name="del_id" value="">
+                    <?php echo Form::submit('Cancel','Cancel'); ?>
                 </div>
+                <input type="hidden" name="m_id" value="<?php echo $data->m_id; ?>">
                 <?php echo Form::close(); ?>
                 <script language="javascript">
                     <!--
-                    clean_form(true);
+                    //清除表單資料，需要時才打開
+                    //clean_form(true);
                     -->
                 </script>
             </div>
         </div>
 
-        <div class="row">
-            <div class="span16">
-                <table border="1">
-                    <thead><tr><th colspan="3">留言版訊息</th></tr></thead>
-                    <tfoot><tr><td colspan="3">the footer</td></tr></tfoot>
-
-                    <?php
-                    $i=0;
-                    foreach ($data as $key => $rows)
-                    {
-                        //echo '<tr><td>'.$i++.'</td></tr>';
-                        //Firefox POST 傳值卡住，使用GET方式試試
-                        //echo '<tr><td rowspan="4"><a href="javascript:del_msg('.$rows['m_id'].');">刪除留言</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
-
-                        echo '<tr><td rowspan="4"><a href="?del_id='.$rows['m_id'].'">刪除留言</a><br><a href="update?m_id='.$rows['m_id'].'">更新留言</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
-                        echo '<tr><td>Time:</td><td>'.$rows['m_time'].'</td></tr>';
-                        echo '<tr><td>E-Mail:</td><td>'.$rows['m_email'].'</td></tr>';
-                        echo '<tr><td>Context:</td><td>'.$rows['m_context'].'</td></tr>';
-                        echo '<tr><td>&nbsp;</td></tr>';
-                    }
-
-                    ?>
-                </table>
-            </div>
-        </div>
         <script language="javascript">
             //del_msg(1);
         </script>

@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  padding: 0 0 10px 10px;
+}
+
+body,table {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+#header {
+  position: absolute;
+  right: 15px; top: 15px;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: Georgia, serif;
+  text-indent: 1em;
+  line-height: 1.8ex;
+  text-shadow: #fac 0.2em 0.2em 0.2em;
+  filter: progid:DXImageTransform.Microsoft.Shadow(
+      color=#ffaacc,direction=135);
+}
+
+#container {
+  position: relative; /* allow absolute positioning in content area */
+  width: 775px;
+  margin: 0 auto; /* "auto" centers for browsers */
+  padding-top: 15px;
+}
+
+#content {
+  position:relative; /* allow absolute positioning in content area */
+}
+
+#navigation { 
+  margin: 15px 0;
+}
+
+#navigation > ul {
+  margin: 0;
+  width: 560px;
+  padding: 0 15px;
+  position: relative;
+  height: 25px; 
+  background: #000;   /* fallback */
+  background-image: -moz-linear-gradient(top,#1a82f7,#2F2727);
+  background-image: -webkit-linear-gradient(#1a82f7, #2F2727);
+  background-image: -o-linear-gradient(top,#1a82f7,#2F2727);
+  background-repeat: no-repeat;
+  /* IE9- does not do color gradients + rounded corners */
+  filter: progid:DXImageTransform.Microsoft.gradient(
+    startColorstr=#1a82f7,endColorstr=#2F2727);
+  display: block;
+  border-radius: 6px; 
+  box-shadow: 6px 6px 5px #888;
+}
+
+#navigation li {
+  display: table-cell;
+  padding-right: 15px;
+}
+
+#navigation a {
+  line-height: 25px;
+  color: #fff;
+  text-decoration: none;
+  outline-width: 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#navigation a.link-highlight {
+  color: gold;
+}
+
+#navigation a:hover {
+  color: #99ffff;
+}
