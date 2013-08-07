@@ -8,11 +8,13 @@
  */
 return array(
     // 驅動程序
-    'driver' => array('Simpleauth'),
+    'driver' => 'Simpleauth',
 
     // 設定為 true 以允許多個登入
     'verify_multiple_logins' => true,
 
     // 出於安全原因，用你自己的鹽
     'salt' => 'jR+gk7dS1YVKfsG9k',
+
+    'iterations' => 1000,
 );

@@ -30,7 +30,7 @@ class Controller_Root extends Controller_Template {
 
     Session::set('backto', Uri::string()); // current controller/action
 
-    $data['books'] = Model_Book::find('all', array(
+    $data['books'] = Model_Books::find(array(
       'order_by' => array($order => $dir)
     ));
 
@@ -56,7 +56,7 @@ class Controller_Root extends Controller_Template {
 
   public function action_details() {
     $id = Input::param('id');
-    $book = Model_Book::find($id);
+    $book = Model_Books::find_by_pk($id);
     is_null($id) || !isset($book) and Response::redirect('/');
 
     $data['book'] = $book;
@@ -103,13 +103,13 @@ END;
     $perpage = 8;
     $offset = $curr_page * $perpage;
 
-    $total = Model_Book::count();
+    $total = Model_Books::count();
 
     Session::set('backto', Uri::string());
 
     $data['numpages'] = ceil($total / $perpage);
     $data['curr_page'] = $curr_page;
-    $data['books'] = Model_Book::find('all', array(
+    $data['books'] = Model_Books::find(array(
           'order_by' => array($order => $dir),
           'offset' => $offset,
           'limit' => $perpage,
@@ -168,7 +168,7 @@ END;
 
     Session::set('backto', Uri::string());
 
-    $data['books'] = Model_Book::find('all', array(
+    $data['books'] = Model_Books::find(array(
       'order_by' => array($order => $dir)
     ));
 
@@ -187,7 +187,7 @@ END;
 
     Session::set('backto', Uri::string());
 
-    $data['books'] = Model_Book::find('all', array(
+    $data['books'] = Model_Books::find(array(
       'order_by' => array($order => $dir)
     ));
 
@@ -228,6 +228,98 @@ END;
     Session::set('cart', $cart);
     Response::redirect("root/cart");
   }
+
+    function action_adduser() {
+        /*
+        $id = Input::param('id');
+        $cart = Session::get('cart');
+        if (is_null($cart) || !isset($cart[$id])) {
+            $cart[$id] = 1;
+        } else {
+            ++$cart[$id];
+        }
+        */
+        //Session::set('cart', $cart);
+        //Response::redirect("root/cart");
+        $view = View::forge('root/adduser');
+        //$view->data = $entry;
+        //$view->name = 'karisan';
+        $view->valid = Session::get('valid');
+        return Response::forge($view);
+
+    }
+
+    function action_doadduser() {
+        print_r(Input::post());
+
+        $message = '';
+        $doflag = true;
+
+        // 取消新增時，返回首頁
+        if (!empty($_POST['Cancel'])) {
+            return Response::redirect('/hello', 'refresh');
+        }
+
+        // 檢查密碼二次是否一致
+        if (Input::post('password') != Input::post('repassword')) {
+            $message = '密碼不一致';
+            $doflag = false;
+        }
+
+        // 檢查是否有email
+        if (Input::post('email')) {
+            $message = '密碼不一致';
+            $doflag = false;
+        }
+
+        // 檢查帳號是否重複
+        $user = Model_Users::find_one_by('username', Input::post('username'));
+        if ($user!=null) {
+            $message = '帳號重複!請重新輸入';
+            $doflag = false;
+        }
+
+
+        if ($doflag) {
+            // 寫入DB，將留言資料顯示
+            $user = Model_Users::forge()->set(array(
+                    'username' => Input::post('username'),
+                    'email' => Input::post('email'),
+                    'password' => sha1(Input::post('password')),
+                    'm_time' => date("Y/m/d H:i:s"),
+                    'level' => Input::post('level'),
+                    'created_at' => time(),
+                    'updated_at' => time(),
+                    'group' => '1',
+                    'last_login' => time(),
+                    'login_hash' => '',
+                    'profile_fields' => '',
+                ));
+            // 新增使用者
+            $user->save();
+
+            $message = '新增帳號成功!';
+            //成功時回到原頁面
+            return Response::redirect('/hello', 'refresh');
+        }
+
+        //失敗時回原新增使用者介面
+        //Session::set('message', $message);
+        //Session::set_flash('username', Input::post('username'));
+        //Session::set_flash('email', Input::post('email'));
+        //return Response::redirect('/root/adduser');
+
+        //return Response::forge($view);
+        //$view = View::forge('empty');
+
+        // 導回新增使用者頁面
+        $view = View::forge('root/adduser');
+        // 設定錯誤訊息
+        $view->message = $message;
+
+        return Response::forge($view);
+
+    }
 
   function action_clearcart() {
     Session::delete('cart');

@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class Model_User extends \Model_Crud {
+class Model_Users extends \Model_Crud {
 
     protected static $_table_name = 'users';
 
@@ -21,6 +21,10 @@ class Model_User extends \Model_Crud {
         'email',
         'created_at',
         'update_at',
+        'group',
+        'last_login',
+        'last_hash',
+        'porfile_fields',
     );
 
 }

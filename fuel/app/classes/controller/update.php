@@ -39,7 +39,7 @@ class Controller_Update extends Controller
                 // 確認修改
                 //echo '執行修改';
                 //print_r(Input::post());
-                $user['m_name'] = Input::post('username');
+                $user->m_name = Input::post('username');
                 $user->m_email = Input::post('email');
                 $user->m_context = Input::post('context');
                 $user->save();

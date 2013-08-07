@@ -42,7 +42,6 @@
 		</div>
 	</div>
 	<div class="container">
-
         <!--
 		<div class="row">
 			<div class="span16">
@@ -55,25 +54,12 @@
 			</div>
 		</div>
         -->
-        ex:bob:bar <?php echo Html::anchor('root/cart', '範例頁面'); ?><br>
-        <?php
-        if (!isset($valid)):
-            echo Html::anchor('validate/login', '登入');
-        else:
-            echo Html::anchor('validate/logout', "登出");
-        endif;
-        ?>
-        <br>
-
-
-
-        <br><br>
+        <!-- 載入 template 範例 -->
         <div class="row">
             <div class="span16">
-                <?php echo render("links") ?>
+                <?php echo render("mylink"); ?>
             </div>
         </div>
-
         <div class="row">
             <div>
                 <?php

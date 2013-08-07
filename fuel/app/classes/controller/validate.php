@@ -5,11 +5,7 @@ class Controller_Validate extends Controller_Template {
   public function action_auth() {
     $username = trim(Input::param('username'));
     $password = Input::param('password');
-    $user = Model_User::find('first', array(
-        'where' => array(
-          array('username', $username),
-        ),
-    ));
+    $user = Model_Users::find_one_by_username($username);
     if (is_null($user)) {
       // 錯誤時，清session，重導至登入頁 /validate/login
       Session::set_flash('message', 'Failed Username');

@@ -56,7 +56,7 @@ END;
           $data['errors'] = e($validator->error());
           throw new Exception("Validation Error");
         }
-        $book = Model_Book::forge();
+        $book = Model_Books::forge();
         $book->title = $validator->validated('title');
         $book->quantity = $validator->validated('qty');
         $book->binding = $data['binding'];
@@ -78,7 +78,7 @@ END;
     $this->template->page_title = 'Modify Book';
     $id = Input::param('id');
 
-    $book = Model_Book::find($id);
+    $book = Model_Books::find_by_pk($id);
     is_null($id) || is_null($book) and Response::redirect('/');
 
     $data = array(
@@ -116,7 +116,7 @@ END;
 
   public function action_delete() {
     $id = Input::param('id');
-    $book = Model_Book::find($id);
+    $book = Model_Books::find_by_pk($id);
     is_null($id) || is_null($book) and Response::redirect('/');
     $book->delete();
     Response::redirect('/');
