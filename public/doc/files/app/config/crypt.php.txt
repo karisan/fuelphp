@@ -1,7 +1,0 @@
-<?php
-return array(
-	'crypto_key' => '-3ceRcXosEVA9vIG4Q_R0fD4',
-	'crypto_iv' => 'uqshHkhW02yM83gh5MHG44YU',
-	'crypto_hmac' => '40w4AgiaU2AsWyU2xATC0zqk',
-);
-
