@@ -22,31 +22,36 @@
 class Controller_Welcome extends Controller
 {
 
-	/**
-	 * The basic welcome message
-	 *
-	 * @access  public
-	 * @return  Response
-	 */
+    /**
+     * The basic welcome message
+     *
+     * @access  public
+     * @return  Response
+     */
     public function post_update()
     {
         return Response::forge(View::forge('welcome/update'));
     }
 
-	public function action_index()
-	{
-		return Response::forge(View::forge('welcome/index'));
-	}
+    /**
+     * FuelPHP 原始的頁面，顯示welcome字樣
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_index()
+    {
+        return Response::forge(View::forge('welcome/index'));
+    }
 
-	/**
-	 * A typical "Hello, Bob!" type example.  This uses a ViewModel to
-	 * show how to use them.
-	 *
-	 * @access  public
-	 * @return  Response
-	 */
-	public function action_hello()
-	{
+    /**
+     * 登入後的首頁顯示，內含刪除、新增留言的處理
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_hello()
+    {
         //print_r($_POST);
         //print_r($_GET);
         //echo "action_hello()";
@@ -58,7 +63,8 @@ class Controller_Welcome extends Controller
             if($user)
             {
                 $user->delete();
-                echo '成功刪除';
+                //echo '成功刪除';
+                $return_msg = '成功刪除';
             }
 
         } else if (!empty($_POST['username'])) {
@@ -88,17 +94,17 @@ class Controller_Welcome extends Controller
         $view->data = $entry;
         $view->name = 'karisan';
         $view->valid = Session::get('valid');
-		return Response::forge($view);
-	}
+        return Response::forge($view);
+    }
 
-	/**
-	 * The 404 action for the application.
-	 *
-	 * @access  public
-	 * @return  Response
-	 */
-	public function action_404()
-	{
-		return Response::forge(ViewModel::forge('welcome/404'), 404);
-	}
+    /**
+     * The 404 action for the application.
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_404()
+    {
+        return Response::forge(ViewModel::forge('welcome/404'), 404);
+    }
 }

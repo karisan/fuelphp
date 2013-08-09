@@ -7,8 +7,23 @@
  * To change this template use File | Settings | File Templates.
  */
 
+/**
+ *
+ * 其它套件的登入Controller，使用Auth，但目前似乎未實際運作
+ *
+ * @package
+ * @category
+ * @author    karisan
+ */
 class Controller_Books extends Controller_Protected {
 
+    /**
+     *
+     * 未登入時，導向/validate/expired頁面
+     *
+     * @param   void
+     * @return  void
+     */
     public function action_login()
     {
         $data = array();

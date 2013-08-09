@@ -1,12 +1,23 @@
 <?php
-
-
-
+/**
+ *
+ * 更新留言
+ *
+ * @package
+ * @category
+ * @author    karisan
+ */
 class Controller_Update extends Controller
 {
+    /**
+     * 顯示待修改的留言
+     *
+     * @param   void
+     * @return  void
+     */
 	public function action_index()
 	{
-		echo "Update";
+		//echo "Update";
 
         $m_id = Input::get('m_id');
         $entry = Model_Message::find_by_pk($m_id);
@@ -22,9 +33,15 @@ class Controller_Update extends Controller
         return Response::forge($view);
 	}
 
+    /**
+     * 確認修改 或 取消 時，由此處理
+     *
+     * @param   void
+     * @return  void
+     */
     public function post_index()
     {
-        echo "Update - post";
+        //echo "Update - post";
         //print_r($_POST);
         if (!empty($_POST['Cancel'])) {
 
@@ -32,7 +49,7 @@ class Controller_Update extends Controller
 
         } elseif (!empty($_POST['submit'])) {
             $user = Model_Message::find_by_pk($_POST['m_id']);
-            print_r($user);
+            //print_r($user);
             if($user === null) {
                 // 沒找到
             } else {
@@ -43,7 +60,7 @@ class Controller_Update extends Controller
                 $user->m_email = Input::post('email');
                 $user->m_context = Input::post('context');
                 $user->save();
-                echo "do update";
+                //echo "do update";
             }
         }
         $view = View::forge('welcome/hello');

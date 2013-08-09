@@ -7,12 +7,24 @@
  * To change this template use File | Settings | File Templates.
  */
 
+/**
+ * 儲存使用者資料
+ * @author  karisan
+ */
 class Model_Users extends \Model_Crud {
-
+    /**
+     * @var Table 名稱
+     */
     protected static $_table_name = 'users';
 
+    /**
+     * @var Table PK
+     */
     protected static $_primary_key = 'id';
 
+    /**
+     * @var Table 欄位
+     */
     protected static $_properties = array(
         'id',
         'username',

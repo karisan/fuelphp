@@ -42,29 +42,17 @@
 		</div>
 	</div>
 	<div class="container">
-        <!--
-		<div class="row">
-			<div class="span16">
-                <h1>app/views/welcome/hello.php</h1>
-				<h1>Hello, <?php echo $name; ?>! <small>Congratulations, you just used a ViewModel!</small></h1>
-				<hr>
-				<p>The controller generating this page is found at <code>APPPATH/classes/controller/welcome.php</code>.</p>
-				<p>This view is located at <code>APPPATH/views/welcome/hello.php</code>.</p>
-				<p>It is loaded via a ViewModel class with a name of <code>View_Welcome_Hello</code>, located in <code>APPPATH/classes/view/welcome/hello.php</code></p>
-			</div>
-		</div>
-        -->
         <!-- 載入 template 範例 -->
         <div class="row">
             <div class="span16">
                 <?php echo render("mylink"); ?>
             </div>
         </div>
+
         <div class="row">
             <div>
                 <?php
                 //print_r($_POST);
-
                 //print_r (Input::all());
                 //print_r($data);
                 //print_r ($valid);
@@ -94,10 +82,8 @@
         </div>
 
         <div class="row">
-            <div class="span16">
-                <table border="1">
+                <table border="1" class="table table-striped table-bordered table-hover">
                     <thead><tr><th colspan="3">留言版訊息</th></tr></thead>
-                    <tfoot><tr><td colspan="3">the footer</td></tr></tfoot>
 
                     <?php
                     $i=0;
@@ -107,16 +93,15 @@
                         //Firefox POST 傳值卡住，使用GET方式試試
                         //echo '<tr><td rowspan="4"><a href="javascript:del_msg('.$rows['m_id'].');">刪除留言</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
 
-                        echo '<tr><td rowspan="4"><a href="?del_id='.$rows['m_id'].'">刪除留言</a><br><a href="update?m_id='.$rows['m_id'].'">更新留言</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
+                        echo '<tr><td rowspan="4"><a href="?del_id='.$rows['m_id'].'"><i class="icon-remove"></i> 刪除</a><br><a href="update?m_id='.$rows['m_id'].'"><i class="icon-edit"></i> 更新</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
                         echo '<tr><td>Time:</td><td>'.$rows['m_time'].'</td></tr>';
                         echo '<tr><td>E-Mail:</td><td>'.$rows['m_email'].'</td></tr>';
                         echo '<tr><td>Context:</td><td>'.$rows['m_context'].'</td></tr>';
-                        echo '<tr><td>&nbsp;</td></tr>';
+                        echo '<tr><td colspan="3">&nbsp;</td></tr>';
                     }
 
                     ?>
                 </table>
-            </div>
         </div>
         <script language="javascript">
             //del_msg(1);

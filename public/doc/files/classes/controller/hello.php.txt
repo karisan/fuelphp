@@ -22,16 +22,30 @@
 class Controller_Hello extends Controller
 {
 
-	public function action_index()
-	{
-		echo "Hello World!";
-	}
+    /**
+     *
+     * 輸入 /hello/index 時，會進入此頁，顯示基本文字訊息
+     *
+     * @param   void
+     * @return  void
+     */
+    public function action_index()
+    {
+        echo "Hello World!";
+    }
 
+    /**
+     *
+     * 輸入 /hello/buddy 時，會進入此頁，顯示基本文字訊息
+     *
+     * @param   $name
+     * @return  void
+     */
     public function action_buddy($name = 'buddy')
     {
         $this->response->body = View::factory('hello', array(
                 'name' => $name,
-        ));
+            ));
     }
 
 }
