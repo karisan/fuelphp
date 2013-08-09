@@ -15,6 +15,6 @@ build
 /fuel/app/cache/*/*
 /fuel/app/config/crypt.php
 nbproject/
-/public/doc
+/public/doc/*
 *.log
 
