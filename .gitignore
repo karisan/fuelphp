@@ -17,4 +17,5 @@ build
 nbproject/
 /public/doc/*
 *.log
+list.txt
 
