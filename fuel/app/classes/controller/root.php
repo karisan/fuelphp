@@ -250,9 +250,9 @@ END;
     }
 
     function action_doadduser() {
-        print_r(Input::post());
+        //print_r(Input::post());
 
-        $message = '';
+        $custmsg = '';
         $doflag = true;
 
         // 取消新增時，返回首頁
@@ -260,26 +260,51 @@ END;
             return Response::redirect('/hello', 'refresh');
         }
 
-        // 檢查密碼二次是否一致
-        if (Input::post('password') != Input::post('repassword')) {
-            $message = '密碼不一致';
+        $val = Validation::forge('my_validation');
+
+        // 驗證username 1、不重複 2、長度1~20字 3、字元允許 A-Za-z0-9
+        $val->add_field('username', '名稱', 'required|trim|min_length[1]|max_length[20]|valid_string[alpha,numeric]');
+
+        // 驗證password 1、長度1~30字
+        $val->add_field('password', '密碼', 'required|trim|min_length[1]|max_length[30]');
+
+        // 驗證email 1、符合有效email格式
+        $val->add_field('email', 'Email', 'required|trim|valid_email');
+
+        $val->set_message('required', ':label 為必填.');
+        $val->set_message('mix_length', ':label 字數過短.');
+        $val->set_message('max_length', ':label 字數過長.');
+        $val->set_message('valid_email', ':label 需要是正確的email格式');
+        $val->set_message('valid_string[alpha,numeric]', ':label 只允許英文、數字.');
+
+        $errors = array();
+        if ($val->run())
+        {
+            // 在驗證成功時處理你的東西
+            $custmsg = '驗證成功';
+        } else {
+            $errors = $val->error();
+            //print_r($errors);
+
+            $custmsg = '驗證失敗-由validation';
             $doflag = false;
         }
 
-        // 檢查是否有email
-        if (Input::post('email')) {
-            $message = '密碼不一致';
+        // 檢查密碼二次是否一致
+        if (Input::post('password') != Input::post('repassword')) {
+            array_push($errors,'密碼不一致!');
             $doflag = false;
         }
+
 
         // 檢查帳號是否重複
         $user = Model_Users::find_one_by('username', Input::post('username'));
         if ($user!=null) {
-            $message = '帳號重複!請重新輸入';
+            array_push($errors,'帳號重複!請重新輸入!');
             $doflag = false;
         }
 
-
+        //$doflag = false;
         if ($doflag) {
             // 寫入DB，將留言資料顯示
             $user = Model_Users::forge()->set(array(
@@ -298,13 +323,13 @@ END;
             // 新增使用者
             $user->save();
 
-            $message = '新增帳號成功!';
+            $custmsg = '新增帳號成功!';
             //成功時回到原頁面
             return Response::redirect('/hello', 'refresh');
         }
 
         //失敗時回原新增使用者介面
-        //Session::set('message', $message);
+        //Session::set('message', $custmsg);
         //Session::set_flash('username', Input::post('username'));
         //Session::set_flash('email', Input::post('email'));
         //return Response::redirect('/root/adduser');
@@ -314,8 +339,14 @@ END;
 
         // 導回新增使用者頁面
         $view = View::forge('root/adduser');
+
         // 設定錯誤訊息
-        $view->message = $message;
+        $view->messages = $errors;
+
+        // 設定既有資料顯示
+        $view->usernmae = Input::post('username');
+        $view->email = Input::post('email');
+        $view->level = Input::post('level');
 
         return Response::forge($view);
 
@@ -325,4 +356,5 @@ END;
     Session::delete('cart');
     Response::redirect("root/cart");
   }
+
 }

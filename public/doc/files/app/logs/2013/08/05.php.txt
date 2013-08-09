@@ -1,0 +1,235 @@
+<?php defined('COREPATH') or exit('No direct script access allowed'); ?>
+
+WARNING - 2013-08-05 09:09:48 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:16:36 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:16:46 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:17:59 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:18:01 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:18:03 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:18:09 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:18:51 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:25:19 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:38:50 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:48:29 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:49:32 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 09:49:40 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 10:58:54 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 10:58:54 --> Error - Class 'Orm\Model' not found in /var/www/fuelphp/fuel/app/classes/model/message.php on line 10
+WARNING - 2013-08-05 10:59:57 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 10:59:57 --> 4096 - Argument 1 passed to Orm\Query::_parse_where_array() must be of the type array, string given, called in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 566 and defined in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 553
+WARNING - 2013-08-05 11:01:22 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:01:22 --> Notice - Undefined variable: mydata in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 55
+WARNING - 2013-08-05 11:03:04 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:03:04 --> 4096 - Argument 1 passed to Orm\Query::_parse_where_array() must be of the type array, string given, called in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 566 and defined in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 553
+WARNING - 2013-08-05 11:03:10 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:03:10 --> 4096 - Argument 1 passed to Orm\Query::_parse_where_array() must be of the type array, string given, called in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 566 and defined in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 553
+WARNING - 2013-08-05 11:08:59 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:08:59 --> Error - Class 'Model\Message' not found in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 54
+WARNING - 2013-08-05 11:09:31 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:09:31 --> 4096 - Argument 1 passed to Orm\Query::_parse_where_array() must be of the type array, string given, called in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 566 and defined in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 553
+WARNING - 2013-08-05 11:09:50 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:09:50 --> 4096 - Argument 1 passed to Orm\Query::_parse_where_array() must be of the type array, string given, called in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 566 and defined in /var/www/fuelphp/fuel/packages/orm/classes/query.php on line 553
+WARNING - 2013-08-05 11:11:29 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:12:02 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:14:40 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:14:41 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:18:23 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:18:23 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:18:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:18:26 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:24:28 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:24:28 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:24:32 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:24:32 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:27:14 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:27:14 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:29:17 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:29:17 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:29:20 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:29:20 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:34:48 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:34:48 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:34:56 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:34:56 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:38:03 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:38:03 --> 1045 - SQLSTATE[28000] [1045] Access denied for user 'root'@'localhost' (using password: YES) in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 94
+WARNING - 2013-08-05 11:39:40 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:39:40 --> 42000 - SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '`' at line 1 with query: "SELECT * FROM message order by m_id desc`" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 11:40:19 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:42:24 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:42:24 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 11:51:12 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:51:12 --> Compile Error - Cannot use [] for reading in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 50
+WARNING - 2013-08-05 11:51:40 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:51:40 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 11:53:13 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:53:13 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 11:53:18 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:53:18 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 11:54:06 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:54:59 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:55:30 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:55:52 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:57:58 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 11:59:49 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 11:59:49 --> Notice - Undefined index: username in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 50
+WARNING - 2013-08-05 12:01:36 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 12:14:06 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 12:14:08 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 12:14:19 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 12:15:04 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 13:36:44 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 13:36:44 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 13:37:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 13:37:26 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 13:39:03 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 13:39:03 --> Error - Method name must be a string in /var/www/fuelphp/fuel/core/classes/viewmodel.php on line 267
+WARNING - 2013-08-05 13:39:18 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 13:46:39 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 13:46:39 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 13:49:33 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 13:49:33 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 13:55:22 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 13:55:22 --> Notice - Undefined variable: name in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 5
+WARNING - 2013-08-05 13:56:10 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 13:56:52 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:02:05 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:02:05 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 14:05:16 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:05:16 --> Error - SQLSTATE[42S22]: Column not found: 1054 Unknown column 'SELECT * FROM message order by m_id desc' in 'field list' with query: "SELECT `SELECT * FROM message order by m_id desc`" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 14:07:46 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:07:46 --> Error - SQLSTATE[42S22]: Column not found: 1054 Unknown column 'm_id' in 'field list' with query: "SELECT `m_id`, `m_name`, `m_email`, `m_datetime`, `m_context`" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 14:08:18 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:08:18 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 14:08:35 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:08:35 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 14:08:43 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:08:43 --> Notice - Undefined variable: data in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 58
+WARNING - 2013-08-05 14:09:18 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:09:18 --> Notice - Undefined variable: data in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 58
+WARNING - 2013-08-05 14:09:48 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:09:55 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:09:58 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:10:34 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:10:34 --> Notice - Undefined variable: data in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 60
+WARNING - 2013-08-05 14:11:31 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:13:14 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:13:14 --> Error - Call to undefined method Fuel\Core\Database_Result_Cached::result() in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 61
+WARNING - 2013-08-05 14:14:39 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:14:39 --> Notice - Undefined index: result in /var/www/fuelphp/fuel/core/classes/database/result/cached.php on line 48
+WARNING - 2013-08-05 14:15:06 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:15:06 --> Notice - Undefined index: result:protected in /var/www/fuelphp/fuel/core/classes/database/result/cached.php on line 48
+WARNING - 2013-08-05 14:15:49 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:19:38 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:19:38 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 14:20:30 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:32:00 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:32:16 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:34:00 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:34:00 --> Parsing Error - syntax error, unexpected ')', expecting variable (T_VARIABLE) in /var/www/fuelphp/fuel/app/classes/model/message.php on line 23
+WARNING - 2013-08-05 14:35:04 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:35:04 --> Error - SQLSTATE[42S22]: Column not found: 1054 Unknown column 't0.id' in 'order clause' with query: "SELECT `t0`.`m_id` AS `t0_c0`, `t0`.`m_name` AS `t0_c1`, `t0`.`m_email` AS `t0_c2`, `t0`.`m_time` AS `t0_c3`, `t0`.`m_context` AS `t0_c4` FROM `message` AS `t0` ORDER BY `t0`.`id` DESC" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 14:36:49 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:36:49 --> Error - SQLSTATE[42S22]: Column not found: 1054 Unknown column 't0.id' in 'order clause' with query: "SELECT `t0`.`m_id` AS `t0_c0`, `t0`.`m_name` AS `t0_c1`, `t0`.`m_email` AS `t0_c2`, `t0`.`m_time` AS `t0_c3`, `t0`.`m_context` AS `t0_c4` FROM `message` AS `t0` ORDER BY `t0`.`id` DESC" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 14:40:27 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:40:27 --> Error - SQLSTATE[42S22]: Column not found: 1054 Unknown column 't0.id' in 'order clause' with query: "SELECT `t0`.`m_name` AS `t0_c0`, `t0`.`m_email` AS `t0_c1`, `t0`.`m_context` AS `t0_c2`, `t0`.`m_id` AS `t0_c3`, `t0`.`m_time` AS `t0_c4` FROM `message` AS `t0` ORDER BY `t0`.`id` DESC" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 14:40:30 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:40:30 --> Error - SQLSTATE[42S22]: Column not found: 1054 Unknown column 't0.id' in 'order clause' with query: "SELECT `t0`.`m_name` AS `t0_c0`, `t0`.`m_email` AS `t0_c1`, `t0`.`m_context` AS `t0_c2`, `t0`.`m_id` AS `t0_c3`, `t0`.`m_time` AS `t0_c4` FROM `message` AS `t0` ORDER BY `t0`.`id` DESC" in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 208
+WARNING - 2013-08-05 14:41:04 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:41:28 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:42:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:42:26 --> Error - Database results are read-only in /var/www/fuelphp/fuel/core/classes/database/result.php on line 266
+WARNING - 2013-08-05 14:47:51 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:47:51 --> Error - Call to a member function as_array() on a non-object in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 67
+WARNING - 2013-08-05 14:50:05 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:50:27 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:50:55 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:53:20 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:53:20 --> Parsing Error - syntax error, unexpected 'echo' (T_ECHO) in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 88
+WARNING - 2013-08-05 14:53:59 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 14:53:59 --> Parsing Error - syntax error, unexpected 'echo' (T_ECHO) in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 89
+WARNING - 2013-08-05 14:54:13 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:57:09 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 14:58:09 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:05:45 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:05:45 --> Notice - Array to string conversion in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 81
+WARNING - 2013-08-05 15:07:53 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:07:53 --> Notice - Undefined offset: 0 in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 81
+WARNING - 2013-08-05 15:08:08 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:08:08 --> Notice - Undefined offset: 0 in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 81
+WARNING - 2013-08-05 15:08:24 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:09:20 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:09:20 --> Notice - Undefined offset: 0 in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 81
+WARNING - 2013-08-05 15:09:36 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:11:12 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:12:34 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:12:34 --> Error - Property "data" not found for Model_Message. in /var/www/fuelphp/fuel/packages/orm/classes/model.php on line 1093
+WARNING - 2013-08-05 15:13:11 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:13:11 --> Error - Property "_data" not found for Model_Message. in /var/www/fuelphp/fuel/packages/orm/classes/model.php on line 1093
+WARNING - 2013-08-05 15:14:18 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:16:28 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:17:58 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:19:19 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:19:33 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:20:07 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:20:54 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:28:14 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:28:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:28:26 --> Runtime Notice - Non-static method Fuel\Core\Date::format() should not be called statically, assuming $this from incompatible context in /var/www/fuelphp/fuel/app/classes/controller/welcome.php on line 54
+WARNING - 2013-08-05 15:30:35 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:31:03 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:59:38 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:59:43 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 15:59:47 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:59:47 --> Error - Object class "Orm\Query" could not be converted to string or sanitized as ArrayAccess. Whitelist it in security.whitelisted_classes in app/config/config.php to allow it to be passed unchecked. in /var/www/fuelphp/fuel/core/classes/security.php on line 249
+WARNING - 2013-08-05 15:59:56 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 15:59:56 --> Error - Object class "Orm\Query" could not be converted to string or sanitized as ArrayAccess. Whitelist it in security.whitelisted_classes in app/config/config.php to allow it to be passed unchecked. in /var/www/fuelphp/fuel/core/classes/security.php on line 249
+WARNING - 2013-08-05 16:07:59 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:07:59 --> Error - Object class "Orm\Query" could not be converted to string or sanitized as ArrayAccess. Whitelist it in security.whitelisted_classes in app/config/config.php to allow it to be passed unchecked. in /var/www/fuelphp/fuel/core/classes/security.php on line 249
+WARNING - 2013-08-05 16:08:09 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:08:20 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:08:20 --> Error - Object class "Orm\Query" could not be converted to string or sanitized as ArrayAccess. Whitelist it in security.whitelisted_classes in app/config/config.php to allow it to be passed unchecked. in /var/www/fuelphp/fuel/core/classes/security.php on line 249
+WARNING - 2013-08-05 16:15:28 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:15:28 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:16:13 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:16:13 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:16:24 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:16:24 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:16:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:16:26 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:16:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:16:26 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:16:27 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:16:27 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:17:45 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:17:45 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:17:56 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:18:22 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:18:22 --> Notice - Undefined variable: data in /var/www/fuelphp/fuel/app/views/welcome/hello.php on line 86
+WARNING - 2013-08-05 16:18:48 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:20:27 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:20:43 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+ERROR - 2013-08-05 16:20:43 --> HY000 - SQLSTATE[HY000]: General error: could not call class constructor in /var/www/fuelphp/fuel/core/classes/database/pdo/connection.php on line 240
+WARNING - 2013-08-05 16:23:18 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:24:22 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:26:41 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:26:44 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:29:26 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:49:05 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:53:36 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:56:58 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 16:57:09 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:07:06 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:13:31 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:13:42 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:16:15 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:17:22 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:18:52 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:19:16 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:19:59 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:32:03 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:32:31 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:32:35 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:32:38 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+WARNING - 2013-08-05 18:34:57 --> Fuel\Core\Fuel::init - The configured locale en_US is not installed on your system.
+

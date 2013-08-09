@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>修改留言</title>
+    <title>新增使用者</title>
     <?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
@@ -45,37 +45,48 @@
 
     <div class="row">
         <div class="span16">
-            <?php
-            //print_r($_POST);
-            //print_r (Input::all());
-            //print_r($data);
-            //echo $data->m_email;
-            //print_r ($mydata);
-            ?>
             <?php echo Form::open(array('action' => './root/doadduser', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
             <p>       <?php echo Form::label('Username', 'username'); ?>
-                <?php echo Form::input('username', Input::post('username', isset($data) ? $data->username : '')); ?>    </p>
+                <?php echo Form::input('username', Input::post('username', isset($username) ? $username : '')); ?>    </p>
 
             <p>       <?php echo Form::label('Password', 'password'); ?>
-                <?php echo Form::password('password', Input::post('password', isset($data) ? $data->password : '')); ?>    </p>
+                <?php echo Form::password('password'); ?>    </p>
 
             <p>       <?php echo Form::label('RePassword', 'repassword'); ?>
-                <?php echo Form::password('repassword', Input::post('repassword', isset($data) ? $data->repassword : '')); ?>    </p>
+                <?php echo Form::password('repassword'); ?>    </p>
 
             <p>       <?php echo Form::label('Email', 'email'); ?>
                 <?php echo Form::input('email', Input::post('email', isset($data) ? $data->email : '')); ?>    </p>
 
             <p>       <?php echo Form::label('管理者', 'level'); ?>
-                <?php echo Form::radio('level', Input::post('level', isset($data) ? $data->level : '')); ?>    </p>
+                <?php
+                if (isset($level)) {
+                    $tmp_check = $level;
+                } else {
+                    $tmp_check = '0';
+                }
+                ?>
+                <?php echo Form::radio('level', '1',$tmp_check=='1' ? true:false); ?>    </p>
             <p>       <?php echo Form::label('一般', 'level'); ?>
-                <?php echo Form::radio('level', Input::post('level', isset($data) ? $data->level : '')); ?>    </p>
+                <?php echo Form::radio('level', '0',$tmp_check=='0' ? true:false); ?>    </p>
 
             <div class="actions">
                 <?php echo Form::submit(); ?>
                 <?php echo Form::submit('Cancel','Cancel'); ?>
             </div>
             <?php echo Form::close(); ?>
-            <h3 id="response"><?php echo isset($message) ? $message : '' ?></h3>
+            <?php if(isset($messages) and count($messages)>0): ?>
+                <div class="message">
+                    <ul>
+                        <?php
+                        foreach($messages as $msg)
+                        {
+                            echo '<li>', $msg,'</li>';
+                        }
+                        ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>
