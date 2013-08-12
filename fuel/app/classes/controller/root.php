@@ -307,7 +307,7 @@ END;
      * 新增使用者 顯示頁
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_adduser() {
         /*
@@ -333,7 +333,7 @@ END;
      * 新增使用者 處理頁
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_doadduser() {
         //print_r(Input::post());
@@ -456,7 +456,7 @@ END;
      * 使用者管理頁面
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_show_user() {
 
@@ -481,7 +481,7 @@ END;
      * 執行 刪除使用者
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_do_del_user() {
 
@@ -504,7 +504,7 @@ END;
      * 修改使用者資料 顯示頁
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_edit_user() {
 
@@ -526,7 +526,7 @@ END;
      * 執行 修改使用者資料
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_do_edit_user() {
         if (!empty($_POST['Cancel'])) {
@@ -584,7 +584,7 @@ END;
      * 重設使用者密碼 顯示頁
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_reset_user_pass() {
         $id = Input::get('id');
@@ -604,7 +604,7 @@ END;
      * 執行 重設使用者密碼
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     function action_do_reset_user_pass() {
         if (!empty($_POST['Cancel'])) {

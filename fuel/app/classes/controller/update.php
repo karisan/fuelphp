@@ -13,7 +13,7 @@ class Controller_Update extends Controller
      * 顯示待修改的留言
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
 	public function action_index()
 	{
@@ -37,7 +37,7 @@ class Controller_Update extends Controller
      * 確認修改 或 取消 時，由此處理
      *
      * @param   void
-     * @return  void
+     * @return  Response
      */
     public function post_index()
     {
