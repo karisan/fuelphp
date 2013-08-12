@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>修改留言</title>
+	<title>重設密碼</title>
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
@@ -42,25 +42,38 @@
 		</div>
 	</div>
 	<div class="container">
-
         <div class="row">
-            <div class="span16">
-                <?php echo Form::open(array('action' => 'update', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
-                <p>       <?php echo Form::label('留言者', 'username'); ?>
-                    <?php echo Form::input('username', Input::post('username', isset($data) ? $data->m_name : ''),array('placeholder' => '留言者')); ?>    </p>
-
-                <p>       <?php echo Form::label('Email', 'email'); ?>
-                    <?php echo Form::input('email', Input::post('email', isset($data) ? $data->m_email : ''),array('placeholder' => 'Email')); ?>    </p>
-
-                <p>       <?php echo Form::label('留言內容', 'context'); ?>
-                    <?php echo Form::textarea('context', Input::post('context', isset($data) ? $data->m_context : ''),
-                        array('cols' => 60, 'rows' => 8, 'placeholder' => '歡迎留言…')); ?>    </p>
+            <div>
                 <div class="actions">
-                    <?php echo Form::submit(); ?>
-                    <?php echo Form::submit('Cancel','Cancel'); ?>
+
+                    <?php echo Form::open(array('action' => './root/do_reset_user_pass',
+                        'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
+
+                    <p>       <?php echo Form::label('使用者名稱', 'username'); ?>
+                        <?php echo Form::label($data->username, 'username'); ?>    </p>
+
+                    <p>       <?php echo Form::label('密碼', 'password'); ?>
+                        <?php echo Form::password('password'); ?>    </p>
+
+                    <input type="hidden" name="id" value="<?php echo $data->id; ?>">
+
+                    <div class="actions">
+                        <?php echo Form::submit(); ?>
+                        <?php echo Form::submit('Cancel','Cancel'); ?>
+                    </div>
+                <?php if(isset($messages) and count($messages)>0) { ?>
+                    <div class="message">
+                        <ul>
+                            <?php
+                            foreach($messages as $msg)
+                            {
+                                echo '<li>', $msg,'</li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                <?php } ?>
                 </div>
-                <input type="hidden" name="m_id" value="<?php echo $data->m_id; ?>">
-                <?php echo Form::close(); ?>
             </div>
         </div>
 		<footer>

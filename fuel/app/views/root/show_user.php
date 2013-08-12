@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>修改留言</title>
+	<title>使用者管理頁面</title>
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
@@ -42,26 +42,34 @@
 		</div>
 	</div>
 	<div class="container">
-
+        <!-- 載入 template 範例 -->
         <div class="row">
             <div class="span16">
-                <?php echo Form::open(array('action' => 'update', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
-                <p>       <?php echo Form::label('留言者', 'username'); ?>
-                    <?php echo Form::input('username', Input::post('username', isset($data) ? $data->m_name : ''),array('placeholder' => '留言者')); ?>    </p>
-
-                <p>       <?php echo Form::label('Email', 'email'); ?>
-                    <?php echo Form::input('email', Input::post('email', isset($data) ? $data->m_email : ''),array('placeholder' => 'Email')); ?>    </p>
-
-                <p>       <?php echo Form::label('留言內容', 'context'); ?>
-                    <?php echo Form::textarea('context', Input::post('context', isset($data) ? $data->m_context : ''),
-                        array('cols' => 60, 'rows' => 8, 'placeholder' => '歡迎留言…')); ?>    </p>
-                <div class="actions">
-                    <?php echo Form::submit(); ?>
-                    <?php echo Form::submit('Cancel','Cancel'); ?>
-                </div>
-                <input type="hidden" name="m_id" value="<?php echo $data->m_id; ?>">
-                <?php echo Form::close(); ?>
+                <?php echo render("mylink"); ?>
             </div>
+        </div>
+        <div class="row">
+                <table border="1" class="table table-striped table-bordered table-hover">
+                    <thead><tr><th colspan="4">使用者管理</th></tr></thead>
+                    <thead><tr><th>帳號</th><th>Email</th><th>權限</th><th>管理</th></tr></thead>
+
+                    <?php
+                    $i=0;
+                    foreach ($data as $key => $rows)
+                    {
+                        echo '<tr>';
+                        echo '<td>'.$rows['username'].'</td>';
+                        echo '<td>'.$rows['email'].'</td>';
+                        echo '<td>'.$rows['level'].'</td>';
+                        echo '<td>';
+                        echo '<a href="./edit_user?id='.$rows['id'].'"><i class="icon-edit"></i> 修改</a>&nbsp;&nbsp;';
+                        echo '<a href="./reset_user_pass?id='.$rows['id'].'"><i class="icon-refresh"></i> 重設密碼</a>&nbsp;&nbsp;';
+                        echo '<a href="./do_del_user?id='.$rows['id'].'"><i class="icon-remove"></i> 刪除</a>&nbsp;&nbsp;';
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                    ?>
+                </table>
         </div>
 		<footer>
 			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>

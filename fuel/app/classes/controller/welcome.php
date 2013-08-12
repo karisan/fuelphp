@@ -65,6 +65,7 @@ class Controller_Welcome extends Controller
                 $user->delete();
                 //echo '成功刪除';
                 $return_msg = '成功刪除';
+                echo "<script>alert('刪除成功');</script>";
             }
 
         } else if (!empty($_POST['username'])) {

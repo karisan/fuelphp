@@ -9,6 +9,7 @@ $valid = Session::get('valid');
     <li><?php echo Html::anchor('root/cart', '範例頁面'); ?></li>
     <?php if (isset($valid)): ?>
         <li><?php echo Html::anchor('root/adduser', '新增使用者'); ?></li>
+        <li><?php echo Html::anchor('root/show_user', '使用者管理'); ?></li>
     <?php endif ?>
     <li>
         <?php

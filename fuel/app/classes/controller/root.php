@@ -361,7 +361,7 @@ END;
         $val->set_message('mix_length', ':label 字數過短.');
         $val->set_message('max_length', ':label 字數過長.');
         $val->set_message('valid_email', ':label 需要是正確的email格式');
-        $val->set_message('valid_string[alpha,numeric]', ':label 只允許英文、數字.');
+        $val->set_message('valid_string', ':label 只允許英文、數字.');
 
         $errors = array();
         if ($val->run())
@@ -421,7 +421,10 @@ END;
         //return Response::redirect('/root/adduser');
 
         //return Response::forge($view);
-        //$view = View::forge('empty');
+
+        // 測試用空白頁
+        // $view = View::forge('empty');
+        // return Response::forge($view);
 
         // 導回新增使用者頁面
         $view = View::forge('root/adduser');
@@ -449,4 +452,208 @@ END;
         Response::redirect("root/cart");
     }
 
+    /**
+     * 使用者管理頁面
+     *
+     * @param   void
+     * @return  void
+     */
+    function action_show_user() {
+
+        // 尋找所有使用者, 但不顯示自己
+        $entry = Model_Users::find(array(
+                'where' => array(
+                    array('id', '<>', Session::get('valid')->id),
+                ),
+                'order_by' => array('id' => 'asc'),
+            ));
+
+        $view = View::forge('root/show_user');
+        $view->data = $entry;
+
+        // 若未登入時，不允許進入此頁
+        $view->valid = Session::get('valid');
+        return Response::forge($view);
+
+    }
+
+    /**
+     * 執行 刪除使用者
+     *
+     * @param   void
+     * @return  void
+     */
+    function action_do_del_user() {
+
+        if (!empty($_GET['id'])) {
+            // 刪除留言
+            $user = Model_Users::find_by_pk($_GET['id']);
+            if($user)
+            {
+                $user->delete();
+                echo "<script>alert('刪除成功');</script>";
+                $return_msg = '成功刪除';
+            }
+        }
+        // 重導向至 使用者管理頁面
+        return Response::redirect('root/show_user', 'refresh');
+
+    }
+
+    /**
+     * 修改使用者資料 顯示頁
+     *
+     * @param   void
+     * @return  void
+     */
+    function action_edit_user() {
+
+        $id = Input::get('id');
+        $entry = Model_Users::find_by_pk($id);
+
+        if($entry === null) {
+            // 沒找到時，重導向至 使用者管理頁面
+            return Response::redirect('root/show_user', 'refresh');
+            //echo 'no user';
+        } else {
+            $view = View::forge('root/edit_user');
+            $view->data = $entry;
+            return Response::forge($view);
+        }
+    }
+
+    /**
+     * 執行 修改使用者資料
+     *
+     * @param   void
+     * @return  void
+     */
+    function action_do_edit_user() {
+        if (!empty($_POST['Cancel'])) {
+
+        } elseif (!empty($_POST['submit'])) {
+            $user = Model_Users::find_by_pk($_POST['id']);
+            //print_r($user);
+            if($user === null) {
+                // 沒找到
+            } else {
+
+                $val = Validation::forge('my_validation');
+
+                // 驗證email 1、符合有效email格式
+                $val->add_field('email', 'Email', 'required|trim|valid_email');
+
+                $val->set_message('required', ':label 為必填.');
+                $val->set_message('valid_email', ':label 需要是正確的email格式');
+
+                $errors = array();
+                if ($val->run())
+                {
+                    $custmsg = '驗證成功';
+
+                    // 更新使用者資料
+                    $user->email = Input::post('email');
+                    $user->level = Input::post('level');
+                    $user->save();
+
+                    $custmsg = '更新資料成功!';
+                    echo "<script>alert('修改成功');</script>";
+
+                    //成功時回到原頁面
+                    return Response::redirect('root/show_user', 'refresh');
+
+                } else {
+                    $custmsg = '驗證失敗-由validation';
+
+                    $errors = $val->error();
+                    $view = View::forge('root/edit_user');
+                    $view->data = $user;
+
+                    // 設定錯誤訊息，導回重設密碼頁
+                    $view->messages = $errors;
+                    return Response::forge($view);
+                }
+            }
+        }
+        // 重導向至 使用者管理頁面
+        return Response::redirect('root/show_user', 'refresh');
+
+    }
+
+    /**
+     * 重設使用者密碼 顯示頁
+     *
+     * @param   void
+     * @return  void
+     */
+    function action_reset_user_pass() {
+        $id = Input::get('id');
+        $entry = Model_Users::find_by_pk($id);
+        if($entry === null) {
+            // 沒找到時，重導向至 使用者管理頁面
+            return Response::redirect('root/show_user', 'refresh');
+            //echo 'no user';
+        } else {
+            $view = View::forge('root/reset_user_pass');
+            $view->data = $entry;
+            return Response::forge($view);
+        }
+    }
+
+    /**
+     * 執行 重設使用者密碼
+     *
+     * @param   void
+     * @return  void
+     */
+    function action_do_reset_user_pass() {
+        if (!empty($_POST['Cancel'])) {
+            // 按下取消時，重導回 管理頁
+
+        } elseif (!empty($_POST['submit'])) {
+            $user = Model_Users::find_by_pk($_POST['id']);
+            if($user === null) {
+
+                // 沒找到時，重導回 管理頁
+                echo "<script>alert('重設失敗');</script>";
+            } else {
+
+                $val = Validation::forge('my_validation');
+
+                // 驗證password 1、長度1~30字
+                $val->add_field('password', '密碼', 'required|trim|min_length[1]|max_length[30]');
+
+                $val->set_message('required', ':label 為必填.');
+                $val->set_message('mix_length', ':label 字數過短.');
+                $val->set_message('max_length', ':label 字數過長.');
+
+                $errors = array();
+                if ($val->run())
+                {
+                    // 在驗證成功時處理你的東西
+                    $custmsg = '驗證成功';
+
+                    // 確認修改，完成後，重導回 管理頁
+                    $user->password = sha1(Input::post('password'));
+                    $user->save();
+                    echo "<script>alert('密碼重設成功');</script>";
+                    //echo 'do';
+
+                } else {
+                    $custmsg = '驗證失敗-由validation';
+                    $errors = $val->error();
+                    $view = View::forge('root/reset_user_pass');
+                    $view->data = $user;
+
+                    // 設定錯誤訊息，導回重設密碼頁
+                    $view->messages = $errors;
+                    return Response::forge($view);
+                }
+            }
+        }
+
+        // 重導向至 使用者管理頁面
+        return Response::redirect('root/show_user', 'refresh');
+
+    }
 }

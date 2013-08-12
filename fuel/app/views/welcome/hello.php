@@ -58,13 +58,14 @@
                 //print_r ($valid);
                 ?>
                 <?php echo Form::open(array('action' => 'hello', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
-                <p>       <?php echo Form::label('Username', 'username'); ?>
-                    <?php echo Form::input('username', Input::post('username', isset($valid) ? $valid->user : '')); ?>    </p>
+                <p>       <?php echo Form::label('留言者:', 'username'); ?>
+                    <?php echo Form::input('username', Input::post('username', isset($valid) ? $valid->user : ''),array('placeholder' => '留言者')); ?>    </p>
 
-                <p>       <?php echo Form::label('Email', 'email'); ?>
-                    <?php echo Form::input('email', Input::post('email', isset($valid) ? $valid->email : '')); ?>    </p>
+                <p>       <?php echo Form::label('Email:', 'email'); ?>
+                    <?php echo Form::input('email', Input::post('email', isset($valid) ? $valid->email : ''),array('placeholder' => 'Email')); ?>    </p>
 
-                <p>       <?php echo Form::label('Context', 'context'); ?> <?php echo Form::textarea('context', '', array('cols' => 60, 'rows' => 8)); ?>    </p>
+                <p>       <?php echo Form::label('留言內容:', 'context'); ?> <?php echo Form::textarea('context', '',
+                        array('cols' => 60, 'rows' => 8, 'placeholder' => '歡迎留言…')); ?>    </p>
                 <div class="actions">
                     <?php echo Form::submit(); ?>
                     <!--

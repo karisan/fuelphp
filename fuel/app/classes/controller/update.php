@@ -61,6 +61,8 @@ class Controller_Update extends Controller
                 $user->m_context = Input::post('context');
                 $user->save();
                 //echo "do update";
+                echo "<script>alert('修改成功');</script>";
+
             }
         }
         $view = View::forge('welcome/hello');

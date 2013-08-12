@@ -42,17 +42,16 @@
     </div>
 </div>
 <div class="container">
-
     <div class="row">
         <div class="span16">
             <?php echo Form::open(array('action' => './root/doadduser', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
-            <p>       <?php echo Form::label('Username', 'username'); ?>
+            <p>       <?php echo Form::label('使用者名稱', 'username'); ?>
                 <?php echo Form::input('username', Input::post('username', isset($username) ? $username : '')); ?>    </p>
 
-            <p>       <?php echo Form::label('Password', 'password'); ?>
+            <p>       <?php echo Form::label('密碼', 'password'); ?>
                 <?php echo Form::password('password'); ?>    </p>
 
-            <p>       <?php echo Form::label('RePassword', 'repassword'); ?>
+            <p>       <?php echo Form::label('再次輸入密碼', 'repassword'); ?>
                 <?php echo Form::password('repassword'); ?>    </p>
 
             <p>       <?php echo Form::label('Email', 'email'); ?>
