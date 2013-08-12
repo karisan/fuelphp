@@ -5,7 +5,7 @@ $valid = Session::get('valid');
   <!--
   <li><?php echo Html::anchor('.', 'Home') ?></li>
   -->
-  <li><?php echo Html::anchor('hello', 'Home') ?></li>
+  <li><?php echo Html::anchor('welcome', 'Home') ?></li>
   <li><?php echo Html::anchor('root/list1', 'List1') ?></li>
   <li><?php echo Html::anchor('root/list2', 'List2') ?></li>
   <li><?php echo Html::anchor('root/list3', 'List3') ?></li>

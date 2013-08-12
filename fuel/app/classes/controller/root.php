@@ -343,7 +343,7 @@ END;
 
         // 取消新增時，返回首頁
         if (!empty($_POST['Cancel'])) {
-            return Response::redirect('/hello', 'refresh');
+            return Response::redirect('/welcome', 'refresh');
         }
 
         $val = Validation::forge('my_validation');
@@ -411,7 +411,7 @@ END;
 
             $custmsg = '新增帳號成功!';
             //成功時回到原頁面
-            return Response::redirect('/hello', 'refresh');
+            return Response::redirect('/welcome', 'refresh');
         }
 
         //失敗時回原新增使用者介面

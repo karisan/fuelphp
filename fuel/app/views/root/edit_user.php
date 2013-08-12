@@ -44,7 +44,7 @@
 	<div class="container">
         <div class="row">
             <div>
-                <?php echo Form::open(array('action' => './root/do_edit_user',
+                <?php echo Form::open(array('action' => 'root/do_edit_user',
                                             'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
 
                 <p>       <?php echo Form::label('使用者名稱', 'username'); ?>

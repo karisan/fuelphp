@@ -23,52 +23,14 @@ class Controller_Welcome extends Controller
 {
 
     /**
-     * The basic welcome message
+     * 新增留言,使用post
      *
      * @access  public
      * @return  Response
      */
-    public function post_update()
+    public function action_addmsg()
     {
-        return Response::forge(View::forge('welcome/update'));
-    }
-
-    /**
-     * FuelPHP 原始的頁面，顯示welcome字樣
-     *
-     * @access  public
-     * @return  Response
-     */
-    public function action_index()
-    {
-        return Response::forge(View::forge('welcome/index'));
-    }
-
-    /**
-     * 登入後的首頁顯示，內含刪除、新增留言的處理
-     *
-     * @access  public
-     * @return  Response
-     */
-    public function action_hello()
-    {
-        //print_r($_POST);
-        //print_r($_GET);
-        //echo "action_hello()";
-
-        if (!empty($_GET['del_id'])) {
-
-            // 刪除留言
-            $user = Model_Message::find_by_pk($_GET['del_id']);
-            if($user)
-            {
-                $user->delete();
-                //echo '成功刪除';
-                $return_msg = '成功刪除';
-                echo "<script>alert('刪除成功');</script>";
-            }
-
-        } else if (!empty($_POST['username'])) {
+        if (!empty($_POST['username'])) {
 
             // 寫入DB，將留言資料顯示
             $user = Model_Message::forge()->set(array(
@@ -80,9 +42,41 @@ class Controller_Welcome extends Controller
 
             // 新增留言
             $result = $user->save();
-
+            echo "<script>alert('新增留言成功');</script>";
+            return Response::redirect('/welcome', 'refresh');
         }
+    }
 
+        /**
+     * 刪除留言,使用get取得del_id即刪除
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_delmsg()
+    {
+        if (!empty($_GET['del_id'])) {
+            // 刪除留言
+            $user = Model_Message::find_by_pk($_GET['del_id']);
+            if($user)
+            {
+                $user->delete();
+                //echo '成功刪除';
+                $return_msg = '成功刪除';
+                echo "<script>alert('刪除留言成功');</script>";
+            }
+            return Response::redirect('/welcome', 'refresh');
+        }
+    }
+
+    /**
+     * 登入後的首頁顯示，內含刪除、新增留言的處理
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_index()
+    {
         // 尋找所有主題，顯示最新20筆
         $entry = Model_Message::find(array(
                 'order_by' => array('m_id' => 'desc'),
@@ -90,6 +84,9 @@ class Controller_Welcome extends Controller
             ));
 
         //print_r(Session::get('valid'));
+
+        // 無設定值用法
+        // return Response::forge(View::forge('welcome/index'));
 
         $view = View::forge('welcome/hello');
         $view->data = $entry;

@@ -65,11 +65,11 @@ class Controller_Update extends Controller
 
             }
         }
-        $view = View::forge('welcome/hello');
+        //$view = View::forge('welcome/hello');
         //$view->data = $entry;
-        $view->name = 'karisan';
+        //$view->name = 'karisan';
         //return Response::forge($view);
-        return Response::redirect('/hello', 'refresh');
+        return Response::redirect('/welcome', 'refresh');
     }
 
 }

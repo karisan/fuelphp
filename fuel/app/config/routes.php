@@ -12,5 +12,5 @@ return array(
     'contact'   => 'contact',    // The main 404 route
     'admin'   => 'admin',    // The main 404 route
     */
-	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
+	//'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
 );

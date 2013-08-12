@@ -31,7 +31,7 @@ class Controller_Validate extends Controller_Template {
             $valid->email = $user->email;
             $valid->level = $user->level;
             Session::set('valid', $valid);
-            Response::redirect("/hello");
+            Response::redirect("welcome");
         } else {
             Session::set_flash('message', 'Failed Password');
             Session::set_flash('username', $username);
@@ -47,7 +47,7 @@ class Controller_Validate extends Controller_Template {
     public function action_logout() {
         // 登出時，刪除session，重導至/hello
         Session::delete('valid');
-        Response::redirect('/hello');
+        Response::redirect('welcome');
     }
 
     /**
@@ -75,7 +75,7 @@ class Controller_Validate extends Controller_Template {
         $valid = Session::get('valid');
         // 當已登入，則導向至 /hello
         if (isset($valid)) {
-            Response::redirect("/hello");
+            Response::redirect("welcome");
         }
 
         $this->template->page_title = 'Login';

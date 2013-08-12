@@ -46,7 +46,7 @@
             <div>
                 <div class="actions">
 
-                    <?php echo Form::open(array('action' => './root/do_reset_user_pass',
+                    <?php echo Form::open(array('action' => 'root/do_reset_user_pass',
                         'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
 
                     <p>       <?php echo Form::label('使用者名稱', 'username'); ?>

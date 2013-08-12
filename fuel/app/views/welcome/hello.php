@@ -51,13 +51,7 @@
 
         <div class="row">
             <div>
-                <?php
-                //print_r($_POST);
-                //print_r (Input::all());
-                //print_r($data);
-                //print_r ($valid);
-                ?>
-                <?php echo Form::open(array('action' => 'hello', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
+                <?php echo Form::open(array('action' => 'welcome/addmsg', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
                 <p>       <?php echo Form::label('留言者:', 'username'); ?>
                     <?php echo Form::input('username', Input::post('username', isset($valid) ? $valid->user : ''),array('placeholder' => '留言者')); ?>    </p>
 
@@ -85,23 +79,18 @@
         <div class="row">
                 <table border="1" class="table table-striped table-bordered table-hover">
                     <thead><tr><th colspan="3">留言版訊息</th></tr></thead>
-
-                    <?php
-                    $i=0;
-                    foreach ($data as $key => $rows)
-                    {
-                        //echo '<tr><td>'.$i++.'</td></tr>';
-                        //Firefox POST 傳值卡住，使用GET方式試試
-                        //echo '<tr><td rowspan="4"><a href="javascript:del_msg('.$rows['m_id'].');">刪除留言</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
-
-                        echo '<tr><td rowspan="4"><a href="?del_id='.$rows['m_id'].'"><i class="icon-remove"></i> 刪除</a><br><a href="update?m_id='.$rows['m_id'].'"><i class="icon-edit"></i> 更新</a></td><td>Name:</td><td>'.$rows['m_name'].'</td></tr>';
-                        echo '<tr><td>Time:</td><td>'.$rows['m_time'].'</td></tr>';
-                        echo '<tr><td>E-Mail:</td><td>'.$rows['m_email'].'</td></tr>';
-                        echo '<tr><td>Context:</td><td>'.$rows['m_context'].'</td></tr>';
-                        echo '<tr><td colspan="3">&nbsp;</td></tr>';
-                    }
-
-                    ?>
+                    <?php foreach ($data as $rows): ?>
+                        <tr><td rowspan="4">
+                                <?php echo Html::anchor("welcome/delmsg?del_id=".$rows['m_id'],html_tag('i', array('class' => 'icon-remove'),'').' 刪除')?>
+                                <br>
+                                <?php echo Html::anchor("update?m_id=".$rows['m_id'],html_tag('i', array('class' => 'icon-edit'),'').' 更新')?>
+                            </td>
+                            <td>Name:</td><td><?php echo $rows['m_name']; ?></td></tr>
+                        <tr><td>Time:</td><td><?php echo $rows['m_time']; ?></td></tr>
+                        <tr><td>E-Mail:</td><td><?php echo $rows['m_email']; ?></td></tr>
+                        <tr><td>Context:</td><td><?php echo $rows['m_context']; ?></td></tr>
+                        <tr><td colspan="3">&nbsp;</td></tr>
+                    <?php endforeach ?>
                 </table>
         </div>
         <script language="javascript">
