@@ -52,23 +52,18 @@
                 <table border="1" class="table table-striped table-bordered table-hover">
                     <thead><tr><th colspan="4">使用者管理</th></tr></thead>
                     <thead><tr><th>帳號</th><th>Email</th><th>權限</th><th>管理</th></tr></thead>
-
-                    <?php
-                    $i=0;
-                    foreach ($data as $key => $rows)
-                    {
-                        echo '<tr>';
-                        echo '<td>'.$rows['username'].'</td>';
-                        echo '<td>'.$rows['email'].'</td>';
-                        echo '<td>'.$rows['level'].'</td>';
-                        echo '<td>';
-                        echo '<a href="./edit_user?id='.$rows['id'].'"><i class="icon-edit"></i> 修改</a>&nbsp;&nbsp;';
-                        echo '<a href="./reset_user_pass?id='.$rows['id'].'"><i class="icon-refresh"></i> 重設密碼</a>&nbsp;&nbsp;';
-                        echo '<a href="./do_del_user?id='.$rows['id'].'"><i class="icon-remove"></i> 刪除</a>&nbsp;&nbsp;';
-                        echo '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
+                    <?php foreach ($data as $rows): ?>
+                    <tr>
+                        <td><?php echo $rows['username']; ?></td>
+                        <td><?php echo $rows['email']; ?></td>
+                        <td><?php echo $rows['level']; ?></td>
+                        <td>
+                        <?php echo Html::anchor('root/edit_user?id='.$rows['id'],html_tag('i', array('class' => 'icon-edit'),'').' 修改')?>&nbsp;&nbsp;
+                        <?php echo Html::anchor('root/reset_user_pass?id='.$rows['id'],html_tag('i', array('class' => 'icon-refresh'),'').' 重設密碼')?>&nbsp;&nbsp;
+                        <?php echo Html::anchor('root/do_del_user?id='.$rows['id'],html_tag('i', array('class' => 'icon-remove'),'').' 刪除')?>&nbsp;&nbsp;
+                        </td>
+                    </tr>
+                    <?php endforeach ?>
                 </table>
         </div>
 		<footer>

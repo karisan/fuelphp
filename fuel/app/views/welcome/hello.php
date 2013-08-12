@@ -93,10 +93,6 @@
                     <?php endforeach ?>
                 </table>
         </div>
-        <script language="javascript">
-            //del_msg(1);
-        </script>
-
 		<footer>
 			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>
 			<p>
