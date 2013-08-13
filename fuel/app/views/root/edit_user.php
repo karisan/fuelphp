@@ -71,7 +71,7 @@
                     <?php echo Form::submit(); ?>
                     <?php echo Form::submit('Cancel','Cancel'); ?>
                 </div>
-
+                <?php echo Form::close(); ?>
                 <?php if(isset($messages) and count($messages)>0): ?>
                     <div class="message">
                         <ul>

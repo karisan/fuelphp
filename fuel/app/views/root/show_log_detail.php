@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>重設密碼</title>
+	<title>使用者管理頁面</title>
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
@@ -42,41 +42,41 @@
 		</div>
 	</div>
 	<div class="container">
+        <!-- 載入 template 範例 -->
         <div class="row">
-            <div>
-                <div class="actions">
-
-                    <?php echo Form::open(array('action' => 'root/do_reset_user_pass',
-                        'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
-
-                    <p>       <?php echo Form::label('使用者名稱', 'username'); ?>
-                        <?php echo Form::label($data->username, 'username'); ?>    </p>
-
-                    <p>       <?php echo Form::label('密碼', 'password'); ?>
-                        <?php echo Form::password('password'); ?>    </p>
-
-                    <input type="hidden" name="id" value="<?php echo $data->id; ?>">
-
-                    <div class="actions">
-                        <?php echo Form::submit(); ?>
-                        <?php echo Form::submit('Cancel','Cancel'); ?>
-                    </div>
-                    <?php echo Form::close(); ?>
-                <?php if(isset($messages) and count($messages)>0) { ?>
-                    <div class="message">
-                        <ul>
-                            <?php
-                            foreach($messages as $msg)
-                            {
-                                echo '<li>', $msg,'</li>';
-                            }
-                            ?>
-                        </ul>
-                    </div>
-                <?php } ?>
-                </div>
+            <div class="span16">
+                <?php echo render("mylink"); ?>
             </div>
         </div>
+        <?php echo Form::open(array('action' => 'root/show_log'.'#log_'.$data->id)); ?>
+        <div class="row">
+            <h2>Log 詳細資料</h2>
+        </div>
+        <div class="row">
+            <?php
+            if ($data->status=='S') {
+                $tmp_status = '成功';
+            } elseif ($data->status=='F') {
+                $tmp_status = '失敗';
+            } elseif ($data->status=='S') {
+                $tmp_status = '資訊';
+            } else {
+                $tmp_status = '其它';
+            }
+            ?>
+            <table border="1" class="table table-bordered table-hover table-condensed">
+                <tr><td>編號:</td><td><?php echo $data->id ?></td></tr>
+                <tr><td>帳號:</td><td><?php echo $data->username ?></td></tr>
+                <tr><td>時間:</td><td><?php echo $data->time ?></td></tr>
+                <tr><td>IP:</td><td><?php echo $data->ip ?></td></tr>
+                <tr><td>動作:</td><td><?php echo $data->action ?></td></tr>
+                <tr><td>狀態:</td><td><?php echo $tmp_status ?></td></tr>
+                <tr><td>RUL:</td><td><?php echo $data->url ?></td></tr>
+                <tr><td>詳細:</td><td><pre><?php echo $data->info ?></pre></td></tr>
+                <tr><td colspan="2"><?php echo Form::submit(null,'回上頁'); ?></td></tr>
+            </table>
+        </div>
+        <?php echo Form::close(); ?>
 		<footer>
 			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>
 			<p>

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>重設密碼</title>
+	<title>使用者管理頁面</title>
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
@@ -42,40 +42,41 @@
 		</div>
 	</div>
 	<div class="container">
+        <!-- 載入 template 範例 -->
         <div class="row">
-            <div>
-                <div class="actions">
-
-                    <?php echo Form::open(array('action' => 'root/do_reset_user_pass',
-                        'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
-
-                    <p>       <?php echo Form::label('使用者名稱', 'username'); ?>
-                        <?php echo Form::label($data->username, 'username'); ?>    </p>
-
-                    <p>       <?php echo Form::label('密碼', 'password'); ?>
-                        <?php echo Form::password('password'); ?>    </p>
-
-                    <input type="hidden" name="id" value="<?php echo $data->id; ?>">
-
-                    <div class="actions">
-                        <?php echo Form::submit(); ?>
-                        <?php echo Form::submit('Cancel','Cancel'); ?>
-                    </div>
-                    <?php echo Form::close(); ?>
-                <?php if(isset($messages) and count($messages)>0) { ?>
-                    <div class="message">
-                        <ul>
-                            <?php
-                            foreach($messages as $msg)
-                            {
-                                echo '<li>', $msg,'</li>';
-                            }
-                            ?>
-                        </ul>
-                    </div>
-                <?php } ?>
-                </div>
+            <div class="span16">
+                <?php echo render("mylink"); ?>
             </div>
+        </div>
+        <div class="row">
+                <table border="1" class="table table-striped table-bordered table-hover">
+                    <thead><tr><th colspan="8">Log記錄</th></tr></thead>
+                    <thead><tr><th width="15">編號</th><th width="20">帳號</th><th>時間</th><th>IP</th><th>動作</th><th>狀態</th><th>RUL</th><th>詳細</th></tr></thead>
+                    <?php foreach ($data as $rows): ?>
+                    <?php
+                    /*
+                    if ($rows['status']=='S') {
+                        $tmp_status = '成功';
+                    } elseif ($rows['status']=='F') {
+                        $tmp_status = '失敗';
+                    } elseif ($rows['status']=='S') {
+                        $tmp_status = '資訊';
+                    } else {
+                        $tmp_status = '其它';
+                    }*/
+                    ?>
+                    <tr id="log_<?php echo $rows['id']; ?>" onclick="window.location='<?php echo Uri::create('root/show_log_detail?id='.$rows['id']); ?>'">
+                        <td><?php echo $rows['id']; ?></td>
+                        <td><?php echo substr($rows['username'], 0, 15); ?></td>
+                        <td><?php echo $rows['time']; ?></td>
+                        <td><?php echo $rows['ip']; ?></td>
+                        <td><?php echo substr($rows['action'], 0, 20); ?></td>
+                        <td><?php echo $rows['status']; ?></td>
+                        <td><?php echo substr($rows['url'], 0, 50); ?></td>
+                        <td><?php echo substr($rows['info'], 0, 50); ?></td>
+                    </tr>
+                    <?php endforeach ?>
+                </table>
         </div>
 		<footer>
 			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>

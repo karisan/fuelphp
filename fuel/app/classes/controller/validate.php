@@ -15,15 +15,38 @@ class Controller_Validate extends Controller_Template {
      * @return  void
      */
     public function action_auth() {
+
         $username = trim(Input::param('username'));
         $password = Input::param('password');
         $user = Model_Users::find_one_by_username($username);
+
+        // log 宣告設定
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
         if (is_null($user)) {
+
+            // 新增操作log
+            $mylog->user_action_log($username, 'login', 'F', 'no user:'.$username);
+
             // 錯誤時，清session，重導至登入頁 /validate/login
             Session::set_flash('message', 'Failed Username');
             Response::redirect("validate/login");
-        }
-        elseif (sha1($password) === $user->password) {
+        } elseif (sha1($password) === $user->password) {
+
+            // 新更最後登入時間
+            $user->last_login = time();
+            $user->save();
+
+
+            // 新增操作log, 成功登入
+            $mylog->user_action_log($user->username, 'login', 'S', 'login success:'.$username);
+
+            // 試用 Log 套件
+            //Log::write('Link','FILE: '.__FILE__);
+            //Log::write('Link','FUNCTION: '.__FUNCTION__);
+            //Log::write('Link','CLASS: '.__CLASS__);
+            //Log::write('Link','METHOD: '.__METHOD__);
+
             // 正確登入時，設定session，重導至/hello
             $valid = new stdClass();
             $valid->user = $user->username;
@@ -32,7 +55,11 @@ class Controller_Validate extends Controller_Template {
             $valid->level = $user->level;
             Session::set('valid', $valid);
             Response::redirect("welcome");
+
         } else {
+            // 新增操作log
+            $mylog->user_action_log($username, 'login', 'F', 'login fail:'.$username );
+
             Session::set_flash('message', 'Failed Password');
             Session::set_flash('username', $username);
             Response::redirect("validate/login");
@@ -45,6 +72,18 @@ class Controller_Validate extends Controller_Template {
      * @return  void
      */
     public function action_logout() {
+        // 新增操作log
+        $log_username = 'guest';
+        if (isset(Session::get('valid')->user)) {
+            $log_username = Session::get('valid')->user;
+        }
+
+        // log 宣告設定
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
+        // 新增操作log, I - info
+        $mylog->user_action_log($log_username, 'logout', 'I', 'logout:'.$log_username);
+
         // 登出時，刪除session，重導至/hello
         Session::delete('valid');
         Response::redirect('welcome');

@@ -44,9 +44,9 @@ class Controller_Hello extends Controller
      */
     public function action_buddy($name = 'buddy')
     {
-        $this->response->body = View::factory('hello', array(
-                'name' => $name,
-            ));
+        $view = View::forge('hello');
+        $view->name = $name;
+        return Response::forge($view);
     }
 
 }

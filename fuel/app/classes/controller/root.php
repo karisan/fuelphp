@@ -8,6 +8,27 @@
  * @author    karisan
  */
 class Controller_Root extends Controller_Template {
+
+    public function __construct() {
+        // $common_js is too complex to create as a data member directly
+        // so define it here instead
+        $isValidURL = Uri::create('validate/isvalid');
+        $this->common_js = <<<END
+$(window).load(function() {
+  $.getJSON("$isValidURL", function(valid) { if (!valid) location.reload() })
+});
+$(window).unload(function() { });
+END;
+    }
+
+    // 當未登入時，則會以此功能，配合JS將無權限的user踢出
+    public function before() {
+        parent::before();
+        if (is_null(Session::get('valid'))) {
+            Response::redirect('/validate/expired');
+        }
+    }
+
     /**
      * 顯示購物車功能的首頁
      *
@@ -310,23 +331,13 @@ END;
      * @return  Response
      */
     function action_adduser() {
-        /*
-        $id = Input::param('id');
-        $cart = Session::get('cart');
-        if (is_null($cart) || !isset($cart[$id])) {
-            $cart[$id] = 1;
-        } else {
-            ++$cart[$id];
-        }
-        */
         //Session::set('cart', $cart);
         //Response::redirect("root/cart");
-        $view = View::forge('root/adduser');
-        //$view->data = $entry;
-        //$view->name = 'karisan';
+        $view = View::forge('root/adduser',null,false);
         $view->valid = Session::get('valid');
+        // 驗證是否登入的js
+        $view->js = $this->common_js;
         return Response::forge($view);
-
     }
 
     /**
@@ -336,7 +347,17 @@ END;
      * @return  Response
      */
     function action_doadduser() {
-        //print_r(Input::post());
+
+        // log 處理
+        $tmp_username = 'guest';
+        $tmp_log_action = 'add_user';
+
+        if (!is_null(Session::get('valid'))) {
+            $tmp_username = Session::get('valid')->user;
+        }
+
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
 
         $custmsg = '';
         $doflag = true;
@@ -397,17 +418,26 @@ END;
                     'username' => Input::post('username'),
                     'email' => Input::post('email'),
                     'password' => sha1(Input::post('password')),
-                    'm_time' => date("Y/m/d H:i:s"),
                     'level' => Input::post('level'),
                     'created_at' => time(),
                     'updated_at' => time(),
                     'group' => '1',
-                    'last_login' => time(),
+                    'last_login' => '0',
                     'login_hash' => '',
                     'profile_fields' => '',
                 ));
+
+            // 將log內容串起來
+            $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+            $tmp_info .= 'username:'.Input::post('username')."\n";
+            $tmp_info .= 'email:'.Input::post('email')."\n";
+            $tmp_info .= 'level:'.Input::post('level')."\n";
+
             // 新增使用者
             $user->save();
+
+            // 寫入 log
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
             $custmsg = '新增帳號成功!';
             //成功時回到原頁面
@@ -425,6 +455,18 @@ END;
         // 測試用空白頁
         // $view = View::forge('empty');
         // return Response::forge($view);
+
+        $custmsg = '新增帳號失敗-欄位驗證失敗!';
+
+        // 將log內容串起來
+        $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+        $tmp_info .= 'username:'.Input::post('username')."\n";
+        $tmp_info .= 'email:'.Input::post('email')."\n";
+        $tmp_info .= 'level:'.Input::post('level')."\n";
+        $tmp_info .= 'fail:'.$custmsg."\n";
+
+        // 寫入 log
+        $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
 
         // 導回新增使用者頁面
         $view = View::forge('root/adduser');
@@ -460,10 +502,14 @@ END;
      */
     function action_show_user() {
 
+        $id = '1';
+        if (isset(Session::get('valid')->id)) {
+            $id = Session::get('valid')->id;
+        }
         // 尋找所有使用者, 但不顯示自己
         $entry = Model_Users::find(array(
                 'where' => array(
-                    array('id', '<>', Session::get('valid')->id),
+                    array('id', '<>', $id),
                 ),
                 'order_by' => array('id' => 'asc'),
             ));
@@ -486,11 +532,30 @@ END;
     function action_do_del_user() {
 
         if (!empty($_GET['id'])) {
+            // log 處理
+            $tmp_username = 'guest';
+            $tmp_log_action = 'del_user';
+
+            if (!is_null(Session::get('valid'))) {
+                $tmp_username = Session::get('valid')->user;
+            }
+
+            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
             // 刪除留言
             $user = Model_Users::find_by_pk($_GET['id']);
             if($user)
             {
+                // 將log內容串起來
+                $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+                $tmp_info .= 'id:'.$user->id."\n";
+                $tmp_info .= 'name:'.$user->username."\n";
+
                 $user->delete();
+
+                // 寫入 log
+                $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
+
                 echo "<script>alert('刪除成功');</script>";
                 $return_msg = '成功刪除';
             }
@@ -529,13 +594,33 @@ END;
      * @return  Response
      */
     function action_do_edit_user() {
+
         if (!empty($_POST['Cancel'])) {
 
         } elseif (!empty($_POST['submit'])) {
+
+            // log 處理
+            $tmp_username = 'guest';
+            $tmp_log_action = 'edit_user';
+
+            if (!is_null(Session::get('valid'))) {
+                $tmp_username = Session::get('valid')->user;
+            }
+
+            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
+
             $user = Model_Users::find_by_pk($_POST['id']);
-            //print_r($user);
             if($user === null) {
                 // 沒找到
+
+                // log 內容串起來
+                $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+                $tmp_info .= 'id:'.$_POST['id']." not found.\n";
+
+                // 寫入 log
+                $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
+
             } else {
 
                 $val = Validation::forge('my_validation');
@@ -554,7 +639,19 @@ END;
                     // 更新使用者資料
                     $user->email = Input::post('email');
                     $user->level = Input::post('level');
+                    $user->updated_at = time();
+
+                    // 新增的內容串起來
+                    $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+                    $tmp_info .= 'id:'.$user->id."\n";
+                    $tmp_info .= 'name:'.$user->username."\n";
+                    $tmp_info .= 'email:'.Input::post('email')."\n";
+                    $tmp_info .= 'level:'.Input::post('level')."\n";
+
                     $user->save();
+
+                    // 寫入 log
+                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
                     $custmsg = '更新資料成功!';
                     echo "<script>alert('修改成功');</script>";
@@ -563,7 +660,18 @@ END;
                     return Response::redirect('root/show_user', 'refresh');
 
                 } else {
-                    $custmsg = '驗證失敗-由validation';
+                    $custmsg = '修改使用者資料失敗-由validation';
+
+                    // 新增的內容串起來
+                    $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+                    $tmp_info .= 'id:'.$user->id."\n";
+                    $tmp_info .= 'name:'.$user->username."\n";
+                    $tmp_info .= 'email:'.Input::post('email')."\n";
+                    $tmp_info .= 'level:'.Input::post('level')."\n";
+                    $tmp_info .= 'fail:'."$custmsg \n";
+
+                    // 寫入 log
+                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
 
                     $errors = $val->error();
                     $view = View::forge('root/edit_user');
@@ -607,12 +715,28 @@ END;
      * @return  Response
      */
     function action_do_reset_user_pass() {
+
+        // log 處理
+        $tmp_log_action = 'reset_user_password';
+        $tmp_username = 'guest';
+        if (!is_null(Session::get('valid'))) {
+            $tmp_username = Session::get('valid')->user;
+        }
+
         if (!empty($_POST['Cancel'])) {
             // 按下取消時，重導回 管理頁
 
         } elseif (!empty($_POST['submit'])) {
+
+            // log 宣告
+            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
             $user = Model_Users::find_by_pk($_POST['id']);
             if($user === null) {
+
+                // 將內容串起來
+                $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
+                $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
 
                 // 沒找到時，重導回 管理頁
                 echo "<script>alert('重設失敗');</script>";
@@ -633,14 +757,31 @@ END;
                     // 在驗證成功時處理你的東西
                     $custmsg = '驗證成功';
 
+                    // 將內容串起來
+                    $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
+                    $tmp_info .= 'reset username:'.$user->username."\n";
+
                     // 確認修改，完成後，重導回 管理頁
                     $user->password = sha1(Input::post('password'));
+                    $user->updated_at = time();
                     $user->save();
+
+                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
+
                     echo "<script>alert('密碼重設成功');</script>";
                     //echo 'do';
 
                 } else {
-                    $custmsg = '驗證失敗-由validation';
+
+                    $custmsg = '密碼重設失敗-由validation';
+
+                    // 將內容串起來
+                    $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
+                    $tmp_info .= 'reset username:'.$user->username."\n";
+                    $tmp_info .= 'fail:'.$custmsg."\n";
+
+                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
+
                     $errors = $val->error();
                     $view = View::forge('root/reset_user_pass');
                     $view->data = $user;
@@ -654,6 +795,56 @@ END;
 
         // 重導向至 使用者管理頁面
         return Response::redirect('root/show_user', 'refresh');
+    }
+
+    /**
+     * 顯示log 列表頁面
+     *
+     * @param   void
+     * @return  Response
+     */
+    function action_show_log() {
+
+        if (isset(Session::get('valid')->id)) {
+            $id = Session::get('valid')->id;
+        }
+
+        // 尋找所有使用者, 但不顯示自己
+        $entry = Model_Actionlog::find(array(
+                'order_by' => array('id' => 'desc'),
+            ));
+
+        $view = View::forge('root/show_log');
+        $view->data = $entry;
+
+        // 若未登入時，不允許進入此頁
+        $view->valid = Session::get('valid');
+        return Response::forge($view);
 
     }
+
+    /**
+     * 顯示 單一log 頁面
+     *
+     * @param   void
+     * @return  Response
+     */
+    function action_show_log_detail() {
+
+        // 顯示單一log
+        $id = Input::param('id');
+        $entry = Model_Actionlog::find_by_pk($id);
+        if (is_null($id) || !isset($entry)) {
+            // 重導向至 使用者管理頁面
+            return Response::redirect('root/show_user', 'refresh');
+        }
+
+        $view = View::forge('root/show_log_detail');
+        $view->data = $entry;
+
+        // 若未登入時，不允許進入此頁
+        $view->valid = Session::get('valid');
+        return Response::forge($view);
+    }
+
 }

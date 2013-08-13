@@ -6,6 +6,11 @@
     <?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('function.js'); ?>
+    <script type='text/javascript'>
+        //<![CDATA[
+        <?php if (isset($js)) echo $js; ?>
+        //]]>
+    </script>
     <style>
         #logo{
             display: block;

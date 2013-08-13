@@ -60,6 +60,20 @@ class Controller_Update extends Controller
                 $user->m_email = Input::post('email');
                 $user->m_context = Input::post('context');
                 $user->save();
+
+                $tmp_username = 'guest';
+                if (!is_null(Session::get('valid'))) {
+                    $tmp_username = Session::get('valid')->user;
+                }
+
+                $tmp_info = 'name:'.Input::post('username')."\n";
+                $tmp_info .= 'email:'.Input::post('email')."\n";
+                $tmp_info .= 'context:'.Input::post('context')."\n";
+
+                // log 宣告設定
+                $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+                $mylog->user_action_log($tmp_username, 'edit_message', 'S', $tmp_info);
+
                 //echo "do update";
                 echo "<script>alert('修改成功');</script>";
 

@@ -2,20 +2,20 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: karisan
- * Date: 2013/8/5
- * Time: 上午 10:04
+ * Date: 2013/8/12
+ * Time: 下午 6:33
  * To change this template use File | Settings | File Templates.
  */
 
 /**
- * 儲存使用者資料
+ * 儲存user各種操作的記錄
  * @author  karisan
  */
-class Model_Users extends \Model_Crud {
+class Model_Actionlog extends \Model_Crud {
     /**
      * @var Table 名稱
      */
-    protected static $_table_name = 'users';
+    protected static $_table_name = 'action_log';
 
     /**
      * @var Table PK
@@ -28,15 +28,12 @@ class Model_Users extends \Model_Crud {
     protected static $_properties = array(
         'id',
         'username',
-        'password',
-        'level',
-        'email',
-        'created_at',
-        'updated_at',
-        'group',
-        'last_login',
-        'last_hash',
-        'porfile_fields',
+        'time',
+        'ip',
+        'action',
+        'status',
+        'url',
+        'info',
     );
 
 }
