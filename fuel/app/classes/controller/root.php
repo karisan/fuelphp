@@ -9,6 +9,11 @@
  */
 class Controller_Root extends Controller_Template {
 
+    /**
+     *
+     * 產生js,當使用者無權限時，則會自動reload，被踢出
+     *
+     */
     public function __construct() {
         // $common_js is too complex to create as a data member directly
         // so define it here instead
@@ -21,7 +26,13 @@ $(window).unload(function() { });
 END;
     }
 
-    // 當未登入時，則會以此功能，配合JS將無權限的user踢出
+    /**
+     * 踢出未登入的使用者，當未登入時，
+     * 則會以此功能，配合JS將無權限的user踢出
+     *
+     * @param   void
+     * @return  void
+     */
     public function before() {
         parent::before();
         if (is_null(Session::get('valid'))) {

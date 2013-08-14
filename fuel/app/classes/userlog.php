@@ -18,7 +18,7 @@
 class UserLog
 {
     /**
-     * @var
+     * @var 將 magic constant 串成參數，之後會放在info欄位開頭
      */
     protected static $init_info = '';
 

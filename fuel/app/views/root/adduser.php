@@ -49,7 +49,7 @@
 <div class="container">
     <div class="row">
         <div class="span16">
-            <?php echo Form::open(array('action' => './root/doadduser', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
+            <?php echo Form::open(array('action' => 'root/doadduser', 'method' => 'post', 'id' => 'myform','name' => 'myform')); ?>
             <p>       <?php echo Form::label('使用者名稱', 'username'); ?>
                 <?php echo Form::input('username', Input::post('username', isset($username) ? $username : '')); ?>    </p>
 
