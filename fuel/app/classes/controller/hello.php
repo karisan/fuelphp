@@ -31,7 +31,14 @@ class Controller_Hello extends Controller
      */
     public function action_index()
     {
-        phpinfo();
+        // phpinfo();
+        echo '__NAMESPACE__:'.__NAMESPACE__;
+        //echo "Hello World!";
+    }
+
+    public function qq($argv='')
+    {
+        return $argv;
         //echo "Hello World!";
     }
 
@@ -48,5 +55,4 @@ class Controller_Hello extends Controller
         $view->name = $name;
         return Response::forge($view);
     }
-
 }
