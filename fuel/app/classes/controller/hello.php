@@ -19,8 +19,6 @@
  * @package  app
  * @extends  Controller
  */
-namespace Fuel;
-
 class Controller_Hello extends Controller
 {
     /**
