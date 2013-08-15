@@ -79,7 +79,6 @@ class Controller_Validate extends Controller_Template {
 
         // log 宣告設定
         $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
-
         // 新增操作log, I - info
         $mylog->user_action_log($log_username, 'logout', 'I', 'logout:'.$log_username);
 

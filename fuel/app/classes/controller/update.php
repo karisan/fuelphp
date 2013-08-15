@@ -67,7 +67,6 @@ class Controller_Update extends Controller
                 $tmp_info = 'name:'.Input::post('username')."\n";
                 $tmp_info .= 'email:'.Input::post('email')."\n";
                 $tmp_info .= 'context:'.Input::post('context')."\n";
-
                 // log 宣告設定
                 $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
                 $mylog->user_action_log($tmp_username, 'edit_message', 'S', $tmp_info);

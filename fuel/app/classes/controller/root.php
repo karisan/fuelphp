@@ -456,15 +456,14 @@ END;
                     'profile_fields' => '',)
             );
 
+            // 新增使用者
+            $user->save();
+
             // 將log內容串起來
             $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
             $tmp_info .= 'username:'.Input::post('username')."\n";
             $tmp_info .= 'email:'.Input::post('email')."\n";
             $tmp_info .= 'level:'.Input::post('level')."\n";
-
-            // 新增使用者
-            $user->save();
-
             // 寫入 log
             $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
@@ -493,7 +492,6 @@ END;
         $tmp_info .= 'email:'.Input::post('email')."\n";
         $tmp_info .= 'level:'.Input::post('level')."\n";
         $tmp_info .= 'fail:'.$custmsg."\n";
-
         // 寫入 log
         $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
 
@@ -580,13 +578,13 @@ END;
             // 刪除留言
             $user = Model_Users::find_by_pk($_GET['id']);
             if ($user) {
+                // 刪除
+                $user->delete();
+
                 // 將log內容串起來
                 $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
                 $tmp_info .= 'id:'.$user->id."\n";
                 $tmp_info .= 'name:'.$user->username."\n";
-
-                $user->delete();
-
                 // 寫入 log
                 $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
@@ -652,7 +650,6 @@ END;
                 // log 內容串起來
                 $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
                 $tmp_info .= 'id:'.$_POST['id']." not found.\n";
-
                 // 寫入 log
                 $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
             } else {
@@ -672,6 +669,7 @@ END;
                     $user->email = Input::post('email');
                     $user->level = Input::post('level');
                     $user->updated_at = time();
+                    $user->save();
 
                     // 新增的內容串起來
                     $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
@@ -679,9 +677,6 @@ END;
                     $tmp_info .= 'name:'.$user->username."\n";
                     $tmp_info .= 'email:'.Input::post('email')."\n";
                     $tmp_info .= 'level:'.Input::post('level')."\n";
-
-                    $user->save();
-
                     // 寫入 log
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
@@ -700,7 +695,6 @@ END;
                     $tmp_info .= 'email:'.Input::post('email')."\n";
                     $tmp_info .= 'level:'.Input::post('level')."\n";
                     $tmp_info .= 'fail:'.$custmsg." \n";
-
                     // 寫入 log
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
 
@@ -785,15 +779,14 @@ END;
                     // 在驗證成功時處理你的東西
                     $custmsg = '驗證成功';
 
-                    // 將內容串起來
-                    $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
-                    $tmp_info .= 'reset username:'.$user->username."\n";
-
                     // 確認修改，完成後，重導回 管理頁
                     $user->password = sha1(Input::post('password'));
                     $user->updated_at = time();
                     $user->save();
 
+                    // 將內容串起來
+                    $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
+                    $tmp_info .= 'reset username:'.$user->username."\n";
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
                     echo "<script>alert('密碼重設成功');</script>";
@@ -805,7 +798,6 @@ END;
                     $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
                     $tmp_info .= 'reset username:'.$user->username."\n";
                     $tmp_info .= 'fail:'.$custmsg."\n";
-
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
 
                     $errors = $val->error();

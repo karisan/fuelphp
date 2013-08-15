@@ -53,7 +53,6 @@ class Controller_Welcome extends Controller
             $tmp_info .= 'name:'.Input::post('username')."\n";
             $tmp_info .= 'email:'.Input::post('email')."\n";
             $tmp_info .= 'context:'.Input::post('context')."\n";
-
             // 寫入 log
             $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
             $mylog->user_action_log($tmp_username, 'add_message', 'S', $tmp_info);
@@ -82,15 +81,14 @@ class Controller_Welcome extends Controller
                     $tmp_username = Session::get('valid')->user;
                 }
 
+                // 刪除
+                $user->delete();
+
                 // 新增的內容串起來
                 $tmp_info = 'id:'.$user->m_id."\n";
                 $tmp_info .= 'name:'.$user->m_name."\n";
                 $tmp_info .= 'email:'.$user->m_email."\n";
                 $tmp_info .= 'context:'.$user->m_context."\n";
-
-                // 刪除
-                $user->delete();
-
                 // 寫入 log
                 $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
                 $mylog->user_action_log($tmp_username, 'del_message', 'S', $tmp_info);
