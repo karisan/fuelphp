@@ -32,12 +32,12 @@ class Controller_Welcome extends Controller
     {
         if (!empty($_POST['username'])) {
             // 寫入DB，將留言資料顯示
-            $user = Model_Message::forge()->set(array(
-                    'm_name' => $_POST['username'],
+            $user = Model_Message::forge()->set(
+                array('m_name' => $_POST['username'],
                     'm_email' => $_POST['email'],
                     'm_context' => $_POST['context'],
-                    'm_time' => date("Y/m/d H:i:s"),
-                ));
+                    'm_time' => date('Y/m/d H:i:s'))
+            );
 
             // 新增留言
             $result = $user->save();
@@ -75,8 +75,7 @@ class Controller_Welcome extends Controller
         if (!empty($_GET['del_id'])) {
             // 刪除留言
             $user = Model_Message::find_by_pk($_GET['del_id']);
-            if($user)
-            {
+            if ($user) {
                 // log 處理
                 $tmp_username = 'guest';
                 if (!is_null(Session::get('valid'))) {
@@ -100,6 +99,7 @@ class Controller_Welcome extends Controller
                 $return_msg = '成功刪除';
                 echo "<script>alert('刪除留言成功');</script>";
             }
+
             return Response::redirect('/welcome', 'refresh');
         }
     }
@@ -113,10 +113,11 @@ class Controller_Welcome extends Controller
     public function action_index()
     {
         // 尋找所有主題，顯示最新20筆
-        $entry = Model_Message::find(array(
+        $entry = Model_Message::find(
+            array(
                 'order_by' => array('m_id' => 'desc'),
-                'limit' => 20,
-            ));
+                'limit' => 20,)
+        );
 
         //print_r(Session::get('valid'));
 

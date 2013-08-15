@@ -31,7 +31,12 @@ class UserLog
      * @param	$c_method = ''		傳入__METHOD__
      * @return  Controller_Userlog
      */
-    public static function forge($c_file='',$c_function='',$c_class='',$c_method='') {
+    public static function forge(
+        $c_file = '',
+        $c_function = '',
+        $c_class = '',
+        $c_method = ''
+    ) {
         $tmp = '';
         $tmp .= 'FILE: '.$c_file."\n";
         $tmp .= 'FUNCTION: '.$c_function."\n";
@@ -51,24 +56,29 @@ class UserLog
      * @return  void
      */
 
-    public static function user_action_log($log_user='guest',$log_action='login',$log_status='S',$log_info='none') {
-
+    public static function user_action_log(
+        $log_user = 'guest',
+        $log_action = 'login',
+        $log_status = 'S',
+        $log_info = 'none'
+    ) {
         // 串成info的內容
-        $tmp_info = "";
+        $tmp_info = '';
         $tmp_info .= static::$init_info;
         $tmp_info .= $log_info;
 
         // 新增 操作log
-        $action_log = Model_Actionlog::forge()->set(array(
+        $action_log = Model_Actionlog::forge()->set(
+            array(
                 'username' => $log_user,
-                'time' => date("Y/m/d H:i:s"),
-                'ip' => $_SERVER["REMOTE_ADDR"],
+                'time' => date('Y/m/d H:i:s'),
+                'ip' => $_SERVER['REMOTE_ADDR'],
                 'action' => $log_action,
                 'status' => $log_status,
-                'url' => $_SERVER["REQUEST_METHOD"].' '.$_SERVER["REQUEST_URI"],
+                'url' => $_SERVER['REQUEST_METHOD'].' '.$_SERVER['REQUEST_URI'],
                 'info' => $tmp_info,
-            ));
+            )
+        );
         $action_log->save();
-
     }
 }

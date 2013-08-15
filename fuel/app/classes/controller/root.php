@@ -14,7 +14,8 @@ class Controller_Root extends Controller_Template {
      * 產生js,當使用者無權限時，則會自動reload，被踢出
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         // $common_js is too complex to create as a data member directly
         // so define it here instead
         $isValidURL = Uri::create('validate/isvalid');
@@ -33,7 +34,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function before() {
+    public function before()
+    {
         parent::before();
         if (is_null(Session::get('valid'))) {
             Response::redirect('/validate/expired');
@@ -46,7 +48,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_index() {
+    public function action_index()
+    {
         $this->template->page_title = 'Home';
         $data = array('valid' => Session::get('valid'));
         $this->template->content = View::forge('root/index', $data);
@@ -58,15 +61,17 @@ END;
      * @param   void
      * @return  void
      */
-    private function getOrder() {
+    private function getOrder()
+    {
         $order = Session::get('order');
         $dir = Session::get('dir');
         if (is_null($order)) {
             $order = 'title';
-            $dir = "asc";
+            $dir = 'asc';
             Session::set('order', $order);
             Session::set('dir', $dir);
         }
+
         return array($order, $dir);
     }
 
@@ -76,7 +81,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_list1() {
+    public function action_list1()
+    {
         $this->template->page_title = 'Book List';
 
         // if things in the session ordering get screwed up, try these:
@@ -86,9 +92,9 @@ END;
 
         Session::set('backto', Uri::string()); // current controller/action
 
-        $data['books'] = Model_Books::find(array(
-                'order_by' => array($order => $dir)
-            ));
+        $data['books'] = Model_Books::find(
+            array('order_by' => array($order => $dir))
+        );
 
         $this->template->content = View::forge('root/list1', $data);
 
@@ -101,7 +107,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_changeorder() {
+    public function action_changeorder()
+    {
         $order = Input::param('order');
         if ($order == Session::get('order')) {
             if (Session::get('dir') == 'asc') {
@@ -112,6 +119,7 @@ END;
         } else {
             Session::set('dir', 'asc');
         }
+
         Session::set('order', $order);
         Response::redirect(Session::get('backto'));
     }
@@ -122,7 +130,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_details() {
+    public function action_details()
+    {
         $id = Input::param('id');
         $book = Model_Books::find_by_pk($id);
         is_null($id) || !isset($book) and Response::redirect('/');
@@ -168,7 +177,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_list2() {
+    public function action_list2()
+    {
         $this->template->page_title = 'Book List: paginate';
 
         list($order, $dir) = $this->getOrder();
@@ -183,12 +193,12 @@ END;
 
         $data['numpages'] = ceil($total / $perpage);
         $data['curr_page'] = $curr_page;
-        $data['books'] = Model_Books::find(array(
+        $data['books'] = Model_Books::find(
+            array(
                 'order_by' => array($order => $dir),
                 'offset' => $offset,
-                'limit' => $perpage,
-            ));
-
+                'limit' => $perpage,)
+        );
         $this->template->content = View::forge('root/list2', $data);
 
         $this->template->css_files = array('listing.css');
@@ -249,16 +259,18 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_list3() {
+    public function action_list3()
+    {
         $this->template->page_title = 'Book List: fixed-height scroll';
 
         list($order, $dir) = $this->getOrder();
 
         Session::set('backto', Uri::string());
 
-        $data['books'] = Model_Books::find(array(
-                'order_by' => array($order => $dir)
-            ));
+        $data['books'] = Model_Books::find(
+            array(
+                'order_by' => array($order => $dir))
+        );
 
         $this->template->content = View::forge('root/list3', $data);
 
@@ -274,16 +286,18 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_list4() {
+    public function action_list4()
+    {
         $this->template->page_title = 'Book List: variable-height scroll';
 
         list($order, $dir) = $this->getOrder();
 
         Session::set('backto', Uri::string());
 
-        $data['books'] = Model_Books::find(array(
-                'order_by' => array($order => $dir)
-            ));
+        $data['books'] = Model_Books::find(
+            array(
+                'order_by' => array($order => $dir))
+        );
 
         $this->template->content = View::forge('root/list4', $data);
 
@@ -310,7 +324,8 @@ END;
      * @param   void
      * @return  void
      */
-    function action_cart() {
+    public function action_cart()
+    {
         $this->template->page_title = 'Cart';
         $cart = Session::get('cart');
         $data['cart'] = $cart;
@@ -323,7 +338,8 @@ END;
      * @param   void
      * @return  void
      */
-    function action_addtocart() {
+    public function action_addtocart()
+    {
         $id = Input::param('id');
         $cart = Session::get('cart');
         if (is_null($cart) || !isset($cart[$id])) {
@@ -331,8 +347,9 @@ END;
         } else {
             ++$cart[$id];
         }
+
         Session::set('cart', $cart);
-        Response::redirect("root/cart");
+        Response::redirect('root/cart');
     }
 
     /**
@@ -341,10 +358,11 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_adduser() {
+    public function action_adduser()
+    {
         //Session::set('cart', $cart);
-        //Response::redirect("root/cart");
-        $view = View::forge('root/adduser',null,false);
+        //Response::redirect('root/cart');
+        $view = View::forge('root/adduser', null, false);
         $view->valid = Session::get('valid');
         // 驗證是否登入的js
         $view->js = $this->common_js;
@@ -357,8 +375,8 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_doadduser() {
-
+    public function action_doadduser()
+    {
         // log 處理
         $tmp_username = 'guest';
         $tmp_log_action = 'add_user';
@@ -396,8 +414,7 @@ END;
         $val->set_message('valid_string', ':label 只允許英文、數字.');
 
         $errors = array();
-        if ($val->run())
-        {
+        if ($val->run()) {
             // 在驗證成功時處理你的東西
             $custmsg = '驗證成功';
         } else {
@@ -410,22 +427,23 @@ END;
 
         // 檢查密碼二次是否一致
         if (Input::post('password') != Input::post('repassword')) {
-            array_push($errors,'密碼不一致!');
+            array_push($errors, '密碼不一致!');
             $doflag = false;
         }
 
 
         // 檢查帳號是否重複
         $user = Model_Users::find_one_by('username', Input::post('username'));
-        if ($user!=null) {
-            array_push($errors,'帳號重複!請重新輸入!');
+        if ($user != null) {
+            array_push($errors, '帳號重複!請重新輸入!');
             $doflag = false;
         }
 
         //$doflag = false;
         if ($doflag) {
             // 寫入DB，將留言資料顯示
-            $user = Model_Users::forge()->set(array(
+            $user = Model_Users::forge()->set(
+                array(
                     'username' => Input::post('username'),
                     'email' => Input::post('email'),
                     'password' => sha1(Input::post('password')),
@@ -435,8 +453,8 @@ END;
                     'group' => '1',
                     'last_login' => '0',
                     'login_hash' => '',
-                    'profile_fields' => '',
-                ));
+                    'profile_fields' => '',)
+            );
 
             // 將log內容串起來
             $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
@@ -500,9 +518,10 @@ END;
      * @param   void
      * @return  void
      */
-    function action_clearcart() {
+    public function action_clearcart()
+    {
         Session::delete('cart');
-        Response::redirect("root/cart");
+        Response::redirect('root/cart');
     }
 
     /**
@@ -511,19 +530,23 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_show_user() {
+    public function action_show_user()
+    {
 
         $id = '1';
         if (isset(Session::get('valid')->id)) {
             $id = Session::get('valid')->id;
         }
+
         // 尋找所有使用者, 但不顯示自己
-        $entry = Model_Users::find(array(
+        $entry = Model_Users::find(
+            array(
                 'where' => array(
                     array('id', '<>', $id),
                 ),
                 'order_by' => array('id' => 'asc'),
-            ));
+            )
+        );
 
         $view = View::forge('root/show_user');
         $view->data = $entry;
@@ -540,7 +563,8 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_do_del_user() {
+    public function action_do_del_user()
+    {
 
         if (!empty($_GET['id'])) {
             // log 處理
@@ -555,8 +579,7 @@ END;
 
             // 刪除留言
             $user = Model_Users::find_by_pk($_GET['id']);
-            if($user)
-            {
+            if ($user) {
                 // 將log內容串起來
                 $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
                 $tmp_info .= 'id:'.$user->id."\n";
@@ -571,6 +594,7 @@ END;
                 $return_msg = '成功刪除';
             }
         }
+
         // 重導向至 使用者管理頁面
         return Response::redirect('root/show_user', 'refresh');
 
@@ -582,12 +606,13 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_edit_user() {
+    public function action_edit_user()
+    {
 
         $id = Input::get('id');
         $entry = Model_Users::find_by_pk($id);
 
-        if($entry === null) {
+        if ($entry === null) {
             // 沒找到時，重導向至 使用者管理頁面
             return Response::redirect('root/show_user', 'refresh');
             //echo 'no user';
@@ -604,12 +629,11 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_do_edit_user() {
-
+    public function action_do_edit_user()
+    {
         if (!empty($_POST['Cancel'])) {
-
+            //
         } elseif (!empty($_POST['submit'])) {
-
             // log 處理
             $tmp_username = 'guest';
             $tmp_log_action = 'edit_user';
@@ -622,7 +646,7 @@ END;
 
 
             $user = Model_Users::find_by_pk($_POST['id']);
-            if($user === null) {
+            if ($user === null) {
                 // 沒找到
 
                 // log 內容串起來
@@ -631,9 +655,7 @@ END;
 
                 // 寫入 log
                 $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
-
             } else {
-
                 $val = Validation::forge('my_validation');
 
                 // 驗證email 1、符合有效email格式
@@ -643,8 +665,7 @@ END;
                 $val->set_message('valid_email', ':label 需要是正確的email格式');
 
                 $errors = array();
-                if ($val->run())
-                {
+                if ($val->run()) {
                     $custmsg = '驗證成功';
 
                     // 更新使用者資料
@@ -669,7 +690,6 @@ END;
 
                     //成功時回到原頁面
                     return Response::redirect('root/show_user', 'refresh');
-
                 } else {
                     $custmsg = '修改使用者資料失敗-由validation';
 
@@ -679,7 +699,7 @@ END;
                     $tmp_info .= 'name:'.$user->username."\n";
                     $tmp_info .= 'email:'.Input::post('email')."\n";
                     $tmp_info .= 'level:'.Input::post('level')."\n";
-                    $tmp_info .= 'fail:'."$custmsg \n";
+                    $tmp_info .= 'fail:'.$custmsg." \n";
 
                     // 寫入 log
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
@@ -694,6 +714,7 @@ END;
                 }
             }
         }
+
         // 重導向至 使用者管理頁面
         return Response::redirect('root/show_user', 'refresh');
 
@@ -705,10 +726,11 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_reset_user_pass() {
+    public function action_reset_user_pass()
+    {
         $id = Input::get('id');
         $entry = Model_Users::find_by_pk($id);
-        if($entry === null) {
+        if ($entry === null) {
             // 沒找到時，重導向至 使用者管理頁面
             return Response::redirect('root/show_user', 'refresh');
             //echo 'no user';
@@ -725,8 +747,8 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_do_reset_user_pass() {
-
+    public function action_do_reset_user_pass()
+    {
         // log 處理
         $tmp_log_action = 'reset_user_password';
         $tmp_username = 'guest';
@@ -736,15 +758,12 @@ END;
 
         if (!empty($_POST['Cancel'])) {
             // 按下取消時，重導回 管理頁
-
         } elseif (!empty($_POST['submit'])) {
-
             // log 宣告
             $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
 
             $user = Model_Users::find_by_pk($_POST['id']);
-            if($user === null) {
-
+            if ($user === null) {
                 // 將內容串起來
                 $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
                 $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
@@ -752,7 +771,6 @@ END;
                 // 沒找到時，重導回 管理頁
                 echo "<script>alert('重設失敗');</script>";
             } else {
-
                 $val = Validation::forge('my_validation');
 
                 // 驗證password 1、長度1~30字
@@ -763,8 +781,7 @@ END;
                 $val->set_message('max_length', ':label 字數過長.');
 
                 $errors = array();
-                if ($val->run())
-                {
+                if ($val->run()) {
                     // 在驗證成功時處理你的東西
                     $custmsg = '驗證成功';
 
@@ -781,9 +798,7 @@ END;
 
                     echo "<script>alert('密碼重設成功');</script>";
                     //echo 'do';
-
                 } else {
-
                     $custmsg = '密碼重設失敗-由validation';
 
                     // 將內容串起來
@@ -814,16 +829,19 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_show_log() {
+    public function action_show_log()
+    {
 
         if (isset(Session::get('valid')->id)) {
             $id = Session::get('valid')->id;
         }
 
         // 尋找所有使用者, 但不顯示自己
-        $entry = Model_Actionlog::find(array(
+        $entry = Model_Actionlog::find(
+            array(
                 'order_by' => array('id' => 'desc'),
-            ));
+            )
+        );
 
         $view = View::forge('root/show_log');
         $view->data = $entry;
@@ -840,8 +858,8 @@ END;
      * @param   void
      * @return  Response
      */
-    function action_show_log_detail() {
-
+    public function action_show_log_detail()
+    {
         // 顯示單一log
         $id = Input::param('id');
         $entry = Model_Actionlog::find_by_pk($id);
@@ -857,5 +875,4 @@ END;
         $view->valid = Session::get('valid');
         return Response::forge($view);
     }
-
 }

@@ -15,7 +15,7 @@
  * @category
  * @author    karisan
  */
-class Controller_Books extends Controller_Protected {
+class Controller_MyBooks extends Controller_Protected {
 
     /**
      *
@@ -29,17 +29,13 @@ class Controller_Books extends Controller_Protected {
         $data = array();
 
         // 如果你按下提交按鈕，讓我們跑整個步驟。
-        if (Input::post())
-        {
+        if (Input::post()) {
             // 檢查認證，這裡假設你已經建立上表，且
             // 你已經使用如上所述的資料表定義和配置。
-            if (Auth::login())
-            {
+            if (Auth::login()) {
                 // 認證成功，進入。
                 Response::redirect('success_page');
-            }
-            else
-            {
+            } else {
                 // 哎呀，沒你的湯，再試著登入一次。設定一些值來
                 // 重填使用者名稱欄位，並給一些錯誤的文字到視圖。
                 $data['username']    = Input::post('username');
@@ -48,7 +44,6 @@ class Controller_Books extends Controller_Protected {
         }
 
         // 顯示登入表單。
-        echo View::forge('auth/login',$data);
+        echo View::forge('auth/login', $data);
     }
-
 }

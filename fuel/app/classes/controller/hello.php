@@ -19,9 +19,10 @@
  * @package  app
  * @extends  Controller
  */
+namespace Fuel;
+
 class Controller_Hello extends Controller
 {
-
     /**
      *
      * 輸入 /hello/index 時，會進入此頁，顯示基本文字訊息
@@ -34,9 +35,14 @@ class Controller_Hello extends Controller
         // phpinfo();
         echo '__NAMESPACE__:'.__NAMESPACE__;
         //echo "Hello World!";
+        if (0) {
+            echo '';
+        } else if (1) {
+            echo '';
+        }
     }
 
-    public function qq($argv='')
+    public function qq($argv = '')
     {
         return $argv;
         //echo "Hello World!";

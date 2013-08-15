@@ -12,7 +12,8 @@ class Controller_Books extends Controller_Protected {
      * 基本js code
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         // $common_js is too complex to create as a data member directly
         // so define it here instead
         $isValidURL = Uri::create('validate/isvalid');
@@ -41,11 +42,12 @@ END;
      * 驗證書本相關欄位
      *
      */
-    private function getValidator() {
+    private function getValidator()
+    {
         $validator = Validation::forge();
         $validator->add_field('title', 'title', 'trim|required');
-        $num_rule = function($val) {
-            return (bool) preg_match("/^\d+$/", $val);
+        $num_rule = function ($val) {
+            return (bool) preg_match('/^\d+$/', $val);
         };
         $validator->add('qty', 'qty')
             ->add_rule('trim')
@@ -61,14 +63,15 @@ END;
      * 新增 書本
      *
      */
-    public function action_add() {
+    public function action_add()
+    {
         $this->template->page_title = 'Add Book';
         $data = array(
-            "bindings" => array('paper', 'cloth'),
-            "title" => Input::param('title'),
-            "qty" => Input::param('qty'),
-            "binding" => Input::param('binding', 'paper'),
-            "message" => null,
+            'bindings' => array('paper', 'cloth'),
+            'title' => Input::param('title'),
+            'qty' => Input::param('qty'),
+            'binding' => Input::param('binding', 'paper'),
+            'message' => null,
         );
 
         if (!is_null(Input::param('doit'))) {
@@ -76,18 +79,20 @@ END;
             try {
                 if (!$validator->run(Input::all())) {
                     $data['errors'] = e($validator->error());
-                    throw new Exception("Validation Error");
+                    throw new Exception('Validation Error');
                 }
+
                 $book = Model_Books::forge();
                 $book->title = $validator->validated('title');
                 $book->quantity = $validator->validated('qty');
                 $book->binding = $data['binding'];
                 $book->save();
-                Response::redirect("/root/details?id=$book->id");
+                Response::redirect('/root/details?id='.$book->id);
             } catch (Exception $ex) {
                 $data['message'] = $ex->getMessage();
             }
         }
+
         $this->template->content = View::forge('books/add', $data);
 
         $this->template->style
@@ -100,7 +105,8 @@ END;
      * 修改書本
      *
      */
-    public function action_modify() {
+    public function action_modify()
+    {
         $this->template->page_title = 'Modify Book';
         $id = Input::param('id');
 
@@ -108,12 +114,12 @@ END;
         is_null($id) || is_null($book) and Response::redirect('/');
 
         $data = array(
-            "bindings" => array('paper', 'cloth'),
-            "id" => $id,
-            "title" => Input::param('title', $book->title),
-            "qty" => Input::param('qty', $book->quantity),
-            "binding" => Input::param('binding', $book->binding),
-            "message" => null,
+            'bindings' => array('paper', 'cloth'),
+            'id' => $id,
+            'title' => Input::param('title', $book->title),
+            'qty' => Input::param('qty', $book->quantity),
+            'binding' => Input::param('binding', $book->binding),
+            'message' => null,
         );
 
         if (!is_null(Input::param('doit'))) {
@@ -121,17 +127,19 @@ END;
             try {
                 if (!$validator->run(Input::all())) {
                     $data['errors'] = e($validator->error());
-                    throw new Exception("Validation Error");
+                    throw new Exception('Validation Error');
                 }
+
                 $book->title = $validator->validated('title');
                 $book->quantity = $validator->validated('qty');
                 $book->binding = $data['binding'];
                 $book->save();
-                Response::redirect("/root/details?id=$book->id");
+                Response::redirect('/root/details?id='.$book->id);
             } catch (Exception $ex) {
                 $data['message'] = $ex->getMessage();
             }
         }
+
         $this->template->content = View::forge('books/modify', $data);
 
         $this->template->style
@@ -144,7 +152,8 @@ END;
      * 刪除書本
      *
      */
-    public function action_delete() {
+    public function action_delete()
+    {
         $id = Input::param('id');
         $book = Model_Books::find_by_pk($id);
         is_null($id) || is_null($book) and Response::redirect('/');

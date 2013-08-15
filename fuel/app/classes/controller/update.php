@@ -15,9 +15,9 @@ class Controller_Update extends Controller
      * @param   void
      * @return  Response
      */
-	public function action_index()
-	{
-		//echo "Update";
+    public function action_index()
+    {
+        //echo "Update";
 
         $m_id = Input::get('m_id');
         $entry = Model_Message::find_by_pk($m_id);
@@ -31,7 +31,7 @@ class Controller_Update extends Controller
         $view->m_id = $m_id;
         $view->name = 'karisan';
         return Response::forge($view);
-	}
+    }
 
     /**
      * 確認修改 或 取消 時，由此處理
@@ -44,13 +44,11 @@ class Controller_Update extends Controller
         //echo "Update - post";
         //print_r($_POST);
         if (!empty($_POST['Cancel'])) {
-
             //echo "Redir";
-
         } elseif (!empty($_POST['submit'])) {
             $user = Model_Message::find_by_pk($_POST['m_id']);
             //print_r($user);
-            if($user === null) {
+            if ($user === null) {
                 // 沒找到
             } else {
                 // 確認修改
@@ -76,14 +74,13 @@ class Controller_Update extends Controller
 
                 //echo "do update";
                 echo "<script>alert('修改成功');</script>";
-
             }
         }
+
         //$view = View::forge('welcome/hello');
         //$view->data = $entry;
         //$view->name = 'karisan';
         //return Response::forge($view);
         return Response::redirect('/welcome', 'refresh');
     }
-
 }

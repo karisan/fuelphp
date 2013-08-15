@@ -14,7 +14,8 @@ class Controller_Validate extends Controller_Template {
      * @param   void
      * @return  void
      */
-    public function action_auth() {
+    public function action_auth()
+    {
 
         $username = trim(Input::param('username'));
         $password = Input::param('password');
@@ -24,15 +25,13 @@ class Controller_Validate extends Controller_Template {
         $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
 
         if (is_null($user)) {
-
             // 新增操作log
             $mylog->user_action_log($username, 'login', 'F', 'no user:'.$username);
 
             // 錯誤時，清session，重導至登入頁 /validate/login
             Session::set_flash('message', 'Failed Username');
-            Response::redirect("validate/login");
+            Response::redirect('validate/login');
         } elseif (sha1($password) === $user->password) {
-
             // 新更最後登入時間
             $user->last_login = time();
             $user->save();
@@ -54,15 +53,14 @@ class Controller_Validate extends Controller_Template {
             $valid->email = $user->email;
             $valid->level = $user->level;
             Session::set('valid', $valid);
-            Response::redirect("welcome");
-
+            Response::redirect('welcome');
         } else {
             // 新增操作log
-            $mylog->user_action_log($username, 'login', 'F', 'login fail:'.$username );
+            $mylog->user_action_log($username, 'login', 'F', 'login fail:'.$username);
 
             Session::set_flash('message', 'Failed Password');
             Session::set_flash('username', $username);
-            Response::redirect("validate/login");
+            Response::redirect('validate/login');
         }
     }
 
@@ -71,7 +69,8 @@ class Controller_Validate extends Controller_Template {
      * @param   void
      * @return  void
      */
-    public function action_logout() {
+    public function action_logout()
+    {
         // 新增操作log
         $log_username = 'guest';
         if (isset(Session::get('valid')->user)) {
@@ -94,7 +93,8 @@ class Controller_Validate extends Controller_Template {
      * @param   void
      * @return  Response
      */
-    public function action_isvalid() {
+    public function action_isvalid()
+    {
         $valid = Session::get('valid');
         $body = json_encode(isset($valid));
         $headers = array (
@@ -110,11 +110,12 @@ class Controller_Validate extends Controller_Template {
      * @param   void
      * @return  void
      */
-    public function action_login() {
+    public function action_login()
+    {
         $valid = Session::get('valid');
         // 當已登入，則導向至 /hello
         if (isset($valid)) {
-            Response::redirect("welcome");
+            Response::redirect('welcome');
         }
 
         $this->template->page_title = 'Login';
@@ -122,7 +123,7 @@ class Controller_Validate extends Controller_Template {
         $data['message'] = Session::get_flash('message');
         $data['username'] = Session::get_flash('username');
 
-        $this->template->content = View::forge('validate/login',$data);
+        $this->template->content = View::forge('validate/login', $data);
 
         $isValidURL = Uri::create('/validate/isvalid');
         $js = <<<END
@@ -131,14 +132,14 @@ $(window).load(function() {
 });
 $(window).unload(function() { });
 END;
-        $this->template->script = View::forge('script', array('js'=>$js), false);
+        $this->template->script = View::forge('script', array('js' => $js), false);
 
         $css = <<<END
 form td {
   padding: 0 15px 6px 0;
 }
 END;
-        $this->template->style = View::forge('style', array('css'=>$css), false);
+        $this->template->style = View::forge('style', array('css' => $css), false);
     }
 
     /**
@@ -146,7 +147,8 @@ END;
      * @param   void
      * @return  void
      */
-    public function action_expired() {
+    public function action_expired()
+    {
         $this->template->content = View::forge('validate/expired');
     }
 }
