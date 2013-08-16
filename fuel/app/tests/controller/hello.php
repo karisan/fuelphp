@@ -21,7 +21,7 @@ class Test_Controller_Hello extends TestCase
         $test = new Controller_Hello(Request::forge());
         $this->assertEquals('', $test->qq());
         $this->assertEquals('Hello', $test->qq('Hello'));
-        $this->assertEquals('AB', $test->qq('ABC'));
+        $this->assertEquals('ABC', $test->qq('ABC'));
         /*
         $this->assertEquals(
             'ABC',
