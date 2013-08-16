@@ -828,7 +828,7 @@ END;
             $id = Session::get('valid')->id;
         }
 
-        // 尋找所有使用者, 但不顯示自己
+        // 尋找所有log,最新在最前
         $entry = Model_Actionlog::find(
             array(
                 'order_by' => array('id' => 'desc'),
