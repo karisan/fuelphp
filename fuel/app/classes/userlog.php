@@ -67,15 +67,29 @@ class UserLog
         $tmp_info .= static::$init_info;
         $tmp_info .= $log_info;
 
+        if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+            $var_from_global = array(
+                'REMOTE_ADDR' => $_SERVER['REMOTE_ADDR'],
+                'REQUEST_METHOD' => $_SERVER['REQUEST_METHOD'],
+                'REQUEST_URI' => $_SERVER['REQUEST_URI'],
+            );
+        } else {
+            $var_from_global = array(
+                'REMOTE_ADDR' => '',
+                'REQUEST_METHOD' => '',
+                'REQUEST_URI' => '',
+            );
+        }
+
         // 新增 操作log
         $action_log = Model_Actionlog::forge()->set(
             array(
                 'username' => $log_user,
                 'time' => date('Y/m/d H:i:s'),
-                'ip' => $_SERVER['REMOTE_ADDR'],
+                'ip' => $var_from_global['REMOTE_ADDR'],
                 'action' => $log_action,
                 'status' => $log_status,
-                'url' => $_SERVER['REQUEST_METHOD'].' '.$_SERVER['REQUEST_URI'],
+                'url' => $var_from_global['REQUEST_METHOD'].' '.$var_from_global['REQUEST_URI'],
                 'info' => $tmp_info,
             )
         );
