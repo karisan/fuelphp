@@ -6,11 +6,6 @@
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <?php echo Asset::js('jquery-search.js'); ?>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#id').keyup();
-        });
-    </script>
     <style>
 		#logo{
 			display: block;

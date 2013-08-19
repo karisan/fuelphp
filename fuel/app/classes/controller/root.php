@@ -883,9 +883,11 @@ END;
         // 拼出查詢參數
         $cond = array();
         foreach ($arglist as $mykey) {
-            $myval = $_GET[$mykey];
+            $myval = Input::param($mykey);
             array_push($cond, array($mykey, 'like', '%'.$myval.'%'));
         }
+
+        //print_r($cond);
 
         // 尋找所有log,最新在最前
         $entry = Model_Actionlog::find(
