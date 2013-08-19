@@ -845,6 +845,82 @@ END;
     }
 
     /**
+     * 顯示log 列表頁面 for ajax
+     *
+     * @param   void
+     * @return  Response
+     */
+    public function action_show_log2()
+    {
+
+        if (isset(Session::get('valid')->id)) {
+            $id = Session::get('valid')->id;
+        }
+
+        $view = View::forge('root/show_log_ajax');
+        // 若未登入時，不允許進入此頁
+        $view->valid = Session::get('valid');
+        return Response::forge($view);
+
+    }
+
+    /**
+     * ajax for 顯示log列表
+     *
+     * @param   void
+     * @return  Response
+     */
+    public function action_show_log2_ajax()
+    {
+
+        if (isset(Session::get('valid')->id)) {
+            $id = Session::get('valid')->id;
+        }
+
+        // 驗證參數只允許在一定列表內
+        $arglist = array('id', 'username', 'time', 'ip', 'action', 'status', 'url', 'info');
+
+        // 拼出查詢參數
+        $cond = array();
+        foreach ($arglist as $mykey) {
+            $myval = $_GET[$mykey];
+            array_push($cond, array($mykey, 'like', '%'.$myval.'%'));
+        }
+
+        // 尋找所有log,最新在最前
+        $entry = Model_Actionlog::find(
+            array(
+                'where' => $cond,
+                'order_by' => array('id' => 'desc'),
+            )
+        );
+
+        $sResults = '';
+        if (isset($entry)) {
+            foreach ($entry as $rows) {
+                $sResults .= '<tr id="log_'.$rows['id'].'"
+                    onclick="window.location=\''.Uri::create('root/show_log_detail?id='.$rows['id']).'\'">';
+                $sResults .= '<td>'.$rows['id'].'</td>';
+                $sResults .= '<td>'.substr($rows['username'], 0, 15).'</td>';
+                $sResults .= '<td>'.$rows['time'].'</td>';
+                $sResults .= '<td>'.$rows['ip'].'</td>';
+                $sResults .= '<td>'.substr($rows['action'], 0, 20).'</td>';
+                $sResults .= '<td>'.$rows['status'].'</td>';
+                $sResults .= '<td>'.substr($rows['url'], 0, 50).'</td>';
+                $sResults .= '<td>'.substr($rows['info'], 0, 50).'</td>';
+                $sResults .= '</tr>';
+            }
+        }
+
+        /* Toss back the results to populate the table. */
+        echo $sResults;
+
+        $view = View::forge('ajax');
+        return Response::forge($view);
+
+    }
+
+    /**
      * 顯示 單一log 頁面
      *
      * @param   void

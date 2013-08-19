@@ -11,6 +11,7 @@ $valid = Session::get('valid');
         <li><?php echo Html::anchor('root/adduser', '新增使用者'); ?></li>
         <li><?php echo Html::anchor('root/show_user', '使用者管理'); ?></li>
         <li><?php echo Html::anchor('root/show_log', '顯示Log記錄'); ?></li>
+        <li><?php echo Html::anchor('root/show_log2', '顯示Log記錄(Ajax過濾)'); ?></li>
     <?php endif ?>
     <li>
         <?php
