@@ -45,20 +45,25 @@
         <!-- 載入 template 範例 -->
         <div class="row">
             <div class="span16">
-                <?php echo render("mylink"); ?>
+                <?php echo render('mylink'); ?>
             </div>
         </div>
         <?php echo Form::open(array('action' => 'root/show_log'.'#log_'.$data->id)); ?>
         <div class="row">
-            <h2>Log 詳細資料</h2>
+            <table>
+                <tr><td width="200"><h2>Log 詳細資料</h2></td>
+                    <td width="70"><?php if (isset($new_id)) { echo Html::anchor('root/show_log_detail?id='.$new_id, '新一筆'); } ?></td>
+                    <td width="70"><?php if (isset($old_id)) { echo Html::anchor('root/show_log_detail?id='.$old_id, '舊一筆'); } ?></td>
+                </tr>
+            </table>
         </div>
         <div class="row">
             <?php
-            if ($data->status=='S') {
+            if ($data->status == 'S') {
                 $tmp_status = '成功';
-            } elseif ($data->status=='F') {
+            } elseif ($data->status == 'F') {
                 $tmp_status = '失敗';
-            } elseif ($data->status=='S') {
+            } elseif ($data->status == 'S') {
                 $tmp_status = '資訊';
             } else {
                 $tmp_status = '其它';
@@ -73,7 +78,7 @@
                 <tr><td>狀態:</td><td><?php echo $tmp_status ?></td></tr>
                 <tr><td>RUL:</td><td><?php echo $data->url ?></td></tr>
                 <tr><td>詳細:</td><td><pre><?php echo $data->info ?></pre></td></tr>
-                <tr><td colspan="2"><?php echo Form::submit(null,'回上頁'); ?></td></tr>
+                <tr><td colspan="2"><?php echo Form::submit(null, '回上頁'); ?></td></tr>
             </table>
         </div>
         <?php echo Form::close(); ?>

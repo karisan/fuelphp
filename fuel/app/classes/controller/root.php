@@ -856,12 +856,42 @@ END;
         $id = Input::param('id');
         $entry = Model_Actionlog::find_by_pk($id);
         if (is_null($id) || !isset($entry)) {
-            // 重導向至 使用者管理頁面
+            // 未登入時，重導向至 使用者管理頁面
             return Response::redirect('root/show_user', 'refresh');
         }
 
+        // 產生新一筆、舊一筆log資料
+        $newentry = Model_Actionlog::find(
+            array(
+                'where' => array(
+                    array('id', '>', $id),
+                ),
+                'order_by' => array('id' => 'asc'),
+                'limit' => '1',
+            )
+        );
+
+        $oldentry = Model_Actionlog::find(
+            array(
+                'where' => array(
+                    array('id', '<', $id),
+                ),
+                'order_by' => array('id' => 'desc'),
+                'limit' => '1',
+            )
+        );
+
         $view = View::forge('root/show_log_detail');
         $view->data = $entry;
+
+        // 設定新一筆、舊一筆log的id
+        if (isset($newentry)) {
+            $view->new_id = $newentry[0]->id;
+        }
+
+        if (isset($oldentry)) {
+            $view->old_id = $oldentry[0]->id;
+        }
 
         // 若未登入時，不允許進入此頁
         $view->valid = Session::get('valid');
