@@ -5,7 +5,66 @@
 	<title>使用者管理頁面</title>
 	<?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
-    <?php echo Asset::js('function.js'); ?>
+    <script>
+        <!--
+        $(document).ready(function(){
+            // 按下 新一筆、舊一筆時
+            $("div[id^=record]").click(function(){
+                var path = '<?php echo Uri::create('root/show_log_detail?') ?>';
+                $('#myform').attr('action',path);
+
+                // 設定新一筆、舊一筆的id
+                $('#q_id').attr('value',$(this).attr("value"));
+                //alert($(this).attr("value"));
+
+                // 條件
+                //$('#q_str').val();
+                //alert($('#q_str').val());
+
+                // submit()
+                if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                    $('#myform').appendTo("body").submit();
+                } else {
+                    $('#myform').submit();
+                }
+            });
+
+            // 按下 回列表頁 時
+            $('#back').click(function(){
+                if (typeof($('#q_str'))!='undefined') {
+                    var path = '<?php echo Uri::create('root/show_log2'.'#log_'.$data->id) ?>';
+                } else {
+                    var path = '<?php echo Uri::create('root/show_log'.'#log_'.$data->id) ?>';
+                }
+                $('#myform').attr('action',path);
+
+                // submit()
+                if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                    $('#myform').appendTo("body").submit();
+                } else {
+                    $('#myform').submit();
+                }
+            });
+
+            // 按下 清除條件 時
+            $('#clean').click(function(){
+                var path = '<?php echo Uri::create('root/show_log_detail?') ?>';
+                $('#myform').attr('action',path);
+
+                // 清除條件
+                $('#q_str').val('');
+
+                // submit()
+                if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                    $('#myform').appendTo("body").submit();
+                } else {
+                    $('#myform').submit();
+                }
+            });
+
+        });
+        -->
+    </script>
 	<style>
 		#logo{
 			display: block;
@@ -48,12 +107,18 @@
                 <?php echo render('mylink'); ?>
             </div>
         </div>
-        <?php echo Form::open(array('action' => 'root/show_log'.'#log_'.$data->id)); ?>
+        <?php echo Form::open(array('method' => 'post', 'id' => 'myform')); ?>
         <div class="row">
             <table>
                 <tr><td width="200"><h2>Log 詳細資料</h2></td>
-                    <td width="70"><?php if (isset($new_id)) { echo Html::anchor('root/show_log_detail?id='.$new_id, '新一筆'); } ?></td>
-                    <td width="70"><?php if (isset($old_id)) { echo Html::anchor('root/show_log_detail?id='.$old_id, '舊一筆'); } ?></td>
+                    <td width="70"><?php if (isset($new_id)) { ?><a>
+                            <div id="record_new" value="<?php echo $new_id; ?>">新一筆</div></a><?php } ?></td>
+                    <td width="70"><?php if (isset($old_id)) { ?><a>
+                            <div id="record_old" value="<?php echo $old_id; ?>">舊一筆</div></a><?php } ?></td>
+                    <td width="370"><?php if ($q_msg != '') { ?>
+                            <b>搜尋條件：<?php echo $q_msg; ?></b>
+                            <a><div id="clean">清除條件</div></a>
+                        <?php } ?></td>
                 </tr>
             </table>
         </div>
@@ -76,11 +141,13 @@
                 <tr><td>IP:</td><td><?php echo $data->ip ?></td></tr>
                 <tr><td>動作:</td><td><?php echo $data->action ?></td></tr>
                 <tr><td>狀態:</td><td><?php echo $tmp_status ?></td></tr>
-                <tr><td>RUL:</td><td><?php echo $data->url ?></td></tr>
+                <tr><td>URL:</td><td><?php echo $data->url ?></td></tr>
                 <tr><td>詳細:</td><td><pre><?php echo $data->info ?></pre></td></tr>
-                <tr><td colspan="2"><?php echo Form::submit(null, '回上頁'); ?></td></tr>
+                <tr><td colspan="2"><?php echo Form::submit(null, '回上頁', array('id' => 'back')); ?></td></tr>
             </table>
         </div>
+        <?php echo Form::hidden('id', $data->id, array('id' => 'q_id')); ?>
+        <?php if (isset($q_str)) { echo Form::hidden('q_str', $q_str, array('id' => 'q_str')); } ?>
         <?php echo Form::close(); ?>
 		<footer>
 			<p class="pull-right">Page rendered in {exec_time}s using {mem_usage}mb of memory.</p>

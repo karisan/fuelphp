@@ -50,6 +50,7 @@
         </div>
         <div class="row">
             <div class="span16">
+                <form id="myform" action="show_log_detail" method="post">
                 <table>
                     <tr>
                         <td>編號: <input style="width:100px;" id="id" type="text"></div></td>
@@ -62,6 +63,9 @@
                         <td>詳細： <input style="width:100px;" id="info" type="text"></div></td>
                     </tr>
                 </table>
+                <input id="q_id" type="hidden" name="id"/>
+                <input id="q_str" type="hidden" name="q_str"/>
+                </form>
             </div>
         </div>
         <div class="row">

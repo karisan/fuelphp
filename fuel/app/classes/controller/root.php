@@ -900,8 +900,9 @@ END;
         $sResults = '';
         if (isset($entry)) {
             foreach ($entry as $rows) {
-                $sResults .= '<tr id="log_'.$rows['id'].'"
-                    onclick="window.location=\''.Uri::create('root/show_log_detail?id='.$rows['id']).'\'">';
+                //$sResults .= '<tr id="log_'.$rows['id'].'"
+                //    onclick="window.location=\''.Uri::create('root/show_log_detail?id='.$rows['id']).'\'">';
+                $sResults .= '<tr id="log_'.$rows['id'].'">';
                 $sResults .= '<td>'.$rows['id'].'</td>';
                 $sResults .= '<td>'.substr($rows['username'], 0, 15).'</td>';
                 $sResults .= '<td>'.$rows['time'].'</td>';
@@ -938,30 +939,55 @@ END;
             return Response::redirect('root/show_user', 'refresh');
         }
 
+        // 驗證參數只允許在一定列表內
+        $arglist = array('id', 'username', 'time', 'ip', 'action', 'status', 'url', 'info');
+        $msglist = array('編號', '帳號', '時間', 'IP', '動作', '狀態', 'URL', '詳細');
+
+        $q_str = Input::param('q_str');
+        $query_array = json_decode($q_str, true);
+        //print_r($query_array);
+
+        // 拼出查詢參數
+        $cond = array();
+        $q_msg = '';
+        $i = 0;
+        foreach ($arglist as $mykey) {
+            $myval = $query_array[$mykey];
+            array_push($cond, array($mykey, 'like', '%'.$myval.'%'));
+            if ($myval != '') {
+                $q_msg .= '['.$msglist[$i].' 含有 '.$myval.'] ';
+            }
+
+            $i++;
+        }
+
+        //print_r($cond);
+
+        $cond[] = array('id', '>', $id);
         // 產生新一筆、舊一筆log資料
         $newentry = Model_Actionlog::find(
             array(
-                'where' => array(
-                    array('id', '>', $id),
-                ),
+                'where' => $cond,
                 'order_by' => array('id' => 'asc'),
                 'limit' => '1',
             )
         );
+        array_pop($cond);
 
+        $cond[] = array('id', '<', $id);
         $oldentry = Model_Actionlog::find(
             array(
-                'where' => array(
-                    array('id', '<', $id),
-                ),
+                'where' => $cond,
                 'order_by' => array('id' => 'desc'),
                 'limit' => '1',
             )
         );
+        array_pop($cond);
 
         $view = View::forge('root/show_log_detail');
         $view->data = $entry;
-
+        $view->q_str = Input::param('q_str');
+        $view->q_msg = $q_msg;
         // 設定新一筆、舊一筆log的id
         if (isset($newentry)) {
             $view->new_id = $newentry[0]->id;
