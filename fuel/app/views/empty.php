@@ -5,7 +5,6 @@
     <title>修改留言</title>
     <?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
-    <?php echo Asset::js('function.js'); ?>
     <style>
         #logo{
             display: block;
