@@ -31,7 +31,7 @@
 
             // 按下 回列表頁 時
             $('#back').click(function(){
-                if (typeof($('#q_str'))!='undefined') {
+                if ($('#q_str').length != 0) {
                     var path = '<?php echo Uri::create('root/show_log2'.'#log_'.$data->id) ?>';
                 } else {
                     var path = '<?php echo Uri::create('root/show_log'.'#log_'.$data->id) ?>';
