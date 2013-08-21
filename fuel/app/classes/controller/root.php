@@ -391,8 +391,9 @@ END;
         $custmsg = '';
         $doflag = true;
 
+        $cancel = Input::post('Cancel');
         // 取消新增時，返回首頁
-        if (!empty($_POST['Cancel'])) {
+        if (!empty($cancel)) {
             return Response::redirect('/welcome', 'refresh');
         }
 
@@ -563,8 +564,8 @@ END;
      */
     public function action_do_del_user()
     {
-
-        if (!empty($_GET['id'])) {
+        $id = Input::param('id');
+        if (!empty($id)) {
             // log 處理
             $tmp_username = 'guest';
             $tmp_log_action = 'del_user';
@@ -576,7 +577,7 @@ END;
             $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
 
             // 刪除留言
-            $user = Model_Users::find_by_pk($_GET['id']);
+            $user = Model_Users::find_by_pk($id);
             if ($user) {
                 // 刪除
                 $user->delete();
@@ -607,7 +608,7 @@ END;
     public function action_edit_user()
     {
 
-        $id = Input::get('id');
+        $id = Input::param('id');
         $entry = Model_Users::find_by_pk($id);
 
         if ($entry === null) {
@@ -629,9 +630,15 @@ END;
      */
     public function action_do_edit_user()
     {
-        if (!empty($_POST['Cancel'])) {
+        $cancel = Input::post('Cancel');
+        $submit = Input::post('submit');
+        $id = Input::post('id');
+        $email = Input::post('email');
+        $level = Input::post('level');
+
+        if (!empty($cancel)) {
             //
-        } elseif (!empty($_POST['submit'])) {
+        } elseif (!empty($submit)) {
             // log 處理
             $tmp_username = 'guest';
             $tmp_log_action = 'edit_user';
@@ -643,13 +650,13 @@ END;
             $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
 
 
-            $user = Model_Users::find_by_pk($_POST['id']);
+            $user = Model_Users::find_by_pk($id);
             if ($user === null) {
                 // 沒找到
 
                 // log 內容串起來
                 $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
-                $tmp_info .= 'id:'.$_POST['id']." not found.\n";
+                $tmp_info .= 'id:'.$id." not found.\n";
                 // 寫入 log
                 $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
             } else {
@@ -666,8 +673,8 @@ END;
                     $custmsg = '驗證成功';
 
                     // 更新使用者資料
-                    $user->email = Input::post('email');
-                    $user->level = Input::post('level');
+                    $user->email = $email;
+                    $user->level = $level;
                     $user->updated_at = time();
                     $user->save();
 
@@ -675,8 +682,8 @@ END;
                     $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
                     $tmp_info .= 'id:'.$user->id."\n";
                     $tmp_info .= 'name:'.$user->username."\n";
-                    $tmp_info .= 'email:'.Input::post('email')."\n";
-                    $tmp_info .= 'level:'.Input::post('level')."\n";
+                    $tmp_info .= 'email:'.$email."\n";
+                    $tmp_info .= 'level:'.$level."\n";
                     // 寫入 log
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
@@ -692,8 +699,8 @@ END;
                     $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
                     $tmp_info .= 'id:'.$user->id."\n";
                     $tmp_info .= 'name:'.$user->username."\n";
-                    $tmp_info .= 'email:'.Input::post('email')."\n";
-                    $tmp_info .= 'level:'.Input::post('level')."\n";
+                    $tmp_info .= 'email:'.$email."\n";
+                    $tmp_info .= 'level:'.$level."\n";
                     $tmp_info .= 'fail:'.$custmsg." \n";
                     // 寫入 log
                     $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
@@ -722,7 +729,7 @@ END;
      */
     public function action_reset_user_pass()
     {
-        $id = Input::get('id');
+        $id = Input::param('id');
         $entry = Model_Users::find_by_pk($id);
         if ($entry === null) {
             // 沒找到時，重導向至 使用者管理頁面
@@ -746,73 +753,85 @@ END;
         // log 處理
         $tmp_log_action = 'reset_user_password';
         $tmp_username = 'guest';
+
+        $cancel = Input::post('Cancel');
+        $submit = Input::post('submit');
+        $id = Input::post('id');
+        $password = Input::post('password');
+
         if (!is_null(Session::get('valid'))) {
             $tmp_username = Session::get('valid')->user;
         }
 
-        if (!empty($_POST['Cancel'])) {
+        if (!empty($cancel)) {
             // 按下取消時，重導回 管理頁
-        } elseif (!empty($_POST['submit'])) {
-            // log 宣告
-            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
-
-            $user = Model_Users::find_by_pk($_POST['id']);
-            if ($user === null) {
-                // 將內容串起來
-                $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
-                $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
-
-                // 沒找到時，重導回 管理頁
-                echo "<script>alert('重設失敗');</script>";
-            } else {
-                $val = Validation::forge('my_validation');
-
-                // 驗證password 1、長度1~30字
-                $val->add_field('password', '密碼', 'required|trim|min_length[1]|max_length[30]');
-
-                $val->set_message('required', ':label 為必填.');
-                $val->set_message('mix_length', ':label 字數過短.');
-                $val->set_message('max_length', ':label 字數過長.');
-
-                $errors = array();
-                if ($val->run()) {
-                    // 在驗證成功時處理你的東西
-                    $custmsg = '驗證成功';
-
-                    // 確認修改，完成後，重導回 管理頁
-                    $user->password = sha1(Input::post('password'));
-                    $user->updated_at = time();
-                    $user->save();
-
-                    // 將內容串起來
-                    $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
-                    $tmp_info .= 'reset username:'.$user->username."\n";
-                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
-
-                    echo "<script>alert('密碼重設成功');</script>";
-                    //echo 'do';
-                } else {
-                    $custmsg = '密碼重設失敗-由validation';
-
-                    // 將內容串起來
-                    $tmp_info = '['.$tmp_username.'] reset id:'.$_POST['id']."\n";
-                    $tmp_info .= 'reset username:'.$user->username."\n";
-                    $tmp_info .= 'fail:'.$custmsg."\n";
-                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
-
-                    $errors = $val->error();
-                    $view = View::forge('root/reset_user_pass');
-                    $view->data = $user;
-
-                    // 設定錯誤訊息，導回重設密碼頁
-                    $view->messages = $errors;
-                    return Response::forge($view);
-                }
-            }
+            return Response::redirect('root/show_user', 'refresh');
         }
 
-        // 重導向至 使用者管理頁面
-        return Response::redirect('root/show_user', 'refresh');
+        if (!empty($submit)) {
+            // submit 參數不存在時，重導向至 使用者管理頁面
+            echo "<script>alert('參數有誤，返回原頁面');</script>";
+            return Response::redirect('root/show_user', 'refresh');
+        }
+
+        // log 宣告
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
+        $user = Model_Users::find_by_pk($id);
+        if ($user === null) {
+            // 將內容串起來
+            $tmp_info = '['.$tmp_username.'] reset id:'.$id."\n";
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
+
+            // 沒找到時，重導回 管理頁
+            echo "<script>alert('重設失敗');</script>";
+            return Response::redirect('root/show_user', 'refresh');
+        }
+
+        $val = Validation::forge('my_validation');
+
+        // 驗證password 1、長度1~30字
+        $val->add_field('password', '密碼', 'required|trim|min_length[1]|max_length[30]');
+
+        $val->set_message('required', ':label 為必填.');
+        $val->set_message('mix_length', ':label 字數過短.');
+        $val->set_message('max_length', ':label 字數過長.');
+
+        $errors = array();
+        if ($val->run()) {
+            // 在驗證成功時處理你的東西
+            $custmsg = '驗證成功';
+
+            // 確認修改，完成後，重導回 管理頁
+            $user->password = sha1($password);
+            $user->updated_at = time();
+            $user->save();
+
+            // 將內容串起來
+            $tmp_info = '['.$tmp_username.'] reset id:'.$id."\n";
+            $tmp_info .= 'reset username:'.$user->username."\n";
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
+
+            echo "<script>alert('密碼重設成功');</script>";
+            // 重導向至 使用者管理頁面
+            return Response::redirect('root/show_user', 'refresh');
+        } else {
+            $custmsg = '密碼重設失敗-由validation';
+
+            // 將內容串起來
+            $tmp_info = '['.$tmp_username.'] reset id:'.$id."\n";
+            $tmp_info .= 'reset username:'.$user->username."\n";
+            $tmp_info .= 'fail:'.$custmsg."\n";
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
+
+            $errors = $val->error();
+            $view = View::forge('root/reset_user_pass');
+            $view->data = $user;
+
+            // 設定錯誤訊息，導回重設密碼頁
+            $view->messages = $errors;
+            return Response::forge($view);
+        }
     }
 
     /**
@@ -835,6 +854,7 @@ END;
             )
         );
 
+
         $view = View::forge('root/show_log');
         $view->data = $entry;
 
@@ -842,6 +862,80 @@ END;
         $view->valid = Session::get('valid');
         return Response::forge($view);
 
+    }
+
+    /**
+     * 顯示 log 列表頁面 以Cache顯示
+     *
+     * @param   void
+     * @return  Response
+     */
+    public function action_show_log_cache()
+    {
+        if (isset(Session::get('valid')->id)) {
+            $id = Session::get('valid')->id;
+        }
+
+        // 尋找最新的log id
+        $new_entry = Model_Actionlog::find(
+            array(
+                'order_by' => array('id' => 'desc'),
+                'limit' => '1'
+            )
+        );
+
+        $db_new_log_id = '0';
+        if ($new_entry) {
+            $db_new_log_id = $new_entry[0]->id;
+        }
+
+        // 取出 Cache 中的最新log id
+        try {
+            $cache_new_log_id = Cache::get('log_new_id');
+        } catch (\CacheNotFoundException $e) {
+            Cache::set('log_new_id', $db_new_log_id);
+            Log::info('Set log_new_id Cache');
+        }
+
+
+        // 比對是否一致，一致時抓Cache
+        if ($db_new_log_id == $cache_new_log_id) {
+
+            // use cache
+            try {
+                $entry = Cache::get('log');
+            } catch (\CacheNotFoundException $e) {
+                // 尋找所有log,最新在最前
+                $entry = Model_Actionlog::find(
+                    array(
+                        'order_by' => array('id' => 'desc'),
+                    )
+                );
+                //echo 'create cache<br>';
+                Cache::set('log', $entry, 3600);
+                Log::info('Set log Cache');
+            }
+        } else {
+            // 不一致時，從DB抓資料，並存到Cache
+            $entry = Model_Actionlog::find(
+                array(
+                    'order_by' => array('id' => 'desc'),
+                )
+            );
+
+            //echo 'create cache<br>';
+            Cache::set('log', $entry, 3600);
+            Cache::set('log_new_id', $db_new_log_id);
+            Log::info('Set log Cache');
+            Log::info('Set log_new_id Cache');
+        }
+
+        $view = View::forge('root/show_log');
+        $view->data = $entry;
+
+        // 若未登入時，不允許進入此頁
+        $view->valid = Session::get('valid');
+        return Response::forge($view);
     }
 
     /**

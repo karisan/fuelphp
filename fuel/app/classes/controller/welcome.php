@@ -30,37 +30,45 @@ class Controller_Welcome extends Controller
      */
     public function action_addmsg()
     {
-        if (!empty($_POST['username'])) {
-            // 寫入DB，將留言資料顯示
-            $user = Model_Message::forge()->set(
-                array('m_name' => $_POST['username'],
-                    'm_email' => $_POST['email'],
-                    'm_context' => $_POST['context'],
-                    'm_time' => date('Y/m/d H:i:s'))
-            );
+        //todo: 新增欄位檢查
 
-            // 新增留言
-            $result = $user->save();
+        $username = Input::post('username');
+        $email = Input::post('email');
+        $context = Input::post('context');
 
-            // log 處理
-            $tmp_username = 'guest';
-            if (!is_null(Session::get('valid'))) {
-                $tmp_username = Session::get('valid')->user;
-            }
-
-            // 新增的內容串起來
-            $tmp_info = '['.$tmp_username.'] - add_message'."\n";
-            $tmp_info .= 'name:'.Input::post('username')."\n";
-            $tmp_info .= 'email:'.Input::post('email')."\n";
-            $tmp_info .= 'context:'.Input::post('context')."\n";
-            // 寫入 log
-            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
-            $mylog->user_action_log($tmp_username, 'add_message', 'S', $tmp_info);
-
-
-            echo "<script>alert('新增留言成功');</script>";
+        if (empty($username)) {
+            echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('/welcome', 'refresh');
         }
+
+        // 寫入DB，將留言資料顯示
+        $user = Model_Message::forge()->set(
+            array('m_name' => $username,
+                  'm_email' => $email,
+                  'm_context' => $context,
+                  'm_time' => date('Y/m/d H:i:s'))
+        );
+
+        // 新增留言
+        $result = $user->save();
+
+        // log 處理
+        $tmp_username = 'guest';
+        if (!is_null(Session::get('valid'))) {
+            $tmp_username = Session::get('valid')->user;
+        }
+
+        // 新增的內容串起來
+        $tmp_info = '['.$tmp_username.'] - add_message'."\n";
+        $tmp_info .= 'name:'.$username."\n";
+        $tmp_info .= 'email:'.$email."\n";
+        $tmp_info .= 'context:'.$context."\n";
+        // 寫入 log
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+        $mylog->user_action_log($tmp_username, 'add_message', 'S', $tmp_info);
+
+        echo "<script>alert('新增留言成功');</script>";
+        return Response::redirect('/welcome', 'refresh');
     }
 
         /**
@@ -71,35 +79,41 @@ class Controller_Welcome extends Controller
      */
     public function action_delmsg()
     {
-        if (!empty($_GET['del_id'])) {
-            // 刪除留言
-            $user = Model_Message::find_by_pk($_GET['del_id']);
-            if ($user) {
-                // log 處理
-                $tmp_username = 'guest';
-                if (!is_null(Session::get('valid'))) {
-                    $tmp_username = Session::get('valid')->user;
-                }
-
-                // 刪除
-                $user->delete();
-
-                // 新增的內容串起來
-                $tmp_info = 'id:'.$user->m_id."\n";
-                $tmp_info .= 'name:'.$user->m_name."\n";
-                $tmp_info .= 'email:'.$user->m_email."\n";
-                $tmp_info .= 'context:'.$user->m_context."\n";
-                // 寫入 log
-                $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
-                $mylog->user_action_log($tmp_username, 'del_message', 'S', $tmp_info);
-
-                //echo '成功刪除';
-                $return_msg = '成功刪除';
-                echo "<script>alert('刪除留言成功');</script>";
-            }
-
+        // 檢查是否有id參數
+        $del_id = Input::param('del_id');
+        if (empty($del_id)) {
+            echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('/welcome', 'refresh');
         }
+
+        // 檢查該筆留言是否存在
+        $message = Model_Message::find_by_pk($del_id);
+        if (!$message) {
+            echo "<script>alert('參數有誤，返回原頁面');</script>";
+            return Response::redirect('/welcome', 'refresh');
+        }
+
+        // log 處理
+        $tmp_username = 'guest';
+        if (!is_null(Session::get('valid'))) {
+            $tmp_username = Session::get('valid')->user;
+        }
+
+        // 刪除
+        $message->delete();
+
+        // 新增的內容串起來
+        $tmp_info = 'id:'.$message->m_id."\n";
+        $tmp_info .= 'name:'.$message->m_name."\n";
+        $tmp_info .= 'email:'.$message->m_email."\n";
+        $tmp_info .= 'context:'.$message->m_context."\n";
+
+        // 寫入 log
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+        $mylog->user_action_log($tmp_username, 'del_message', 'S', $tmp_info);
+
+        echo "<script>alert('刪除留言成功');</script>";
+        return Response::redirect('/welcome', 'refresh');
     }
 
     /**
@@ -116,11 +130,6 @@ class Controller_Welcome extends Controller
                 'order_by' => array('m_id' => 'desc'),
                 'limit' => 20,)
         );
-
-        //print_r(Session::get('valid'));
-
-        // 無設定值用法
-        // return Response::forge(View::forge('welcome/index'));
 
         $view = View::forge('welcome/hello');
         $view->data = $entry;
