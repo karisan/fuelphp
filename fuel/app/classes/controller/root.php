@@ -10,26 +10,8 @@
 class Controller_Root extends Controller_Template {
 
     /**
-     *
-     * 產生js,當使用者無權限時，則會自動reload，被踢出
-     *
-     */
-    public function __construct()
-    {
-        // $common_js is too complex to create as a data member directly
-        // so define it here instead
-        $isValidURL = Uri::create('validate/isvalid');
-        $this->common_js = <<<END
-$(window).load(function() {
-  $.getJSON("$isValidURL", function(valid) { if (!valid) location.reload() })
-});
-$(window).unload(function() { });
-END;
-    }
-
-    /**
      * 踢出未登入的使用者，當未登入時，
-     * 則會以此功能，配合JS將無權限的user踢出
+     * 則會以此功能，將無權限的user踢出
      *
      * @param   void
      * @return  void
@@ -43,316 +25,6 @@ END;
     }
 
     /**
-     * 顯示購物車功能的首頁
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_index()
-    {
-        $this->template->page_title = 'Home';
-        $data = array('valid' => Session::get('valid'));
-        $this->template->content = View::forge('root/index', $data);
-    }
-
-    /**
-     * 加入購物車 處理
-     *
-     * @param   void
-     * @return  void
-     */
-    private function getOrder()
-    {
-        $order = Session::get('order');
-        $dir = Session::get('dir');
-        if (is_null($order)) {
-            $order = 'title';
-            $dir = 'asc';
-            Session::set('order', $order);
-            Session::set('dir', $dir);
-        }
-
-        return array($order, $dir);
-    }
-
-    /**
-     * 書本列表 樣式1
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_list1()
-    {
-        $this->template->page_title = 'Book List';
-
-        // if things in the session ordering get screwed up, try these:
-        //Session::delete('order');
-        //Session::delete('dir');
-        list($order, $dir) = $this->getOrder();
-
-        Session::set('backto', Uri::string()); // current controller/action
-
-        $data['books'] = Model_Books::find(
-            array('order_by' => array($order => $dir))
-        );
-
-        $this->template->content = View::forge('root/list1', $data);
-
-        $this->template->css_files = array('listing.css');
-    }
-
-    /**
-     * 修改訂單 處理
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_changeorder()
-    {
-        $order = Input::param('order');
-        if ($order == Session::get('order')) {
-            if (Session::get('dir') == 'asc') {
-                Session::set('dir', 'desc');
-            } else {
-                Session::set('dir', 'asc');
-            }
-        } else {
-            Session::set('dir', 'asc');
-        }
-
-        Session::set('order', $order);
-        Response::redirect(Session::get('backto'));
-    }
-
-    /**
-     * 顯示書本詳細資料
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_details()
-    {
-        $id = Input::param('id');
-        $book = Model_Books::find_by_pk($id);
-        is_null($id) || !isset($book) and Response::redirect('/');
-
-        $data['book'] = $book;
-        $data['valid'] = Session::get('valid');
-        $data['message'] = Session::get_flash('message');
-
-        $this->template->content = View::forge('root/details', $data);
-
-        $css = <<<END
-#details td {
-  padding: 0 15px 6px 0;
-}
-form {
-  margin: 0;
-  padding-bottom: 10px;
-}
-form.mod {
-  display: table-cell;
-  padding-right: 20px;
-}
-form.mod button {
-  color: #c00;
-  font-weight: bold;
-}
-END;
-        $this->template->style = View::forge('style', array('css' => $css), false);
-
-        $js = <<<END
-$(document).ready(function(){
-  $("button[name='delete']").click(function(){
-    return confirm("Are you sure?");
-  });
-});
-END;
-        $this->template->script = View::forge('script', array('js' => $js), false);
-    }
-
-    /**
-     * 書本列表 樣式2
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_list2()
-    {
-        $this->template->page_title = 'Book List: paginate';
-
-        list($order, $dir) = $this->getOrder();
-
-        $curr_page = Input::param('page', 0);  // second arg. is default value
-        $perpage = 8;
-        $offset = $curr_page * $perpage;
-
-        $total = Model_Books::count();
-
-        Session::set('backto', Uri::string());
-
-        $data['numpages'] = ceil($total / $perpage);
-        $data['curr_page'] = $curr_page;
-        $data['books'] = Model_Books::find(
-            array(
-                'order_by' => array($order => $dir),
-                'offset' => $offset,
-                'limit' => $perpage,)
-        );
-        $this->template->content = View::forge('root/list2', $data);
-
-        $this->template->css_files = array('listing.css');
-
-        $css = <<<END
-#content table { margin-top: 10px; }
-#page_bar {
-  background: #333;
-  color: #fff;
-  font-size: 14px;
-  margin-bottom: 15px;
-  position: relative;
-  cursor: pointer;
-  line-height: 28px;
-  height: 28px;
-  padding: 0 10px;
-  border-radius: 4px;
-  display: table-cell;
-  min-width: 300px;
-}
-#page_bar a {
-  color: magenta;
-  font-weight: bold;
-  padding: 0 5px;
-  text-decoration: none;
-}
-#page_bar a:hover { color: #9ff; }
-#page_bar a.sel {
-  border: solid 2px #9ff;
-}
-END;
-        $this->template->style = View::forge('style', array('css' => $css), false);
-    }
-
-
-    /**
-     * css 捲動樣式
-     *
-     * @param   void
-     * @return  void
-     */
-    private $css_scroll = <<<END
-#display-container {
-  display: table-cell;
-  border: solid 1px black;
-}
-#display {
-  overflow: scroll;
-  overflow-x: hidden;
-  padding-right: 10px;
-  height: 350px;
-}
-END;
-
-    /**
-     * 書本列表 樣式3
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_list3()
-    {
-        $this->template->page_title = 'Book List: fixed-height scroll';
-
-        list($order, $dir) = $this->getOrder();
-
-        Session::set('backto', Uri::string());
-
-        $data['books'] = Model_Books::find(
-            array(
-                'order_by' => array($order => $dir))
-        );
-
-        $this->template->content = View::forge('root/list3', $data);
-
-        $this->template->css_files = array('listing.css');
-
-        $this->template->style
-            = View::forge('style', array('css' => $this->css_scroll), false);
-    }
-
-    /**
-     * 書本列表 樣式4
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_list4()
-    {
-        $this->template->page_title = 'Book List: variable-height scroll';
-
-        list($order, $dir) = $this->getOrder();
-
-        Session::set('backto', Uri::string());
-
-        $data['books'] = Model_Books::find(
-            array(
-                'order_by' => array($order => $dir))
-        );
-
-        $this->template->content = View::forge('root/list4', $data);
-
-        $this->template->css_files = array('listing.css');
-
-        $this->template->style
-            = View::forge('style', array('css' => $this->css_scroll), false);
-
-        $js = <<<END
-function setHeight() {
-  var newHeight =
-    $("#display").height() + $(window).height() - $('body').height() - 50;
-  $("#display").height( newHeight );
-}
-$(window).resize( setHeight );
-$(document).ready(function() { setHeight(); });
-END;
-        $this->template->script = View::forge('script', array('js' => $js), false);
-    }
-
-    /**
-     * 顯示購物車內容
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_cart()
-    {
-        $this->template->page_title = 'Cart';
-        $cart = Session::get('cart');
-        $data['cart'] = $cart;
-        $this->template->content = View::forge('root/cart', $data);
-    }
-
-    /**
-     * 加至購物車，加到session
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_addtocart()
-    {
-        $id = Input::param('id');
-        $cart = Session::get('cart');
-        if (is_null($cart) || !isset($cart[$id])) {
-            $cart[$id] = 1;
-        } else {
-            ++$cart[$id];
-        }
-
-        Session::set('cart', $cart);
-        Response::redirect('root/cart');
-    }
-
-    /**
      * 新增使用者 顯示頁
      *
      * @param   void
@@ -360,12 +32,8 @@ END;
      */
     public function action_adduser()
     {
-        //Session::set('cart', $cart);
-        //Response::redirect('root/cart');
         $view = View::forge('root/adduser', null, false);
         $view->valid = Session::get('valid');
-        // 驗證是否登入的js
-        $view->js = $this->common_js;
         return Response::forge($view);
     }
 
@@ -416,12 +84,9 @@ END;
 
         $errors = array();
         if ($val->run()) {
-            // 在驗證成功時處理你的東西
             $custmsg = '驗證成功';
         } else {
             $errors = $val->error();
-            //print_r($errors);
-
             $custmsg = '驗證失敗-由validation';
             $doflag = false;
         }
@@ -440,7 +105,6 @@ END;
             $doflag = false;
         }
 
-        //$doflag = false;
         if ($doflag) {
             // 寫入DB，將留言資料顯示
             $user = Model_Users::forge()->set(
@@ -474,17 +138,6 @@ END;
         }
 
         //失敗時回原新增使用者介面
-        //Session::set('message', $custmsg);
-        //Session::set_flash('username', Input::post('username'));
-        //Session::set_flash('email', Input::post('email'));
-        //return Response::redirect('/root/adduser');
-
-        //return Response::forge($view);
-
-        // 測試用空白頁
-        // $view = View::forge('empty');
-        // return Response::forge($view);
-
         $custmsg = '新增帳號失敗-欄位驗證失敗!';
 
         // 將log內容串起來
@@ -509,18 +162,6 @@ END;
 
         return Response::forge($view);
 
-    }
-
-    /**
-     * 清空購物車
-     *
-     * @param   void
-     * @return  void
-     */
-    public function action_clearcart()
-    {
-        Session::delete('cart');
-        Response::redirect('root/cart');
     }
 
     /**
@@ -549,9 +190,6 @@ END;
 
         $view = View::forge('root/show_user');
         $view->data = $entry;
-
-        // 若未登入時，不允許進入此頁
-        $view->valid = Session::get('valid');
         return Response::forge($view);
 
     }
@@ -565,38 +203,43 @@ END;
     public function action_do_del_user()
     {
         $id = Input::param('id');
+        // 重導向至 使用者管理頁面
         if (!empty($id)) {
-            // log 處理
-            $tmp_username = 'guest';
-            $tmp_log_action = 'del_user';
+            echo "<script>alert('參數有誤，返回原頁面');</script>";
+            return Response::redirect('root/show_user', 'refresh');
+        }
 
-            if (!is_null(Session::get('valid'))) {
-                $tmp_username = Session::get('valid')->user;
-            }
+        // log 處理
+        $tmp_username = 'guest';
+        $tmp_log_action = 'del_user';
 
-            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+        if (!is_null(Session::get('valid'))) {
+            $tmp_username = Session::get('valid')->user;
+        }
 
-            // 刪除留言
-            $user = Model_Users::find_by_pk($id);
-            if ($user) {
-                // 刪除
-                $user->delete();
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
 
-                // 將log內容串起來
-                $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
-                $tmp_info .= 'id:'.$user->id."\n";
-                $tmp_info .= 'name:'.$user->username."\n";
-                // 寫入 log
-                $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
 
-                echo "<script>alert('刪除成功');</script>";
-                $return_msg = '成功刪除';
-            }
+        // 刪除使用者
+        $user = Model_Users::find_by_pk($id);
+        if ($user) {
+            // 刪除
+            $user->delete();
+
+            // 將log內容串起來
+            $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+            $tmp_info .= 'id:'.$user->id."\n";
+            $tmp_info .= 'name:'.$user->username."\n";
+            // 寫入 log
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
+
+            echo "<script>alert('刪除成功');</script>";
+        } else {
+            echo "<script>alert('刪除帳號不存在');</script>";
         }
 
         // 重導向至 使用者管理頁面
         return Response::redirect('root/show_user', 'refresh');
-
     }
 
     /**
@@ -614,7 +257,6 @@ END;
         if ($entry === null) {
             // 沒找到時，重導向至 使用者管理頁面
             return Response::redirect('root/show_user', 'refresh');
-            //echo 'no user';
         } else {
             $view = View::forge('root/edit_user');
             $view->data = $entry;
@@ -636,89 +278,87 @@ END;
         $email = Input::post('email');
         $level = Input::post('level');
 
+        // 按下取消時，重導向至 使用者管理頁面
         if (!empty($cancel)) {
-            //
-        } elseif (!empty($submit)) {
-            // log 處理
-            $tmp_username = 'guest';
-            $tmp_log_action = 'edit_user';
-
-            if (!is_null(Session::get('valid'))) {
-                $tmp_username = Session::get('valid')->user;
-            }
-
-            $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
-
-
-            $user = Model_Users::find_by_pk($id);
-            if ($user === null) {
-                // 沒找到
-
-                // log 內容串起來
-                $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
-                $tmp_info .= 'id:'.$id." not found.\n";
-                // 寫入 log
-                $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
-            } else {
-                $val = Validation::forge('my_validation');
-
-                // 驗證email 1、符合有效email格式
-                $val->add_field('email', 'Email', 'required|trim|valid_email');
-
-                $val->set_message('required', ':label 為必填.');
-                $val->set_message('valid_email', ':label 需要是正確的email格式');
-
-                $errors = array();
-                if ($val->run()) {
-                    $custmsg = '驗證成功';
-
-                    // 更新使用者資料
-                    $user->email = $email;
-                    $user->level = $level;
-                    $user->updated_at = time();
-                    $user->save();
-
-                    // 新增的內容串起來
-                    $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
-                    $tmp_info .= 'id:'.$user->id."\n";
-                    $tmp_info .= 'name:'.$user->username."\n";
-                    $tmp_info .= 'email:'.$email."\n";
-                    $tmp_info .= 'level:'.$level."\n";
-                    // 寫入 log
-                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
-
-                    $custmsg = '更新資料成功!';
-                    echo "<script>alert('修改成功');</script>";
-
-                    //成功時回到原頁面
-                    return Response::redirect('root/show_user', 'refresh');
-                } else {
-                    $custmsg = '修改使用者資料失敗-由validation';
-
-                    // 新增的內容串起來
-                    $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
-                    $tmp_info .= 'id:'.$user->id."\n";
-                    $tmp_info .= 'name:'.$user->username."\n";
-                    $tmp_info .= 'email:'.$email."\n";
-                    $tmp_info .= 'level:'.$level."\n";
-                    $tmp_info .= 'fail:'.$custmsg." \n";
-                    // 寫入 log
-                    $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
-
-                    $errors = $val->error();
-                    $view = View::forge('root/edit_user');
-                    $view->data = $user;
-
-                    // 設定錯誤訊息，導回重設密碼頁
-                    $view->messages = $errors;
-                    return Response::forge($view);
-                }
-            }
+            return Response::redirect('root/show_user', 'refresh');
         }
 
-        // 重導向至 使用者管理頁面
-        return Response::redirect('root/show_user', 'refresh');
+        // submit無資料時，重導向至 使用者管理頁面
+        if (empty($submit)) {
+            return Response::redirect('root/show_user', 'refresh');
+        }
 
+        // log 處理
+        $tmp_username = 'guest';
+        $tmp_log_action = 'edit_user';
+        if (!is_null(Session::get('valid'))) {
+            $tmp_username = Session::get('valid')->user;
+        }
+
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+
+        $user = Model_Users::find_by_pk($id);
+        // 沒找到該使用者時，重導向至 使用者管理頁面
+        if ($user === null) {
+            // log 內容串起來
+            $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+            $tmp_info .= 'id:'.$id." not found.\n";
+            // 寫入 log
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
+            return Response::redirect('root/show_user', 'refresh');
+        }
+
+        $val = Validation::forge('my_validation');
+
+        // 驗證email 1、符合有效email格式
+        $val->add_field('email', 'Email', 'required|trim|valid_email');
+
+        $val->set_message('required', ':label 為必填.');
+        $val->set_message('valid_email', ':label 需要是正確的email格式');
+
+        $errors = array();
+        if ($val->run()) {
+            $custmsg = '驗證成功';
+
+            // 更新使用者資料
+            $user->email = $email;
+            $user->level = $level;
+            $user->updated_at = time();
+            $user->save();
+
+            // 新增的內容串起來
+            $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+            $tmp_info .= 'id:'.$user->id."\n";
+            $tmp_info .= 'name:'.$user->username."\n";
+            $tmp_info .= 'email:'.$email."\n";
+            $tmp_info .= 'level:'.$level."\n";
+            // 寫入 log
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'S', $tmp_info);
+
+            $custmsg = '更新資料成功!';
+            echo "<script>alert('修改成功');</script>";
+            return Response::redirect('root/show_user', 'refresh');
+        } else {
+            $custmsg = '修改使用者資料失敗-由validation';
+
+            // 新增的內容串起來
+            $tmp_info = '['.$tmp_username.'] - '.$tmp_log_action."\n";
+            $tmp_info .= 'id:'.$user->id."\n";
+            $tmp_info .= 'name:'.$user->username."\n";
+            $tmp_info .= 'email:'.$email."\n";
+            $tmp_info .= 'level:'.$level."\n";
+            $tmp_info .= 'fail:'.$custmsg." \n";
+            // 寫入 log
+            $mylog->user_action_log($tmp_username, $tmp_log_action, 'F', $tmp_info);
+
+            $errors = $val->error();
+            $view = View::forge('root/edit_user');
+            $view->data = $user;
+
+            // 設定錯誤訊息，導回重設密碼頁
+            $view->messages = $errors;
+            return Response::forge($view);
+        }
     }
 
     /**
@@ -768,7 +408,7 @@ END;
             return Response::redirect('root/show_user', 'refresh');
         }
 
-        if (!empty($submit)) {
+        if (empty($submit)) {
             // submit 參數不存在時，重導向至 使用者管理頁面
             echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('root/show_user', 'refresh');
@@ -853,13 +493,8 @@ END;
                 'order_by' => array('id' => 'desc'),
             )
         );
-
-
         $view = View::forge('root/show_log');
         $view->data = $entry;
-
-        // 若未登入時，不允許進入此頁
-        $view->valid = Session::get('valid');
         return Response::forge($view);
 
     }
@@ -900,7 +535,6 @@ END;
 
         // 比對是否一致，一致時抓Cache
         if ($db_new_log_id == $cache_new_log_id) {
-
             // use cache
             try {
                 $entry = Cache::get('log');
@@ -932,9 +566,6 @@ END;
 
         $view = View::forge('root/show_log');
         $view->data = $entry;
-
-        // 若未登入時，不允許進入此頁
-        $view->valid = Session::get('valid');
         return Response::forge($view);
     }
 
@@ -946,16 +577,12 @@ END;
      */
     public function action_show_log2()
     {
-
         if (isset(Session::get('valid')->id)) {
             $id = Session::get('valid')->id;
         }
 
         $view = View::forge('root/show_log_ajax');
-        // 若未登入時，不允許進入此頁
-        $view->valid = Session::get('valid');
         return Response::forge($view);
-
     }
 
     /**
@@ -966,7 +593,6 @@ END;
      */
     public function action_show_log2_ajax()
     {
-
         if (isset(Session::get('valid')->id)) {
             $id = Session::get('valid')->id;
         }
@@ -994,8 +620,6 @@ END;
         $sResults = '';
         if (isset($entry)) {
             foreach ($entry as $rows) {
-                //$sResults .= '<tr id="log_'.$rows['id'].'"
-                //    onclick="window.location=\''.Uri::create('root/show_log_detail?id='.$rows['id']).'\'">';
                 $sResults .= '<tr id="log_'.$rows['id'].'">';
                 $sResults .= '<td>'.$rows['id'].'</td>';
                 $sResults .= '<td>'.substr($rows['username'], 0, 15).'</td>';
@@ -1009,7 +633,6 @@ END;
             }
         }
 
-        /* Toss back the results to populate the table. */
         echo $sResults;
 
         $view = View::forge('ajax');
@@ -1091,8 +714,6 @@ END;
             $view->old_id = $oldentry[0]->id;
         }
 
-        // 若未登入時，不允許進入此頁
-        $view->valid = Session::get('valid');
         return Response::forge($view);
     }
 }

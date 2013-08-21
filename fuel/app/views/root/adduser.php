@@ -5,11 +5,6 @@
     <title>新增使用者</title>
     <?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
-    <script type='text/javascript'>
-        //<![CDATA[
-        <?php if (isset($js)) echo $js; ?>
-        //]]>
-    </script>
     <style>
         #logo{
             display: block;
@@ -59,7 +54,7 @@
                 <?php echo Form::password('repassword'); ?>    </p>
 
             <p>       <?php echo Form::label('Email', 'email'); ?>
-                <?php echo Form::input('email', Input::post('email', isset($data) ? $data->email : '')); ?>    </p>
+                <?php echo Form::input('email', Input::post('email', isset($email) ? $email : '')); ?>    </p>
 
             <p>       <?php echo Form::label('管理者', 'level'); ?>
                 <?php
