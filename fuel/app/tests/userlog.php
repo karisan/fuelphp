@@ -8,7 +8,7 @@
  */
 
 /**
- *
+ * PHPUnit Test for UserLog
  * @group App
  * @group New
  *
@@ -16,6 +16,17 @@
 class Test_UserLog extends TestCase
 {
 
+    /**
+     *
+     * 產生預設訊息
+     *
+     * @param   $c_file = ''
+     * @param   $c_function = ''
+     * @param   $c_class = ''
+     * @param   $c_method = ''
+     *
+     * @return  String
+     */
     public function build_info(
         $c_file = '',
         $c_function = '',
@@ -31,7 +42,11 @@ class Test_UserLog extends TestCase
     }
 
     /**
+     *
      * 帶入參數的log測試
+     *
+     * @param   void
+     * @return  void
      */
     public function test()
     {
@@ -63,7 +78,11 @@ class Test_UserLog extends TestCase
     }
 
     /**
+     *
      * 未帶入參數的log測試
+     *
+     * @param   void
+     * @return  void
      */
     public function test2()
     {

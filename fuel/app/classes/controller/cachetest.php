@@ -22,7 +22,7 @@
 class Controller_Cachetest extends Controller
 {
     /**
-     *
+     * 使用 Fuelphp Cache 的範例程式
      * @access  public
      * @return  Response
      */

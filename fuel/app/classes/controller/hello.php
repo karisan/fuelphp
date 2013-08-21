@@ -40,6 +40,12 @@ class Controller_Hello extends Controller
         }
     }
 
+    /**
+     * For PHPUnit Test
+     *
+     * @param   $argv = '' Input String
+     * @return  Output String
+     */
     public function qq($argv = '')
     {
         return $argv;

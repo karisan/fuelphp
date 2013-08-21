@@ -30,8 +30,6 @@ class Controller_Welcome extends Controller
      */
     public function action_addmsg()
     {
-        //todo: 新增欄位檢查
-
         $username = Input::post('username');
         $email = Input::post('email');
         $context = Input::post('context');

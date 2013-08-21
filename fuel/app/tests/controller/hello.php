@@ -8,14 +8,20 @@
  */
 
 /**
- *
+ * Simple PHPUnit Test
  * @group App
  * @group Hello
  *
  */
-
 class Test_Controller_Hello extends TestCase
 {
+    /**
+     *
+     * Simple PHPUnit Test
+     *
+     * @param   void
+     * @return  void
+     */
     public function test_qq()
     {
         $test = new Controller_Hello(Request::forge());
