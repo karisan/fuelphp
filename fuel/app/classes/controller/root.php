@@ -204,7 +204,7 @@ class Controller_Root extends Controller_Template {
     {
         $id = Input::param('id');
         // 重導向至 使用者管理頁面
-        if (!empty($id)) {
+        if (empty($id)) {
             echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('root/show_user', 'refresh');
         }
