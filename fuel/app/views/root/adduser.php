@@ -71,6 +71,7 @@
             <div class="actions">
                 <?php echo Form::submit(); ?>
                 <?php echo Form::submit('Cancel','Cancel'); ?>
+                <?php echo Form::hidden(Config::get('security.csrf_token_key'), Security::fetch_token()); ?>
             </div>
             <?php echo Form::close(); ?>
             <?php if(isset($messages) and count($messages)>0): ?>

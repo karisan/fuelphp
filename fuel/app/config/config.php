@@ -114,14 +114,14 @@ return array(
 	 * Security settings
 	 */
 	'security' => array(
-		// 'csrf_autoload'    => false,
-		// 'csrf_token_key'   => 'fuel_csrf_token',
-		// 'csrf_expiration'  => 0,
+		 'csrf_autoload'    => false,
+		 'csrf_token_key'   => 'fuel_csrf_token',
+		 'csrf_expiration'  => 300,
 
 		/**
 		 * A salt to make sure the generated security tokens are not predictable
 		 */
-		// 'token_salt'            => 'put your salt value here to make the token more secure',
+		 'token_salt'            => 'mFTbNx1ycyXrxh6FV0UoCjCo6K8lHYQK7KII0xBW',
 
 		/**
 		 * Allow the Input class to use X headers when present

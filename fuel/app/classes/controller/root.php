@@ -65,6 +65,11 @@ class Controller_Root extends Controller_Template {
             return Response::redirect('/welcome', 'refresh');
         }
 
+        if (!Security::check_token()) {
+            echo "<script>alert('表單驗證失效，返回原頁面');</script>";
+            return Response::redirect('/welcome', 'refresh');
+        }
+
         $val = Validation::forge('my_validation');
 
         // 驗證username 1、不重複 2、長度1~20字 3、字元允許 A-Za-z0-9
