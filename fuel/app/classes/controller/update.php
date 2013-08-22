@@ -38,12 +38,12 @@ class Controller_Update extends Controller
         $cancel = Input::post('Cancel');
         $submit = Input::post('submit');
 
-        if (!empty($cancel)) {
+        if (isset($cancel)) {
             // 按下取消時，返回原頁面
             return Response::redirect('/welcome', 'refresh');
         }
 
-        if (empty($submit)) {
+        if (is_null($submit)) {
             echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('/welcome', 'refresh');
         }

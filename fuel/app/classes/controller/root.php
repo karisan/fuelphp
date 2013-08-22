@@ -61,7 +61,7 @@ class Controller_Root extends Controller_Template {
 
         $cancel = Input::post('Cancel');
         // 取消新增時，返回首頁
-        if (!empty($cancel)) {
+        if (isset($cancel)) {
             return Response::redirect('/welcome', 'refresh');
         }
 
@@ -279,12 +279,12 @@ class Controller_Root extends Controller_Template {
         $level = Input::post('level');
 
         // 按下取消時，重導向至 使用者管理頁面
-        if (!empty($cancel)) {
+        if (isset($cancel)) {
             return Response::redirect('root/show_user', 'refresh');
         }
 
         // submit無資料時，重導向至 使用者管理頁面
-        if (empty($submit)) {
+        if (is_null($submit)) {
             return Response::redirect('root/show_user', 'refresh');
         }
 
@@ -403,12 +403,12 @@ class Controller_Root extends Controller_Template {
             $tmp_username = Session::get('valid')->user;
         }
 
-        if (!empty($cancel)) {
+        if (isset($cancel)) {
             // 按下取消時，重導回 管理頁
             return Response::redirect('root/show_user', 'refresh');
         }
 
-        if (empty($submit)) {
+        if (is_null($submit)) {
             // submit 參數不存在時，重導向至 使用者管理頁面
             echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('root/show_user', 'refresh');
