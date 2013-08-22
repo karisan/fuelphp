@@ -34,7 +34,7 @@ class Controller_Welcome extends Controller
         $email = Input::post('email');
         $context = Input::post('context');
 
-        if (is_null($username)) {
+        if (empty($username)) {
             echo "<script>alert('參數有誤，返回原頁面');</script>";
             return Response::redirect('/welcome', 'refresh');
         }

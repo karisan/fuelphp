@@ -651,7 +651,7 @@ class Controller_Root extends Controller_Template {
         // 顯示單一log
         $id = Input::param('id');
         $entry = Model_Actionlog::find_by_pk($id);
-        if (is_null($id) || !isset($entry)) {
+        if (empty($id) || !isset($entry)) {
             // 未登入時，重導向至 使用者管理頁面
             return Response::redirect('root/show_user', 'refresh');
         }
