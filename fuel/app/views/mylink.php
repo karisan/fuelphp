@@ -13,7 +13,9 @@ $valid = Session::get('valid');
         <li><?php echo Html::anchor('root/show_log_cache', '顯示Log記錄(Cache)'); ?></li>
         <li><?php echo Html::anchor('root/show_log2', '顯示Log記錄(Ajax過濾)'); ?></li>
         <li><?php echo Html::anchor('cachetest', 'Cache測試頁'); ?></li>
+        <li><?php echo Html::anchor('fieldset', 'Fieldset測試頁'); ?></li>
         <li><?php echo Html::anchor('users', 'oil產生的頁面'); ?></li>
+        <li><?php echo Html::anchor('cachetest/pagination', 'pagination範例'); ?></li>
     <?php endif ?>
     <li>
         <?php

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>修改留言</title>
+    <title>留言訊息</title>
     <?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
     <style>
@@ -40,7 +40,30 @@
         <div id="logo"></div>
     </div>
 </div>
+<div class="container">
     <div class="row">
+            <table border="1" class="table table-striped table-bordered table-hover">
+                <thead><tr><th colspan="3">留言版訊息</th></tr></thead>
+                <?php foreach ($content as $rows): ?>
+                    <tr><td rowspan="4">
+                            <?php echo Html::anchor("welcome/delmsg?del_id=".$rows['m_id'],html_tag('i', array('class' => 'icon-remove'),'').' 刪除')?>
+                            <br>
+                            <?php echo Html::anchor("update?m_id=".$rows['m_id'],html_tag('i', array('class' => 'icon-edit'),'').' 更新')?>
+                        </td>
+                        <td>Name:</td><td><?php echo $rows['m_name']; ?></td></tr>
+                    <tr><td>Time:</td><td><?php echo $rows['m_time']; ?></td></tr>
+                    <tr><td>E-Mail:</td><td><?php echo $rows['m_email']; ?></td></tr>
+                    <tr><td>Context:</td><td><?php echo $rows['m_context']; ?></td></tr>
+                    <tr><td colspan="3">&nbsp;</td></tr>
+                <?php endforeach ?>
+            </table>
+        <?php
+        if (isset($paging)) {
+            echo $paging;
+        }
+        ?>
+    </div>
+</div>
 <?php
     // session 不可放在if中判斷,若值不存在時，會返回null
     echo Session::get('message');
@@ -49,10 +72,15 @@
     //    print_r();
     //}
     if (isset($content)) {
-        echo $content;
+        //echo $content;
+        //print_r($content);
     }
+
+
+
 ?>
     </div>
+</div>
 
 </body>
 </html>
