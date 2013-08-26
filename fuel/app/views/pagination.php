@@ -5,6 +5,7 @@
     <title>留言訊息</title>
     <?php echo Asset::css('bootstrap.css'); ?>
     <?php echo Asset::js('jquery-1.10.2.min.js'); ?>
+    <?php if (isset($validscript)) echo $validscript?>
     <style>
         #logo{
             display: block;
