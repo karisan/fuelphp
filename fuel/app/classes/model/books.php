@@ -26,7 +26,13 @@ class Model_Books extends \Model_Crud {
         'binding',
         'quantity',
         'created_at',
-        'updated_at',
+        'updated_at'
     );
+
+    protected static $_created_at = 'created_at';
+
+    protected static $_updated_at = 'updated_at';
+
+
 
 }
