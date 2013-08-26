@@ -174,6 +174,7 @@ class Controller_Root extends Controller_Template {
         $view->usernmae = Input::post('username');
         $view->email = Input::post('email');
         $view->level = Input::post('level');
+
         // JS 權限檢查-使用上一頁進入時，會被踢走
         $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
@@ -207,6 +208,7 @@ class Controller_Root extends Controller_Template {
 
         $view = View::forge('root/show_user');
         $view->data = $entry;
+
         // JS 權限檢查-使用上一頁進入時，會被踢走
         $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
@@ -379,11 +381,11 @@ class Controller_Root extends Controller_Template {
             $view = View::forge('root/edit_user');
             $view->data = $user;
 
-            // JS 權限檢查-使用上一頁進入時，會被踢走
-            $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
-
             // 設定錯誤訊息，導回重設密碼頁
             $view->messages = $errors;
+
+            // JS 權限檢查-使用上一頁進入時，會被踢走
+            $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
             $this->template->page_title = '修改使用者資料';
             $this->template->content = $view;
@@ -504,6 +506,7 @@ class Controller_Root extends Controller_Template {
 
             // 設定錯誤訊息，導回重設密碼頁
             $view->messages = $errors;
+
             // JS 權限檢查-使用上一頁進入時，會被踢走
             $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
@@ -533,6 +536,7 @@ class Controller_Root extends Controller_Template {
         );
         $view = View::forge('root/show_log');
         $view->data = $entry;
+
         // JS 權限檢查-使用上一頁進入時，會被踢走
         $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
@@ -607,6 +611,7 @@ class Controller_Root extends Controller_Template {
 
         $view = View::forge('root/show_log');
         $view->data = $entry;
+
         // JS 權限檢查-使用上一頁進入時，會被踢走
         $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
@@ -627,6 +632,7 @@ class Controller_Root extends Controller_Template {
         }
 
         $view = View::forge('root/show_log_ajax');
+
         // JS 權限檢查-使用上一頁進入時，會被踢走
         $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
