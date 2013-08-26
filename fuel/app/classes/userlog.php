@@ -95,4 +95,31 @@ class UserLog
         );
         $action_log->save();
     }
+    /**
+     */
+    public function __call($name, $args)
+    {
+        // build the Redis unified protocol command
+        array_unshift($args, strtoupper($name));
+
+        $command = sprintf('*%d%s%s%s', count($args), CRLF, implode(array_map(function($arg) {
+                        return sprintf('$%d%s%s', strlen($arg), CRLF, $arg);
+                    }, $args), CRLF), CRLF);
+
+        print_r($command);
+        /*
+        // add it to the pipeline queue
+        $this->queue[] = $command;
+
+        if ($this->pipelined)
+        {
+            return $this;
+        }
+        else
+        {
+            return $this->execute();
+        }
+        */
+    }
+
 }
