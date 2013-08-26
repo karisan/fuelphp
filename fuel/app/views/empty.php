@@ -40,19 +40,25 @@
         <div id="logo"></div>
     </div>
 </div>
+<div class="container">
+    <!-- 載入 template 範例 -->
     <div class="row">
-<?php
-    // session 不可放在if中判斷,若值不存在時，會返回null
-    echo Session::get('message');
+        <div class="span16">
 
-    //if (!empty(Session::get('message'))) {
-    //    print_r();
-    //}
-    if (isset($content)) {
-        echo $content;
-    }
-?>
+    <?php
+        // session 不可放在if中判斷,若值不存在時，會返回null
+        echo Session::get('message');
+
+        //if (!empty(Session::get('message'))) {
+        //    print_r();
+        //}
+        if (isset($content)) {
+            echo $content;
+        }
+    ?>
+        </div>
     </div>
+</div>
 
 </body>
 </html>
