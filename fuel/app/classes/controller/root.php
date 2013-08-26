@@ -10,6 +10,11 @@
 class Controller_Root extends Controller_Template {
 
     /**
+     * @var $template 設定為mytemplate.php
+     */
+    public $template = 'mytemplate';
+
+    /**
      * 踢出未登入的使用者，當未登入時，
      * 則會以此功能，將無權限的user踢出
      *
@@ -32,9 +37,14 @@ class Controller_Root extends Controller_Template {
      */
     public function action_adduser()
     {
+
         $view = View::forge('root/adduser', null, false);
         $view->valid = Session::get('valid');
-        return Response::forge($view);
+
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+        $this->template->page_title = '新增使用者';
+        $this->template->content = $view;
     }
 
     /**
@@ -164,9 +174,11 @@ class Controller_Root extends Controller_Template {
         $view->usernmae = Input::post('username');
         $view->email = Input::post('email');
         $view->level = Input::post('level');
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
-        return Response::forge($view);
-
+        $this->template->page_title = '新增使用者';
+        $this->template->content = $view;
     }
 
     /**
@@ -195,8 +207,11 @@ class Controller_Root extends Controller_Template {
 
         $view = View::forge('root/show_user');
         $view->data = $entry;
-        return Response::forge($view);
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
+        $this->template->page_title = '使用者管理頁面';
+        $this->template->content = $view;
     }
 
     /**
@@ -265,7 +280,11 @@ class Controller_Root extends Controller_Template {
         } else {
             $view = View::forge('root/edit_user');
             $view->data = $entry;
-            return Response::forge($view);
+            // JS 權限檢查-使用上一頁進入時，會被踢走
+            $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
+            $this->template->page_title = '修改使用者資料';
+            $this->template->content = $view;
         }
     }
 
@@ -360,9 +379,14 @@ class Controller_Root extends Controller_Template {
             $view = View::forge('root/edit_user');
             $view->data = $user;
 
+            // JS 權限檢查-使用上一頁進入時，會被踢走
+            $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
             // 設定錯誤訊息，導回重設密碼頁
             $view->messages = $errors;
-            return Response::forge($view);
+
+            $this->template->page_title = '修改使用者資料';
+            $this->template->content = $view;
         }
     }
 
@@ -383,7 +407,12 @@ class Controller_Root extends Controller_Template {
         } else {
             $view = View::forge('root/reset_user_pass');
             $view->data = $entry;
-            return Response::forge($view);
+
+            // JS 權限檢查-使用上一頁進入時，會被踢走
+            $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
+            $this->template->page_title = '重設密碼';
+            $this->template->content = $view;
         }
     }
 
@@ -475,7 +504,11 @@ class Controller_Root extends Controller_Template {
 
             // 設定錯誤訊息，導回重設密碼頁
             $view->messages = $errors;
-            return Response::forge($view);
+            // JS 權限檢查-使用上一頁進入時，會被踢走
+            $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
+            $this->template->page_title = '重設密碼';
+            $this->template->content = $view;
         }
     }
 
@@ -500,8 +533,11 @@ class Controller_Root extends Controller_Template {
         );
         $view = View::forge('root/show_log');
         $view->data = $entry;
-        return Response::forge($view);
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
 
+        $this->template->page_title = '顯示Log';
+        $this->template->content = $view;
     }
 
     /**
@@ -571,7 +607,11 @@ class Controller_Root extends Controller_Template {
 
         $view = View::forge('root/show_log');
         $view->data = $entry;
-        return Response::forge($view);
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
+        $this->template->page_title = '顯示Log - Cache方式';
+        $this->template->content = $view;
     }
 
     /**
@@ -587,7 +627,12 @@ class Controller_Root extends Controller_Template {
         }
 
         $view = View::forge('root/show_log_ajax');
-        return Response::forge($view);
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
+        $this->template->page_title = '顯示Log - Ajax方式';
+        $this->template->content = $view;
+        $this->template->set('load_js', Asset::js('jquery-search.js'), false);
     }
 
     /**
@@ -719,6 +764,18 @@ class Controller_Root extends Controller_Template {
             $view->old_id = $oldentry[0]->id;
         }
 
-        return Response::forge($view);
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $this->template->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+
+        $this->template->page_title = '顯示Log詳細資料';
+        $this->template->content = $view;
+        // load js
+        $this->template->set('load_js', Asset::js('show_log_detail.js'), false);
+
+        // 設定路徑變數 for js
+        $path['v1'] = Uri::create('root/show_log_detail?');
+        $path['v2'] = Uri::create('root/show_log2#log_'.$entry->id);
+        $path['v3'] = Uri::create('root/show_log#log_'.$entry->id);
+        $this->template->set('js_code', 'var argv = '.json_encode($path).';', false);
     }
 }
