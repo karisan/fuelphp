@@ -22,6 +22,21 @@
 class Controller_Cachetest extends Controller
 {
     /**
+     * 踢出未登入的使用者，當未登入時，
+     * 則會以此功能，將無權限的user踢出
+     *
+     * @param   void
+     * @return  void
+     */
+    public function before()
+    {
+        parent::before();
+        if (is_null(Session::get('valid'))) {
+            Response::redirect('/validate/expired');
+        }
+    }
+
+    /**
      * 使用 Fuelphp Cache 的範例程式
      * @access  public
      * @return  Response
@@ -50,6 +65,14 @@ class Controller_Cachetest extends Controller
 
         $redis->set('data', json_encode($new_entry));
 
+
+        // 傳遞一些 redis 命令到流水線，然後執行它們
+        $result = $redis->pipeline()
+            ->sadd('list', 4)
+            ->sadd('list', 1)
+            ->sadd('list', 55)
+            ->execute();
+
         // 提取範圍
         $particles = $redis->lrange('particles', 0, -1);
 
@@ -71,6 +94,8 @@ class Controller_Cachetest extends Controller
 
         echo '<pre>';
         print_r(json_decode($redis->get('data')));
+
+        print_r($redis->sort('list'));
         echo '</pre>';
 
         echo Html::anchor('cachetest/memcached', 'PHP-Memchched 測試').'<br>';
@@ -118,6 +143,7 @@ class Controller_Cachetest extends Controller
         $redis->connect('127.0.0.1', 6379);
 
 
+
         // 尋找最新的log id
         $new_entry = Model_Actionlog::find(
             array(
@@ -129,7 +155,13 @@ class Controller_Cachetest extends Controller
         $redis->set('key', 'value');
         $redis->set('data', json_encode($new_entry));
 
-
+        /*
+        $result = $redis->pipeline()
+            ->sadd('list', 4)
+            ->sadd('list', 1)
+            ->sadd('list', 55)
+            ->execute();
+        */
 
         echo '<pre>';
         var_dump($redis->get('key'));
@@ -137,8 +169,64 @@ class Controller_Cachetest extends Controller
 
         echo '<hr>';
         print_r($new_entry);
+
+        print_r($redis->info());
+
+        print_r($redis->get('list'));
         echo '</pre>';
 
     }
 
+    public function action_test()
+    {
+        $mylog = UserLog::forge(__FILE__, __FUNCTION__, __CLASS__, __METHOD__);
+        $mylog->user_action_log('', '', 'S', '');
+        $mylog->rpush('particles', 'proton');
+
+        $a1 = array("1","2","3");
+        $a2 = array("a");
+        $a3 = array();
+
+        echo "a1 is: '".implode("','",$a1)."'<br>";
+        echo "a2 is: '".implode("','",$a2)."'<br>";
+        echo "a3 is: '".implode("','",$a3)."'<br>";
+    }
+
+    public function action_pagination()
+    {
+
+        $config = array(
+            'pagination_url' => Uri::create('cachetest/pagination'),
+            'total_items'    => Model_Message::count(),
+            'per_page'       => 5,
+            'uri_segment'    => 3,
+            // or if you prefer pagination by query string
+            //'uri_segment'    => 'page',
+        );
+
+        // Create a pagination instance named 'mypagination'
+        $pagination = Pagination::forge('mypagination', $config);
+
+        $data['example_data'] = Model_Message::find(
+            array(
+                'order_by' => array('m_id' => 'desc'),
+                'limit' => $pagination->per_page,
+                'offset' => $pagination->offset,
+            )
+        );
+
+        Log::write('Link', '======== Test ========');
+        Log::write('Link', print_r($data['example_data'],true));
+
+
+        $data['pagination'] = $pagination->render();
+        //$this->render('welcome/index', $data);
+        // 導回新增使用者頁面
+        $view = View::forge('pagination');
+        $view->content = $data['example_data'];
+        // JS 權限檢查-使用上一頁進入時，會被踢走
+        $view->validscript = View::forge('validscript', array('isValidURL' => Uri::create('validate/isvalid')));
+        $view->set('paging',$data['pagination'],false);
+        return Response::forge($view);
+    }
 }
