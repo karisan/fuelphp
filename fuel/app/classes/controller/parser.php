@@ -118,30 +118,60 @@ class Controller_Parser extends Controller
         /**
          * 塞值前印出
          */
-        print_r($data);
+        //print_r($data);
 
 
-//        /**
-//         *  設成更具體的結構
-//         */
-//        $new_data = null;
-//        foreach ($data as $g_key => $group) {
-//            foreach ($group['data'] as $game) {
-//                $tmp = null;
-//                $tmp = array(
-//                    'LEAGUE_NAME' => $group['group'],
-//                    'GDATE' => $game[0],
-//                    'TEAM_NAME_H' => $game[1],
-//                    'TEAM_NAME_C' => $game[2],
-//                );
-//                $new_data[] = $tmp;
-//            }
-//        }
-//
-//        /**
-//         * 塞值後印出
-//         */
-//        print_r($new_data);
+        /**
+         *  設成更具體的結構
+         */
+        $new_data = null;
+        $sep_str = '  ';
+        foreach ($data as $g_key => $group) {
+            foreach ($group['data'] as $game) {
+                $tmp = null;
+                $tmp = array(
+                    'LEAGUE_NAME' => $group['group'],
+                    'GDATE' => $game[0],
+                    'TEAM_NAME_H' => $game[2],
+                    'TEAM_NAME_C' => $game[3],
+                );
+
+                $flag_33 = false;
+                $flag_66 = false;
+                $flag_99 = false;
+
+                if (isset($game[33])) $flag_33 = true;
+                if (isset($game[66])) $flag_66 = true;
+                if (isset($game[99])) $flag_99 = true;
+
+                $tmp['A_ASIA'][] = $game[5].$sep_str.$game[6].$sep_str.$game[21];
+                if ($flag_66) $tmp['A_ASIA'][] = $game[39].$sep_str.$game[40].$sep_str.$game[54];
+                if ($flag_99) $tmp['A_ASIA'][] = $game[72].$sep_str.$game[73].$sep_str.$game[87];
+
+                $tmp['A_BS'][] = $game[7].$sep_str.$game[9].$sep_str.$game[23];
+                if ($flag_66) $tmp['A_BS'][] = $game[41].$sep_str.$game[43].$sep_str.$game[56];
+                if ($flag_99) $tmp['A_BS'][] = $game[74].$sep_str.$game[76].$sep_str.$game[89];
+
+                $tmp['A_OT'][] = $game[10].$sep_str.$game[24].$sep_str.$game[32];
+                $tmp['A_OE'][] = $game[12].$sep_str.$game[26];
+
+                $tmp['U_ASIA'][] = $game[13].$sep_str.$game[14].$sep_str.$game[28];
+                if ($flag_66) $tmp['U_ASIA'][] = $game[47].$sep_str.$game[48].$sep_str.$game[61];
+
+                $tmp['U_BS'][] = $game[15].$sep_str.$game[17].$sep_str.$game[30];
+                if ($flag_66) $tmp['U_BS'][] = $game[49].$sep_str.$game[51].$sep_str.$game[63];
+
+                if ($flag_33) $tmp['U_OT'][] = $game[18].$sep_str.$game[31].$sep_str.$game[33];
+
+                $new_data[] = $tmp;
+                //if (count($game) != 33) echo count($game)."\n";
+            }
+        }
+
+        /**
+         * 塞值後印出
+         */
+        print_r($new_data);
 
         echo "\n\n";
         echo '</pre>';
