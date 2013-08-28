@@ -66,6 +66,7 @@ class Controller_Parser extends Controller
         preg_match_all("/<span(.*?)>(.*?)<\/span>/m", $homepage, $matches);
 
 
+        echo '<h2>今日赛事 - 非滚球</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches[2]);
@@ -114,9 +115,33 @@ class Controller_Parser extends Controller
             $data[$item]['data'][] = $tmp;
         }
 
-
-        //array_shift($data);
+        /**
+         * 塞值前印出
+         */
         print_r($data);
+
+
+//        /**
+//         *  設成更具體的結構
+//         */
+//        $new_data = null;
+//        foreach ($data as $g_key => $group) {
+//            foreach ($group['data'] as $game) {
+//                $tmp = null;
+//                $tmp = array(
+//                    'LEAGUE_NAME' => $group['group'],
+//                    'GDATE' => $game[0],
+//                    'TEAM_NAME_H' => $game[1],
+//                    'TEAM_NAME_C' => $game[2],
+//                );
+//                $new_data[] = $tmp;
+//            }
+//        }
+//
+//        /**
+//         * 塞值後印出
+//         */
+//        print_r($new_data);
 
         echo "\n\n";
         echo '</pre>';
@@ -152,6 +177,7 @@ class Controller_Parser extends Controller
         preg_match_all("/<span(.*?)>([^<>]*?)<\/span>/m", $homepage, $matches);
 
 
+        echo '<h2>早盘</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches);
@@ -238,6 +264,7 @@ class Controller_Parser extends Controller
         preg_match_all("/<div.*?\"time\-column-content\">(.*?)<\/div>/m", $homepage, $matches_2);
 
 
+        echo '<h2>波胆</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches);
@@ -273,10 +300,62 @@ class Controller_Parser extends Controller
             }
         }
 
+        /**
+         * 塞值前印出
+         */
+        //print_r($data);
 
-        //array_shift($data);
-        print_r($data);
 
+        /**
+         *  設成更具體的結構
+         */
+        $new_data = null;
+        foreach ($data as $g_key => $group) {
+            foreach ($group['data'] as $game) {
+                $tmp = null;
+                $tmp = array(
+                    'LEAGUE_NAME' => $group['group'],
+                    'GDATE' => $game[0],
+                    'TEAM_NAME_H' => $game[1],
+                    'TEAM_NAME_C' => $game[2],
+
+                    '1:0_H' => $game[3],
+                    '2:0_H' => $game[4],
+                    '2:1_H' => $game[5],
+                    '3:0_H' => $game[6],
+                    '3:1_H' => $game[7],
+                    '3:2_H' => $game[8],
+                    '4:0_H' => $game[9],
+                    '4:1_H' => $game[10],
+                    '4:2_H' => $game[11],
+                    '4:3_H' => $game[12],
+
+                    '1:0_C' => $game[19],
+                    '2:0_C' => $game[20],
+                    '2:1_C' => $game[21],
+                    '3:0_C' => $game[22],
+                    '3:1_C' => $game[23],
+                    '3:2_C' => $game[24],
+                    '4:0_C' => $game[25],
+                    '4:1_C' => $game[26],
+                    '4:2_C' => $game[27],
+                    '4:3_C' => $game[28],
+
+                    '0:0' => $game[13],
+                    '1:1' => $game[14],
+                    '2:2' => $game[15],
+                    '3:3' => $game[16],
+                    '4:4' => $game[17],
+                    'other' => $game[18]
+                );
+                $new_data[] = $tmp;
+            }
+        }
+
+        /**
+         * 塞值後印出
+         */
+        print_r($new_data);
         echo "\n\n";
         echo '</pre>';
     }
@@ -311,6 +390,7 @@ class Controller_Parser extends Controller
         preg_match_all("/<tbody.*?>(.*?)<\/tbody>/m", $homepage, $matches);
 
 
+        echo '<h2>半场/全场</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches[1]);
@@ -332,7 +412,43 @@ class Controller_Parser extends Controller
         }
 
 
-        print_r($data);
+        /**
+         * 塞值前印出
+         */
+        //print_r($data);
+
+
+        /**
+         *  設成更具體的結構
+         */
+        $new_data = null;
+        foreach ($data as $g_key => $group) {
+            foreach ($group['data'] as $game) {
+                $tmp = null;
+                $tmp = array(
+                    'LEAGUE_NAME' => $group['group'],
+                    'GDATE' => $game[0].' '.$game[1],
+                    'TEAM_NAME_H' => $game[2],
+                    'TEAM_NAME_C' => $game[3],
+
+                    'HH' => $game[4],
+                    'HP' => $game[5],
+                    'HC' => $game[6],
+                    'PH' => $game[7],
+                    'PP' => $game[8],
+                    'PC' => $game[9],
+                    'CH' => $game[10],
+                    'CP' => $game[11],
+                    'CC' => $game[12],
+                );
+                $new_data[] = $tmp;
+            }
+        }
+
+        /**
+         * 塞值後印出
+         */
+        print_r($new_data);
         echo "\n\n";
         echo '</pre>';
 
@@ -378,6 +494,7 @@ class Controller_Parser extends Controller
          */
         preg_match_all("/<span(.*?)>(.*?)<\/span>/m", $homepage, $matches);
 
+        echo '<h2>早盘</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches_2[1]);
@@ -459,6 +576,7 @@ class Controller_Parser extends Controller
         preg_match_all("/<span(.*?)>(.*?)<\/span>/m", $homepage, $matches);
 
 
+        echo '<h2>早盘</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches[2]);
@@ -578,6 +696,7 @@ class Controller_Parser extends Controller
         }
 
 
+        echo '<h2>今日赛事 - 滚球 / 非滚球</h2>';
         echo '<pre>';
         echo "\n\n";
         //print_r($matches_2[1]);
