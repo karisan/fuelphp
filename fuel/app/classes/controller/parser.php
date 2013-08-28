@@ -21,8 +21,17 @@ class Controller_Parser extends Controller
      */
     public function action_index()
     {
-        //$process = 0;
-        echo 'test';
+        echo '<h2>Parser 範例</h2><br>';
+        $items = array(
+            Html::anchor('parser/test_35', 'test_35'),
+            Html::anchor('parser/test_36', 'test_36'),
+            Html::anchor('parser/test_39', 'test_39'),
+            Html::anchor('parser/test_40', 'test_40'),
+            Html::anchor('parser/test_23_06', 'test_23_06'),
+            Html::anchor('parser/test_23_17', 'test_23_17'),
+            Html::anchor('parser/test_23_57', 'test_23_57'),
+        );
+        echo Html::ul($items);
     }
 
 
