@@ -27,6 +27,7 @@ class Controller_Parser extends Controller
             Html::anchor('parser/test_36', 'test_36'),
             Html::anchor('parser/test_39', 'test_39'),
             Html::anchor('parser/test_40', 'test_40'),
+            Html::anchor('parser/get_test_40', 'test_40 from redis'),
             Html::anchor('parser/test_23_06', 'test_23_06'),
             Html::anchor('parser/test_23_17', 'test_23_17'),
             Html::anchor('parser/test_23_57', 'test_23_57'),
@@ -604,11 +605,41 @@ class Controller_Parser extends Controller
          * 塞值後印出
          */
         print_r($new_data);
+
+        // 建立 Redis 'mystore' 實例
+        $redis = \Fuel\Core\Redis::forge('default');
+        foreach ($new_data as $row) {
+            $redis->rpush('game_redis', json_encode($row));
+        }
+
+
         echo "\n\n";
         echo '</pre>';
 
     }
 
+    /**
+     * parser test_40.html
+     * @access  public
+     * @return  Response
+     */
+    public function action_get_test_40()
+    {
+        // 建立 Redis 'mystore' 實例
+        $redis = \Fuel\Core\Redis::forge('default');
+
+        echo '<h2>半场/全场</h2>';
+        echo '<pre>';
+        echo "\n\n";
+        $length = $redis->llen('game_redis');
+        echo 'Array 數量:'.$length."\n";
+        for ($i=0;$i<$length;$i++) {
+            print_r(json_decode($redis->LINDEX('game_redis',$i)));
+        }
+        echo "\n\n";
+        echo '</pre>';
+
+    }
     /**
      * parser test_23_06.html
      * @access  public
