@@ -14,6 +14,11 @@ build
 /fuel/app/logs/*/*/*
 /fuel/app/cache/*/*
 /fuel/app/config/crypt.php
+/fuel/app/config/development/db.php
+/fuel/app/config/development/migrations.php
+/fuel/app/config/test/db.php
+/fuel/app/config/auth.php
+/fuel/app/config/config.php
 nbproject/
 /public/doc/*
 *.log
