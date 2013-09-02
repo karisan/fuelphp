@@ -137,6 +137,28 @@ class Controller_Welcome extends Controller
     }
 
     /**
+     * 展示rest功能的頁面
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_rest_index()
+    {
+        $content = '<li>'.Html::anchor('resttest/list.xml?foo=bar', 'Rest範例 - API with xml').'</li>'."\n";
+        $content .= '<li>'.Html::anchor('resttest/list.json?foo=bar', 'Rest範例 - API with json').'</li>'."\n";
+        $content .= '<li>'.Html::anchor('resttest/list.csv?foo=csv', 'Rest範例 - API with csv').'</li>'."\n";
+        $content .= '<li>'.Html::anchor('resttest/list.html?foo=bar', 'Rest範例 - API with html').'</li>'."\n";
+        $content .= '<li>'.Html::anchor('resttest/list.php?foo=bar', 'Rest範例 - API with php').'</li>'."\n";
+        $content .= '<li>'.Html::anchor('resttest/list.serialize?foo=bar', 'Rest範例 - API with serialize').'</li>'."\n";
+        $content .= '<li>'.Html::anchor('welcome/curl', 'Rest範例 - Client').'</li>'."\n";
+
+
+        $view = View::forge('empty');
+        $view->set('content', $content, false);
+        return Response::forge($view);
+    }
+
+    /**
      * The 404 action for the application.
      *
      * @access  public
@@ -146,4 +168,27 @@ class Controller_Welcome extends Controller
     {
         return Response::forge(ViewModel::forge('welcome/404'), 404);
     }
+
+    /**
+     * 簡單的 Rest Client (Request Curl)
+     *
+     * @access  public
+     * @return  Response
+     */
+    public function action_curl()
+    {
+
+        // 建立一個 Request_Curl 物件
+        $curl = Request::forge('http://localhost/fuelphp/public/resttest/list.php?foo=bar', 'curl');
+        //$curl = Request::forge('resttest/list.json');
+
+        $curl->set_method('get');
+
+        // 假設一些參數和選項已經被設定，並且執行
+        //$curl->execute();
+        print_r($curl);
+        echo 'after curl';
+    }
+
+
 }

@@ -17,6 +17,7 @@ $valid = Session::get('valid');
         <li><?php echo Html::anchor('users', 'oil產生的頁面'); ?></li>
         <li><?php echo Html::anchor('cachetest/pagination', 'pagination範例'); ?></li>
         <li><?php echo Html::anchor('parser', 'Html Parser 範例'); ?></li>
+        <li><?php echo Html::anchor('welcome/rest_index', 'Rest範例'); ?></li>
     <?php endif ?>
     <li>
         <?php
